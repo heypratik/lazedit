@@ -1,0 +1,26 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "GerSIXA5xX5oi29",
+    "database": "mybranzpostdb",
+    "host": "mybranz.ce3ahuhl1k4l.us-east-1.rds.amazonaws.com",
+    "port": 6543,
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "root",
+    "password": null,
+    "database": "database_test",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "dialectModule": "pg"
+  },
+  "production": {
+    "username": "root",
+    "password": null,
+    "database": "database_production",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "dialectModule": "pg"
+  }
+}
