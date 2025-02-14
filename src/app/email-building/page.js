@@ -185,7 +185,7 @@ const EmailBuilding = ({ session, store, campaign }) => {
 
   // Initialize Lottie options after component mounts
   useEffect(() => {
-    import("./../animation.json").then((animationData) => {
+    import("./animation.json").then((animationData) => {
       setLottieOptions({
         loop: true,
         autoplay: true,
