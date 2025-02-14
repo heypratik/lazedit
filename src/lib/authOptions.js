@@ -23,8 +23,6 @@ export const authOptions = {
 
           const data = await response.json();
 
-          console.log(data);
-
           if (data.success) {
             return data.user; // Return user object with additional data
           } else {
