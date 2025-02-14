@@ -1,10 +1,10 @@
 import Dashboard from "../../components/Dashboard";
-import FathersDay from "../fathersday/page";
+// import FathersDay from "../fathersday/page";
 import PreviewContent from "../previewcontent/page";
 import Settings from "../settings/page";
-import PostBuilding from "../PostBuilding/page";
+// import PostBuilding from "../PostBuilding/page";
 import EmailBuildingWrapper from "../email-building/page";
-import { Suspense } from 'react'
+import { Suspense } from "react";
 
 export default function Home() {
   return (
