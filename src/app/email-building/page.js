@@ -55,6 +55,7 @@ import { IoMdArrowDropleftCircle } from "react-icons/io";
 import crypto from "crypto-js";
 import { getSignedUrlCf } from "../../lib/s3";
 import { useQueryClient, useInfiniteQuery } from "@tanstack/react-query";
+import dynamic from "next/dynamic";
 
 // Dynamically import Lottie with SSR disabled
 const Lottie = dynamic(() => import("react-lottie"), {
