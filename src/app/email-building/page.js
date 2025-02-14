@@ -8,28 +8,16 @@ import React, {
   Suspense,
 } from "react";
 import Image from "next/image";
-import Navbar from "@/components/Navbar/page";
-import Sidebar from "@/components/sidebar/page";
 import ProductModal from "@/components/productModal/page";
-import Dropdown from "@/components/dropdownoptions/page";
-import TemplateModal from "@/components/templateModal/page";
-import AIModal from "@/components/aiModal/page";
-import FeatureModal from "@/components/featureModal/page";
-import ImageUploadModal from "@/components/imageUploadModal/page";
-import DropdownChooseProducts from "@/components/dropdownchooseproducts/page";
 import ImagesModal from "@/components/imagesModal/page";
-import Header from "../email/Dashboard/Header";
-import Link from "next/link";
 import { GlobalContext } from "@/context/GlobalContext";
 import generatePreviewHtml from "@/components/EmailEditor/utils/generatePreviewHtml";
-import { emailTemplates } from "../api/admin/templates/defaultBlockList";
 import PreviewTemplate from "../email/Dashboard/PreviewTemplate";
 import BigPreviewTemplate from "../email/Dashboard/BigPreviewTemplate";
 import { FaCircleCheck } from "react-icons/fa6";
-import { GrMagic } from "react-icons/gr";
 import { PiMagicWandDuotone } from "react-icons/pi";
 import { Skeleton } from "@/components/ui/skeleton";
-import { usePathname, useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
@@ -37,8 +25,8 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { cn } from "./../../lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
-import Lottie from "react-lottie";
-import * as animationData from "./animation.json";
+// import Lottie from "react-lottie";
+// import * as animationData from "./animation.json";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -66,12 +54,12 @@ import CustomLayout from "../layout/layout";
 import { IoMdArrowDropleftCircle } from "react-icons/io";
 import crypto from "crypto-js";
 import { getSignedUrlCf } from "../../lib/s3";
-import {
-  useMutation,
-  useQuery,
-  useQueryClient,
-  useInfiniteQuery,
-} from "@tanstack/react-query";
+import { useQueryClient, useInfiniteQuery } from "@tanstack/react-query";
+
+// Dynamically import Lottie with SSR disabled
+const Lottie = dynamic(() => import("react-lottie"), {
+  ssr: false,
+});
 
 function encryptApiKey(apiKey) {
   const nonce = Date.now().toString(); // Could also use crypto.randomBytes
@@ -116,6 +104,7 @@ const EmailBuilding = ({ session, store, campaign }) => {
 
   const router = useRouter();
   const searchParams = useSearchParams("step");
+  const [lottieOptions, setLottieOptions] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [showTemplate, setShowTemplate] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState("");
@@ -193,6 +182,20 @@ const EmailBuilding = ({ session, store, campaign }) => {
   //     fetchData();
   //   }
   // }, [currentPage]);
+
+  // Initialize Lottie options after component mounts
+  useEffect(() => {
+    import("./../animation.json").then((animationData) => {
+      setLottieOptions({
+        loop: true,
+        autoplay: true,
+        animationData: animationData.default,
+        rendererSettings: {
+          preserveAspectRatio: "xMidYMid slice",
+        },
+      });
+    });
+  }, []);
 
   const handleCacheUpdate = (key, value) => {
     setCache((prevCache) => ({ ...prevCache, [key]: value }));
@@ -1581,63 +1584,6 @@ const EmailBuilding = ({ session, store, campaign }) => {
                     </div>
                   </>
                 )}
-
-                {/* {currentPage === 4 && (
-                  <>
-                    <div className="custom-card-skin-care mx-auto pt-4 px-5">
-                      <div className="w_input_steps position-relative mb-5">
-                        <label
-                          htmlFor="storeName"
-                          className="form-label font-bold"
-                        >
-                          Campaign Date
-                        </label>
-                        <div className="flex">
-                          <input
-                            type="text"
-                            className="form-control border-dark w-100"
-                            placeholder=""
-                          />
-                          <Image
-                            src="/Calendar.svg"
-                            alt="Vercel Logo"
-                            className="dark:invert position-absolute end-0 me-3 mt-1"
-                            width={30}
-                            height={30}
-                            priority
-                          />
-                        </div>
-                      </div>
-
-                      <div className="w_input_steps position-relative">
-                        <label
-                          htmlFor="storeName"
-                          className="form-label font-bold"
-                        >
-                          Time
-                        </label>
-                        <div className="flex">
-                          <input
-                            type="text"
-                            className="form-control border-dark w-100"
-                            placeholder=""
-                          />
-                          <Image
-                            src="/Clock.svg"
-                            alt="Vercel Logo"
-                            className="dark:invert position-absolute end-0 me-3 mt-1"
-                            width={30}
-                            height={30}
-                            priority
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex justify-content-end my-5">
-                      <button className="btn btn-dark border_btn px-3" onClick={nextPage}> Generate Email </button>
-                    </div>
-                  </>
-                )} */}
 
                 {currentPage !== totalPages && currentPage !== 3 && (
                   <div className="flex justify-between my-5">

@@ -1,21 +1,27 @@
-"use client"
+"use client";
 
 import React, { useState, useEffect, Suspense } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../../components/ui/tab";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "../../../components/ui/tab";
 import { signIn } from "next-auth/react";
-import { useRouter, useSearchParams } from 'next/navigation';
-import toast, { Toaster } from 'react-hot-toast';
+import { useRouter, useSearchParams } from "next/navigation";
+import toast, { Toaster } from "react-hot-toast";
 import { RiLoader4Fill } from "react-icons/ri";
-import dynamic from 'next/dynamic';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "../../../components/ui/dialog";
+import dynamic from "next/dynamic";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "../../../components/ui/dialog";
 
 // Dynamically import Lottie with SSR disabled
-const Lottie = dynamic(() => import('react-lottie'), {
-  ssr: false,
-});
-
-// Dynamically import animation data
-const AnimationData = dynamic(() => import('./../animation.json'), {
+const Lottie = dynamic(() => import("react-lottie"), {
   ssr: false,
 });
 
@@ -28,19 +34,19 @@ function Auth() {
   const [isLoading, setIsLoading] = useState(false);
   const [redirect, setRedirect] = useState(false);
   const [password, setPassword] = useState("");
-  const [activeStep, setActiveStep] = useState('Authenticating Store...');
+  const [activeStep, setActiveStep] = useState("Authenticating Store...");
   const [lottieOptions, setLottieOptions] = useState(null);
 
   // Initialize Lottie options after component mounts
   useEffect(() => {
-    import('./../animation.json').then((animationData) => {
+    import("./../animation.json").then((animationData) => {
       setLottieOptions({
         loop: true,
         autoplay: true,
         animationData: animationData.default,
         rendererSettings: {
-          preserveAspectRatio: 'xMidYMid slice'
-        }
+          preserveAspectRatio: "xMidYMid slice",
+        },
       });
     });
   }, []);
@@ -54,7 +60,7 @@ function Auth() {
         password: password,
         type: "shopify",
         shopifyStoreId: store,
-        callbackUrl: "/settings"
+        callbackUrl: "/settings",
       });
 
       if (status?.ok) {
@@ -79,7 +85,7 @@ function Auth() {
       });
 
       if (response.ok) {
-        setActiveStep('Logging In...');
+        setActiveStep("Logging In...");
         await submitFunction();
       } else {
         notification(false, "Something Went Wrong.");
@@ -92,11 +98,11 @@ function Auth() {
 
   useEffect(() => {
     if (params) {
-      const storeEmail = params.get('email');
+      const storeEmail = params.get("email");
       if (storeEmail) {
         setStoreEmail(storeEmail);
       }
-      const shopifyStore = params.get('shop');
+      const shopifyStore = params.get("shop");
       setStore(shopifyStore);
     }
   }, [params]);
@@ -111,7 +117,7 @@ function Auth() {
     if (success) {
       toast.success(message);
     } else {
-      toast.error(message || 'An error occurred');
+      toast.error(message || "An error occurred");
     }
   }
 
@@ -125,18 +131,14 @@ function Auth() {
             <DialogDescription className="flex justify-center items-center flex-col">
               <div className="flex flex-col space-y-3">
                 {lottieOptions && (
-                  <Lottie 
-                    options={lottieOptions}
-                    height={400}
-                    width={400}
-                  />
+                  <Lottie options={lottieOptions} height={400} width={400} />
                 )}
               </div>
             </DialogDescription>
           </DialogHeader>
         </DialogContent>
       </Dialog>
-      
+
       <div className="flex min-h-full flex-1">
         <div className="relative w-0 flex-1 lg:block">
           <img
@@ -148,9 +150,17 @@ function Auth() {
         <div className="flex flex-1 min-w-[30%] flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
           <div className="mx-auto w-full max-w-sm lg:w-96">
             <div className="flex justify-start items-center gap-4">
-              <img className="w-20 h-20 text-center rounded-full" src="https://www.mybranz.com/logo.png" alt="MyBranz Logo" />
+              <img
+                className="w-20 h-20 text-center rounded-full"
+                src="https://www.mybranz.com/logo.png"
+                alt="MyBranz Logo"
+              />
               <span className="font-bold text-xl">X</span>
-              <img className="w-20 h-20 text-center rounded" src="https://cdn3.iconfinder.com/data/icons/social-media-2068/64/_shopping-512.png" alt="Shopping Icon" />
+              <img
+                className="w-20 h-20 text-center rounded"
+                src="https://cdn3.iconfinder.com/data/icons/social-media-2068/64/_shopping-512.png"
+                alt="Shopping Icon"
+              />
             </div>
             <div className="min-h-[300px] border border-gray-200 rounded-xl mt-5 flex items-center justify-center">
               <div className="flex items-center justify-center gap-4">
