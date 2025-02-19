@@ -21,6 +21,8 @@ export async function middleware(request: NextRequest) {
 
     const session = await response.json();
 
+    console.log(session, "sessionsss")
+
     let activeUser = null;
     let onboarded = null;
     

@@ -1,5 +1,5 @@
 import {fabric} from 'fabric'
-import { useCallback, useState, useMemo } from "react"
+import { useCallback, useState, useMemo, useRef } from "react"
 import { useAutoResize } from "@/features/editor/hooks/use-auto-resize"
 import { BuildEditorTypes, Editor, CIRCLE_OPTIONS, RECTANGLE_OPTIONS, FILL_COLOR, STROKE_WIDTH, STROKE_COLOR, EditorHookProps, STROKE_DASH_ARRAY, TEXT_OPTIONS, FONT_FAMILY, FONT_WEIGHT, FONT_SIZE } from '../types'
 import { useCanvasEvents } from './use-canvas-events'
@@ -15,6 +15,8 @@ import { useClipboard } from "./use-clipboard";
 import { useHistory } from "./use-history";
 import {useHotkeys} from './use-hotkeys'
 import { JSON_KEYS } from '../types'
+import { useWindowEvents } from './use-window-events'
+import { useLoadState } from './use-load-state'
   
 
 const buildEditor = ({
@@ -128,6 +130,11 @@ const buildEditor = ({
 
 
     return {
+        savePng,
+        saveJpg,
+        saveSvg,
+        saveJson,
+        loadJson,
         canUndo,
         canRedo,
         onUndo: () => undo(),
@@ -642,8 +649,16 @@ const buildEditor = ({
 }
 
 export const useEditor = ({
-    clearSelectionCallback
+    defaultState,
+    defaultHeight,
+    defaultWidth,
+    clearSelectionCallback,
+    saveCallback,
 }: EditorHookProps) => {
+
+    const initialState = useRef(defaultState)
+    const initialHeight = useRef(defaultHeight)
+    const initialWidth = useRef(defaultWidth)
 
     const [canvas, setCanvas] = useState<fabric.Canvas | null >(null)
     const [container, setContainer] = useState<HTMLDivElement | null>(null)
@@ -653,6 +668,8 @@ export const useEditor = ({
     const [strokeColor, setStrokeColor] = useState<string>(STROKE_COLOR)
     const [strokeWidth, setStrokeWidth] = useState<number>(STROKE_WIDTH)
     const [strokeDashArray, setStrokeDashArray] = useState<number[]>(STROKE_DASH_ARRAY)
+
+    useWindowEvents()
 
     const { 
         save, 
@@ -664,7 +681,7 @@ export const useEditor = ({
         setHistoryIndex,
       } = useHistory({ 
         canvas,
-        // saveCallback
+        saveCallback
       });
     
 
@@ -691,6 +708,14 @@ export const useEditor = ({
         copy,
         paste,
         useDelete
+    })
+
+    useLoadState({
+        canvas,
+        autoZoom,
+        initialState,
+        canvasHistory,
+        setHistoryIndex
     })
 
     const editor = useMemo(() => {
@@ -747,8 +772,8 @@ export const useEditor = ({
         })
 
         const initialWorkspace=  new fabric.Rect({
-            width:  900,
-            height: 1200,
+            width:  initialWidth.current,
+            height: initialHeight.current,
             fill: 'white',
             name: 'clip',
             selectable: false,

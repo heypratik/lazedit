@@ -9,6 +9,7 @@ import { GlobalProvider } from "@/context/GlobalContext";
 import { SessionProvider } from "next-auth/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import Providers from "../components/providers";
 
 const inter = Inter({ subsets: ["latin"] });
 const queryClient = new QueryClient();
@@ -16,16 +17,18 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <QueryClientProvider client={queryClient}>
-          <ReactQueryDevtools />
-          <SessionProvider>
-            <GlobalProvider>
-              <Toaster />
-              <Modals />
-              {children}
-            </GlobalProvider>
-          </SessionProvider>
-        </QueryClientProvider>
+        <Providers>
+          <QueryClientProvider client={queryClient}>
+            <ReactQueryDevtools />
+            <SessionProvider>
+              <GlobalProvider>
+                <Toaster />
+                <Modals />
+                {children}
+              </GlobalProvider>
+            </SessionProvider>
+          </QueryClientProvider>
+        </Providers>
       </body>
     </html>
   );

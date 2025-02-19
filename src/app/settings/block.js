@@ -475,7 +475,6 @@ function Test({ session, store }) {
     }
   };
 
-  console.log(socials);
   return (
     <CustomLayout>
       <Toaster />
