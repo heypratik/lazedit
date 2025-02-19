@@ -1,7 +1,7 @@
 "use client";
 
 import { useEditor } from "@/features/editor/hooks/use-editor";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { use, useCallback, useEffect, useRef, useState } from "react";
 import { fabric } from "fabric";
 import { Navbar } from "@/features/editor/components/navbar";
 import { Sidebar } from "@/features/editor/components/sidebar";
@@ -35,14 +35,28 @@ import { FilterSidebar } from "./filter-sidebar";
 import { AiSidebar } from "./ai-sidebar";
 import { DrawSidebar } from "./draw-sidebar";
 import { SettingsSidebar } from "./settings-sidebar";
+import { useUpdateProject } from "@/app/editor/hooks/use-update-project";
+import debounce from "lodash.debounce";
 
+interface EditorProps {
+  initialData?: any;
+}
 
+export const Editor = ({initialData}: EditorProps) => {
 
-export const Editor = () => {
+  const {mutate} = useUpdateProject(initialData.id);
+
+  const debounceSave = useCallback(
+    debounce((values: {
+    json: string,
+    height: number,
+    width: number,
+  }) => {
+    // @ts-ignore
+    mutate(values)
+  }, 1000), [mutate]);
 
   const [activeTool, setActiveTool] = useState<ActiveTool>("select");
-
-
 
   const onClearSelection = useCallback(() => {
 
@@ -53,7 +67,11 @@ export const Editor = () => {
   }, [activeTool]);
 
   const { init, editor } = useEditor({
+    defaultState: initialData.json,
+    defaultHeight: initialData.height,
+    defaultWidth: initialData.width,
     clearSelectionCallback: onClearSelection,
+    saveCallback: debounceSave,
   });
 
   const onChangeActiveTool = useCallback((tool: ActiveTool) => {
@@ -98,7 +116,7 @@ export const Editor = () => {
 
   return (
     <div className="h-full flex flex-col">
-      <Navbar editor={editor}  activeTool={activeTool} onChangeActiveTool={onChangeActiveTool}/>
+      <Navbar editor={editor}  activeTool={activeTool} onChangeActiveTool={onChangeActiveTool} id={initialData?.id} name={initialData.name}/>
       <div className=" absolute h-[calc(100%-68px)] w-full top-[68px] flex">
         <Sidebar activeTool={activeTool} onChangeActiveTool={onChangeActiveTool}/>
         <ShapeSidebar editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool}/>

@@ -151,7 +151,15 @@ export const TEXT_OPTIONS = {
 }
 
 export interface EditorHookProps {
+  defaultState?: string,
+  defaultHeight?: number,
+  defaultWidth?: number,
   clearSelectionCallback?: () => void;
+  saveCallback?: (values: {
+    json: string,
+    height: number,
+    width: number,
+  }) => void;
 }
 
 export type BuildEditorTypes = {
@@ -179,6 +187,11 @@ export type BuildEditorTypes = {
 }
 
 export interface Editor {
+  savePng: () => void;
+  saveSvg: () => void;
+  saveJson: () => void;
+  saveJpg: () => void;
+  loadJson: (value: string) => void;
   useDelete: () => void;
   canUndo: () => boolean;
   canRedo: () => boolean;
