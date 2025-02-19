@@ -9656,9 +9656,9 @@ textarea.form-control-lg {
     padding: 1.5rem!important
 }
 
-.p-5 {
+/* .p-5 {
     padding: 3rem!important
-}
+} */
 
 .px-0 {
     padding-right: 0!important;
@@ -10025,7 +10025,7 @@ textarea.form-control-lg {
 
 .text-primary {
     --bs-text-opacity: 1;
-    color: rgba(var(--bs-primary-rgb),var(--bs-text-opacity))!important
+    color: #ef3151!important
 }
 
 .text-secondary {
@@ -10273,13 +10273,13 @@ textarea.form-control-lg {
 
 .bg-primary {
     --bs-bg-opacity: 1;
-    background-color: rgba(var(--bs-primary-rgb),var(--bs-bg-opacity))!important
+    background-color: #f13051!important
 }
 
-.bg-secondary {
+/* .bg-secondary {
     --bs-bg-opacity: 1;
     background-color: rgba(var(--bs-secondary-rgb),var(--bs-bg-opacity))!important
-}
+} */
 
 .bg-success {
     --bs-bg-opacity: 1;

@@ -44,7 +44,6 @@ import {
   TabsList,
   TabsTrigger,
 } from "../../components/ui/tab";
-import { getImages } from "../../lib/s3";
 import toast, { Toaster } from "react-hot-toast";
 import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import { IoMdMenu } from "react-icons/io";
