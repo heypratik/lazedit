@@ -29,10 +29,11 @@ import {
   PlusIcon,
   ShieldCheckIcon,
   UserIcon,
-  PaintBrushIcon,
+  // PaintBrushIcon,
 } from "@heroicons/react/16/solid";
 import {
   Cog6ToothIcon,
+  PaintBrushIcon,
   HomeIcon,
   InboxIcon,
   MagnifyingGlassIcon,
@@ -215,6 +216,10 @@ export default function CustomLayout({ children }) {
               <SidebarItem href="/insights">
                 <ChartPieIcon />
                 <SidebarLabel>Insights</SidebarLabel>
+              </SidebarItem>
+              <SidebarItem href="/editor">
+                <PaintBrushIcon />
+                <SidebarLabel>MyBranz Canvas</SidebarLabel>
               </SidebarItem>
               <SidebarItem href="/settings">
                 <Cog6ToothIcon />
