@@ -1,51 +1,51 @@
-"use client";
+import EditorProjectIdPage from "./editor"
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/authOptions";
+import { redirect } from "next/navigation";
 
-import React from 'react'
-import {Editor} from '@/features/editor/components/editor'
-import Link from "next/link";
-import { Loader, TriangleAlert } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import {getProjectById} from "./../actions/project.actions"
-import {useGetProject} from "../hooks/use-get-project"
+async function getStore(userId: any) {
+  if (!userId) {
+    return null;
+  }
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/admin/settings/get`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId }),
+      }
+    );
 
-interface EditorProjectIdPageProps {
+    if (!response.ok) {
+      throw new Error("Failed to fetch store");
+    }
+
+    const data = await response.json();
+    return data.store;
+  } catch (error) {
+    console.error("Error fetching store:", error);
+    return null;
+  }
+}
+
+export default async function Page({params}: {
   params: {
     projectId: string;
   };
-};
+}) {
+  const session = await getServerSession(authOptions);
 
-export default function EditorProjectIdPage({
-  params,
-}: EditorProjectIdPageProps) {
-
-  // const data = await getProjectById(params.projectId);
-  const { data, isLoading, isError } = useGetProject(params.projectId);
-
-  if (isLoading || !data) {
-    return (
-      <div className="h-screen flex flex-col items-center justify-center">
-        <Loader className="size-6 animate-spin text-muted-foreground" />
-      </div>
-    );
+  if (!session) {
+    redirect("/auth");
   }
 
-  if (isError) {
-    return (
-      <div className="h-screen flex flex-col gap-y-5 items-center justify-center">
-        <TriangleAlert className="size-6 text-muted-foreground" />
-        <p className="text-muted-foreground text-sm">
-          Failed to fetch project
-        </p>
-        <Button asChild variant="default" className='bg-black text-white'>
-          <Link href="/editor">
-            Back to Home
-          </Link>
-        </Button>
-      </div>
-    );
-  }
+  let store = await getStore(session?.user?.id);
+  store.shopifyStoreId = session.user.shopifyStoreId
 
-  return <Editor initialData={data} />
-};
-
-
+  return (
+    <EditorProjectIdPage store={store}  params={params}/>
+  );
+}

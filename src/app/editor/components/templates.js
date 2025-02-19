@@ -17,6 +17,8 @@ const AllTemplates = ({ store }) => {
   const [templateCache, setTemplateCache] = useState({});
   const limit = 5;
 
+  console.log(totalPages, currentPage, "hello");
+
   useEffect(() => {
     // Effect to handle page changes
     fetchTemplatesWithCache();
@@ -25,7 +27,6 @@ const AllTemplates = ({ store }) => {
   const fetchTemplatesWithCache = async () => {
     // Check if we already have this page in cache
     if (templateCache[currentPage]) {
-      console.log(`Loading page ${currentPage} from cache`);
       setTemplates(templateCache[currentPage].templates);
       setTotalPages(templateCache[currentPage].totalPages);
       return;
@@ -79,6 +80,9 @@ const AllTemplates = ({ store }) => {
   };
 
   const handlePageChange = (newPage) => {
+    if (newPage === currentPage) {
+      return;
+    }
     // Clear current templates to show loading state while we fetch/retrieve
     setTemplates([]);
     setCurrentPage(newPage);
@@ -109,7 +113,7 @@ const AllTemplates = ({ store }) => {
             size="34px"
             className="cursor-pointer text-gray-400 disabled:text-gray-200 disabled:cursor-not-allowed"
             onClick={() => handlePageChange(Math.max(0, currentPage - 1))}
-            disabled={currentPage === 0 || loading}
+            disabled={currentPage < 1 || loading}
           />
           <IoIosArrowDropright
             size="34px"
@@ -127,11 +131,11 @@ const AllTemplates = ({ store }) => {
 
       {templates.length === 0 && loading && (
         <div className="grid grid-cols-5 md:grid-cols-5 lg:grid-cols-5 gap-4 min-h-[293px]">
-          <Skeleton className="w-[300px] h-[300px]" />
-          <Skeleton className="w-[300px] h-[300px]" />
-          <Skeleton className="w-[300px] h-[300px]" />
-          <Skeleton className="w-[300px] h-[300px]" />
-          <Skeleton className="w-[300px] h-[300px]" />
+          <Skeleton className=" h-[300px]" />
+          <Skeleton className=" h-[300px]" />
+          <Skeleton className=" h-[300px]" />
+          <Skeleton className=" h-[300px]" />
+          <Skeleton className=" h-[300px]" />
         </div>
       )}
 

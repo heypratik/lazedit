@@ -87,7 +87,7 @@ export const RemoveBgSidebar = ({
             <Button
               disabled={mutation.isPending}
               onClick={onClick}
-              className="w-full"
+              className="w-full bg-[#f13051] text-white"
             >
               Remove background
             </Button>

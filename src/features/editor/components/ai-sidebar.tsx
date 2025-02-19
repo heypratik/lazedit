@@ -77,7 +77,7 @@ export const AiSidebar = ({
           <Button
             disabled={mutation.isPending}
             type="submit"
-            className="w-full"
+            className="w-full  bg-[#f13051] text-white"
           >
             Generate
           </Button>
