@@ -10,6 +10,7 @@ interface TextSidebar {
   activeTool: ActiveTool;
   onChangeActiveTool: (tool: ActiveTool) => void;
 }
+
 export const TextSidebar = ({
   editor,
   activeTool,
@@ -17,7 +18,7 @@ export const TextSidebar = ({
 }: TextSidebar) => {
   const onClose = () => {
     onChangeActiveTool("select");
-  };
+}
 
   return (
     <aside

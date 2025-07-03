@@ -1,12 +1,12 @@
 "use client";
 
-import { ActiveTool, Editor, FONT_SIZE } from "../types";
+import { ActiveTool, Editor, FONT_SIZE, fonts } from "../types";
 import { useState, useCallback, MouseEvent, useEffect, useRef } from "react";
 import { Hint } from "@/components/hint";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { BsBorderWidth } from "react-icons/bs";
-import { AlignCenter, AlignLeft, AlignRight, ArrowDown, ArrowUp, ChevronDown, Copy, SquareSplitHorizontal, Trash } from "lucide-react";
+import { AlignCenter, AlignLeft, AlignRight, ArrowDown, ArrowUp, ChevronDown, Search, Copy, SquareSplitHorizontal, Trash } from "lucide-react";
 import { RxTransparencyGrid } from "react-icons/rx";
 import { isTextType } from "../utils";
 import { FaBold, FaItalic, FaStrikethrough, FaUnderline } from "react-icons/fa";
@@ -56,6 +56,121 @@ const savePosition = (position: Position) => {
   } catch (error) {
     console.error('Error saving toolbar position to localStorage:', error);
   }
+};
+
+// Searchable Font Dropdown Component
+const SearchableFontDropdown = ({ editor, properties, activeTool }: {
+  editor: Editor | undefined;
+  properties: any;
+  activeTool: ActiveTool;
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedFont, setSelectedFont] = useState(properties.fontFamily || "Arial");
+  const dropdownRef = useRef(null);
+  const searchInputRef = useRef(null);
+
+  // Filter fonts based on search term
+  const filteredFonts = fonts.filter(font =>
+    font.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  // Handle font selection
+  const handleFontSelect = (font: any) => {
+    setSelectedFont(font);
+    setIsOpen(false);
+    setSearchTerm("");
+    editor?.changeFontFamily(font);
+  };
+
+  // Handle clicking outside to close dropdown
+  useEffect(() => {
+    const handleClickOutside = (event: any) => {
+      // @ts-ignore
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+        setSearchTerm("");
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Focus search input when dropdown opens
+  useEffect(() => {
+    if (isOpen && searchInputRef.current) {
+      // @ts-ignore
+      searchInputRef.current.focus();
+    }
+  }, [isOpen]);
+
+  // Update selected font when properties change
+  useEffect(() => {
+    setSelectedFont(properties.fontFamily || "Arial");
+  }, [properties.fontFamily]);
+
+  return (
+    <div className="relative" ref={dropdownRef}>
+      {/* Trigger Button */}
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className={cn(
+          "flex items-center justify-between px-2 py-1.5 text-sm border rounded-md bg-white hover:bg-gray-50 transition-colors",
+          activeTool === "font" && "bg-gray-100",
+          isOpen && ""
+        )}
+      >
+        <div className="max-w-[100px] truncate" style={{ fontFamily: selectedFont }}>
+          {selectedFont}
+        </div>
+        <ChevronDown className={cn("size-4 ml-2 shrink-0 transition-transform", isOpen && "rotate-180")} />
+      </button>
+
+      {/* Dropdown Content */}
+      {isOpen && (
+        <div className="absolute top-full left-0 mt-1 w-64 bg-white border border-gray-200 rounded-md shadow-lg z-50 overflow-hidden">
+          {/* Search Input */}
+          <div className="p-2 border-b border-gray-100">
+            <div className="relative">
+              <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 size-4 text-gray-400" />
+              <input
+                ref={searchInputRef}
+                type="text"
+                placeholder="Search fonts..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pl-8 pr-3 py-1.5 text-sm border border-gray-200 rounded focus:outline-none focus:ring-2 focus:ring-black focus:border-black"
+              />
+            </div>
+          </div>
+
+          {/* Font List */}
+          <div className="max-h-60 overflow-y-auto">
+            {filteredFonts.length > 0 ? (
+              filteredFonts.map((font) => (
+                <button
+                  key={font}
+                  onClick={() => handleFontSelect(font)}
+                  className={cn(
+                    "w-full px-3 py-2 text-left text-sm hover:bg-gray-100 transition-colors border-l-2 border-transparent",
+                    selectedFont === font && "glass-strong text-black"
+                  )}
+                  style={{ fontFamily: font }}
+                >
+                  {font}
+                </button>
+              ))
+            ) : (
+              <div className="px-3 py-2 text-sm text-gray-500 text-center">
+                No fonts found
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
 };
 
 export const Toolbar = ({
@@ -231,6 +346,7 @@ export const Toolbar = ({
 
   return (
     <div 
+      ref={toolbarRef}
       className={cn(
         "fixed bg-white border rounded-[50px] p-2",
         "flex items-center gap-x-2 shadow-md",
@@ -295,17 +411,11 @@ export const Toolbar = ({
 
         {isText && (
           <>
-            <Hint label="Font" side="bottom" sideOffset={5}>
-              <Button
-                onClick={() => onChangeActiveTool("font")}
-                size="icon"
-                variant="ghost"
-                className={cn("w-auto px-2 text-sm", activeTool === "font" && "bg-gray-100")}
-              >
-                <div className="max-w-[100px] truncate">{properties.fontFamily}</div>
-                <ChevronDown className="size-4 ml-2 shrink-0" />
-              </Button>
-            </Hint>
+            <SearchableFontDropdown 
+              editor={editor}
+              properties={properties} 
+              activeTool={activeTool}
+            />
 
             <Hint label="Bold" side="bottom" sideOffset={5}>
               <Button
@@ -394,19 +504,6 @@ export const Toolbar = ({
         )}
 
         {isImage && (
-          <Hint label="Filter" side="bottom" sideOffset={5}>
-          <Button
-            onClick={() => onChangeActiveTool("filter")}
-            size="icon"
-            variant="ghost"
-            className={cn(activeTool === "filter" && "bg-gray-100")}
-          >
-            <TbColorFilter className="size-4" />
-          </Button>
-        </Hint>
-        )}
-
-{isImage && (
           <Hint label="Remove BG" side="bottom" sideOffset={5}>
           <Button
             onClick={() => onChangeActiveTool("remove-bg")}
@@ -418,8 +515,6 @@ export const Toolbar = ({
           </Button>
         </Hint>
         )}
-
-        
 
         <Hint label="Bring Forward" side="bottom" sideOffset={5}>
           <Button
