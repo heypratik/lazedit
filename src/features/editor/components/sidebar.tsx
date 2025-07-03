@@ -15,7 +15,7 @@ export const Sidebar = ({
     onChangeActiveTool,
 }: SidebarProps) => {
     return (
-        <aside className="bg-white flex flex-col w-[100px] border-r h-full overflow-y-auto">
+        <aside className="glass flex flex-col w-[100px] border-r h-full overflow-y-auto">
             <ul className="flex flex-col !p-0 !m-0">
                 <SidebarItem icon={LayoutTemplate} label="Design" isActive={activeTool === "templates"} onClick={() => onChangeActiveTool("templates")} />
                 <SidebarItem icon={ImageIcon} label="Image" isActive={activeTool === "images"} onClick={() => onChangeActiveTool("images")} />

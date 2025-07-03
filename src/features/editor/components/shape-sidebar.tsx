@@ -23,7 +23,7 @@ export const ShapeSidebar = ({
         onChangeActiveTool("select");
     }
     return (
-        <aside className={cn("bg-white relative border-r z-[40] w-[360px] h-full flex flex-col",
+        <aside className={cn("bg-black glass relative border-r z-[40] w-[360px] h-full flex flex-col",
             activeTool === "shapes" ? "block" : "hidden"
          )}>
             <ToolSidebarHeader title="Shapes" description='Add shapes to your canvas'/>

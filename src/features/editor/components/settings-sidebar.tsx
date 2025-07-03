@@ -22,8 +22,8 @@ export const SettingsSidebar = ({
   activeTool,
   onChangeActiveTool,
 }: SettingsSidebarProps) => {
+  
   const workspace = editor?.getWorkspace();
-
   const initialWidth = useMemo(() => `${workspace?.width ?? 0}`, [workspace]);
   const initialHeight = useMemo(() => `${workspace?.height ?? 0}`, [workspace]);
   const initialBackground = useMemo(() => workspace?.fill ?? "#ffffff", [workspace]);

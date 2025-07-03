@@ -11,10 +11,10 @@ interface ShapeToolProps {
 export const ShapeTool = ({ icon: Icon, onclick, iconClassName }: ShapeToolProps) => {
     return (
         <button
-            className="aspect-square border rounded-md p-5"
+            className="aspect-square border rounded-md p-5 glass-subtle hover:bg-white/10"
             onClick={onclick}
         >
-            <Icon className={cn("h-full w-full", iconClassName)} />
+            <Icon className={cn("h-full w-full text-white/80", iconClassName)} />
         </button>
     );
 }

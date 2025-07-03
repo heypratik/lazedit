@@ -5,6 +5,7 @@ import { use, useCallback, useEffect, useRef, useState } from "react";
 import { fabric } from "fabric";
 import { Navbar } from "@/features/editor/components/navbar";
 import { Sidebar } from "@/features/editor/components/sidebar";
+import {RightSidebar} from "@/features/editor/components/right-sidebar";
 import { Toolbar } from "@/features/editor/components/toolbar";
 import { Footer } from "@/features/editor/components/footer";
 import { ActiveTool, selectionDependentTools } from "@/features/editor/types";
@@ -116,23 +117,24 @@ export const Editor = ({initialData, store}: EditorProps) => {
   const menuClass = "text-base cursor-pointer flex items-center justify-between";
 
   return (
-    <div className="h-full flex flex-col">
-      <Navbar editor={editor}  activeTool={activeTool} onChangeActiveTool={onChangeActiveTool} id={initialData?.id} name={initialData.name}/>
-      <div className=" absolute h-[calc(100%-68px)] w-full top-[68px] flex">
+    <div className="h-full flex flex-col bg-black">
+      <Navbar editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool} id={initialData?.id} name={initialData.name}/>
+      <div className=" absolute h-[calc(100%-68px)] w-full top-[68px] flex bg-black">
         <Sidebar activeTool={activeTool} onChangeActiveTool={onChangeActiveTool}/>
-        <ShapeSidebar editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool}/>
-        <FillColorSidebar editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool}/>
-        <StrokeColorSidebar editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool}/>
-        <StrokeWidthSidebar editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool}/>
-        <OpacitySidebar editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool}/>
-        <TextSidebar editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool}/>
-        <FontSidebar editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool}/>
+        {/* <ShapeSi0debar editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool}/> */}
+        {/* <RemoveBgSidebar editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool}/>  */}
+        {/* <OpacitySidebar editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool}/>  */}
+        {/* <TextSidebar editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool}/>  */}
+        {/* <SettingsSidebar editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool}/> */}
+        {/* <FillColorSidebar editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool}/> */}
+        {/* <StrokeColorSidebar editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool}/> */}
+        {/* <StrokeWidthSidebar editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool}/> */}
+        {/* <AiSidebar editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool}/> */}
+        {/* <FilterSidebar  editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool}/> */}
+
+        {/* <FontSidebar editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool}/> */}
         <ImageSideBar editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool} store={store}/>
-        <FilterSidebar  editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool}/>
-        <AiSidebar editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool}/>
-        <RemoveBgSidebar editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool}/>
-        <DrawSidebar editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool}/>
-        <SettingsSidebar editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool}/>
+        {/* <DrawSidebar editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool}/> */}
         <main className="bg-muted flex-1 overflow-auto relative flex flex-col">
           <Toolbar
             editor={editor}
@@ -142,9 +144,10 @@ export const Editor = ({initialData, store}: EditorProps) => {
               editor?.canvas.getActiveObject()
             )}
           />
-          <div className="flex-1 bg-muted h-[calc(100% - 124px )]" ref={containerRef}>
+          <div className="flex-1 bg-black dot-grid h-[calc(100% - 124px )]" ref={containerRef}>
+            <canvas ref={canvasRef} />
+            {/* <ContextMenu>
            
-            <ContextMenu>
   <ContextMenuTrigger  className="flex h-[150px] w-[300px]"> <canvas ref={canvasRef} /></ContextMenuTrigger>
   <ContextMenuContent className=" w-72 text-lg cursor-pointer">
     <ContextMenuItem className={menuClass} disabled={(editor?.selectedObjects?.length ?? 0) < 1} onClick={() => editor?.copy()}>Copy</ContextMenuItem>
@@ -166,10 +169,11 @@ export const Editor = ({initialData, store}: EditorProps) => {
         </ContextMenuSub>
     <ContextMenuItem className={menuClass} disabled={(editor?.selectedObjects?.length ?? 0) < 1} onClick={() => editor?.delete()}>Delete<IoBackspaceOutline className="ml-3" size="20" color="#dc2626 "/></ContextMenuItem>
   </ContextMenuContent>
-</ContextMenu>
+</ContextMenu> */}
           </div>
           <Footer editor={editor} />
         </main>
+        <RightSidebar editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool}/>
       </div>
     </div>
   ); 

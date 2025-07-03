@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { Hono } from "hono";
-import { verifyAuth } from "@hono/auth-js";
+// import { verifyAuth } from "@hono/auth-js";
 import { zValidator } from "@hono/zod-validator";
 
 import { replicate } from "@/lib/replicate";
@@ -65,6 +65,35 @@ const app = new Hono()
       const res = output as Array<string>;
 
       return c.json({ data: imgUrl });
+    },
+  )
+  .post(
+    "/edit-image",
+    // verifyAuth(),
+    zValidator(
+      "json",
+      z.object({
+        prompt: z.string(),
+        input_image: z.string(),
+        output_format: z.enum(["jpg", "png", "webp"]).optional().default("jpg"),
+        num_inference_steps: z.number().min(1).max(50).optional().default(30),
+      }),
+    ),
+    async (c) => {
+      const { prompt, input_image, output_format, num_inference_steps } = c.req.valid("json");
+
+      const input = {
+        prompt: prompt,
+        input_image: input_image,
+        output_format: output_format,
+        num_inference_steps: num_inference_steps
+      };
+      
+      const output = await replicate.run("black-forest-labs/flux-kontext-dev", { input });
+      // @ts-ignore
+            const res = output.url();
+
+      return c.json({ data: res });
     },
   );
 
