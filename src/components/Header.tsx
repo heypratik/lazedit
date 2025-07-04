@@ -3,6 +3,7 @@
 
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
+import Logo from './Logo';
 
 
 const Header = () => {
@@ -12,14 +13,7 @@ const Header = () => {
     <header className="fixed top-0 w-full z-50 glass-strong">
       <div className="max-w-7xl mx-auto section-padding relative z-10">
         <div className="flex items-center justify-between h-16">
-          <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 bg-white flex items-center justify-center text-black font-bold text-sm">
-              LE
-            </div>
-            <span className="text-xl font-medium text-white">
-              Lazy Edit
-            </span>
-          </div>
+          <Logo />
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">

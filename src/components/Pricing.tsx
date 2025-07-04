@@ -19,7 +19,7 @@ const Pricing = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Individual Plan */}
-          <div className="glass p-8 rounded-2xl relative !border-2 !border-orange-500 group scale-105 hover:scale-105 transition-transform duration-300">
+          <div className="glass p-8 rounded-2xl relative !border-2 !border-orange-500 group transition-transform duration-300">
             <div className="absolute -top-3 left-6">
               <span className="bg-white text-black px-3 py-1 text-xs font-medium uppercase tracking-wide rounded-full">
                 🔥 Hot Deal
@@ -32,7 +32,7 @@ const Pricing = () => {
                 <h3 className="text-xl font-medium text-white mb-4">Individual</h3>
                 <div className="flex items-center justify-center gap-2 mb-2">
                   <span className="text-2xl text-white/50 line-through">$29</span>
-                  <span className="text-6xl font-bold text-white">$20</span>
+                  <span className="text-7xl font-bold text-white">$20</span>
                   <span className="text-white/70">/month</span>
                 </div>
                 <p className="text-white/60 text-sm">Save $108/year 💰</p>
@@ -66,7 +66,7 @@ const Pricing = () => {
                           <div 
                             className="absolute inset-0 w-full h-full scale-[1.2] transform opacity-10 [mask-image:radial-gradient(#fff,transparent,75%)]"
                             style={{
-                              backgroundImage: 'url(https://assets.aceternity.com/noise.webp)',
+                              backgroundImage: 'url(/noise.webp)',
                               backgroundSize: 'cover',
                               backgroundPosition: 'center'
                             }}
@@ -80,13 +80,13 @@ const Pricing = () => {
           </div>
 
           {/* Team Plan */}
-          <div className="glass p-8 rounded-2xl relative border group hover:scale-105 transition-transform duration-300">
+          <div className="glass p-8 rounded-2xl relative border group transition-transform duration-300">
             <div className="text-center">
               <div className="mb-6">
                 <div className="text-4xl mb-2">👥</div>
                 <h3 className="text-xl font-medium text-white mb-4">Team</h3>
                 <div className="flex items-center justify-center gap-2 mb-2">
-                  <span className="text-6xl font-bold text-white">$99</span>
+                  <span className="text-7xl font-bold text-white">$99</span>
                   <span className="text-white/70">/month</span>
                 </div>
                 <p className="text-white/60 text-sm">Per team (up to 10 users)</p>
@@ -120,7 +120,7 @@ const Pricing = () => {
                           <div 
                             className="absolute inset-0 w-full h-full scale-[1.2] transform opacity-10 [mask-image:radial-gradient(#fff,transparent,75%)]"
                             style={{
-                              backgroundImage: 'url(https://assets.aceternity.com/noise.webp)',
+                              backgroundImage: 'url(/noise.webp)',
                               backgroundSize: 'cover',
                               backgroundPosition: 'center'
                             }}
@@ -135,7 +135,7 @@ const Pricing = () => {
         </div>
 
         <div className="text-center mt-12">
-          <p className="text-white/60 text-sm">
+          <p className="text-white text-sm">
             24/7 support 💪 • No setup fees 🚫 • Cancel anytime ✨
           </p>
         </div>
