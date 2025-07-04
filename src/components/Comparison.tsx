@@ -30,41 +30,112 @@ const Comparison = () => {
   ];
 
   return (
-    <section className="py-10 section-padding relative">
+    <section className="py-8 md:py-12 lg:py-16 px-4 md:px-6 lg:px-8 relative !pb-0">
       <div className="absolute inset-0 pattern-dots opacity-10"></div>
       <div className="max-w-4xl mx-auto relative z-10">
-        <div className="glass-subtle p-1 rounded-2xl border border-white">
-          <div className="bg-black/50 rounded-xl p-4">
-            {/* Header */}
-            <div className="grid grid-cols-3 gap-8 mb-8 pb-6 border-b border-white/10">
-              <div className="text-center">
-                <h3 className="text-white/50 text-sm uppercase tracking-wide font-medium"></h3>
-              </div>
-              <div className="text-center">
-                <h3 className="text-white/70 text-xl uppercase tracking-wide font-medium">😴 Old Way</h3>
-              </div>
-              <div className="text-center">
-                <h3 className="text-white text-xl uppercase tracking-wide font-medium">🚀 With Lazy Edit</h3>
-              </div>
-            </div>
+        
+        <div className="text-center mb-10 md:mb-16">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-medium mb-3 md:mb-4 text-white">
+            🆚 Old Way vs LazyEdit
+          </h2>
+          <p className="text-base md:text-lg text-white px-4 md:px-0">
+            See why thousands are making the switch
+          </p>
+        </div>
 
-            {/* Comparisons */}
-            <div className="space-y-6">
-              {comparisons.map((item, index) => (
-                <div key={index} className="grid grid-cols-3 gap-8 py-4 hover:bg-white/5 transition-colors duration-300 rounded-lg px-4">
-                  <div className="text-white font-medium flex items-center">
-                    {item.feature}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 mb-8 md:mb-12">
+          {/* Old Way Box */}
+          <div className="glass p-4 md:p-6 lg:p-8 rounded-xl md:rounded-2xl relative border group transition-transform duration-300">
+            <div className="text-center">
+              <div className="mb-4 md:mb-6">
+                <div className="text-3xl md:text-4xl mb-2">😴</div>
+                <h3 className="text-lg md:text-xl font-medium text-white/70 mb-3 md:mb-4">Old Way</h3>
+                <p className="text-white/50 text-xs md:text-sm">Traditional editing workflow</p>
+              </div>
+              
+              <div className="space-y-3 md:space-y-4 mb-6 md:mb-8 text-left">
+                {comparisons.map((item, index) => (
+                  <div key={index} className="flex items-start text-white/60 text-sm md:text-base bg-red-500/5 p-3 rounded-lg border border-red-500/10">
+                    <span className="text-white/40 mr-2 md:mr-3 mt-0.5 flex-shrink-0">
+                      {item.feature.split(' ')[0]}
+                    </span>
+                    <div>
+                      <div className="text-white/70 font-medium text-xs md:text-sm mb-1">
+                        {item.feature.substring(item.feature.indexOf(' ') + 1)}
+                      </div>
+                      <div className="text-white/60 text-xs md:text-sm">
+                        {item.traditional}
+                      </div>
+                    </div>
                   </div>
-                  <div className="text-white/60 flex items-center justify-center text-center text-sm">
-                    {item.traditional}
-                  </div>
-                  <div className="text-white font-medium flex items-center justify-center text-center text-sm">
-                    {item.lazyEdit}
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
+              
+              <div className="text-center p-4 bg-red-500/10 rounded-lg border border-red-500/20">
+                <span className="text-white/60 font-medium text-sm">
+                  😞 Slow & Expensive
+                </span>
+              </div>
             </div>
           </div>
+
+          {/* LazyEdit Box */}
+          <div className="glass p-4 md:p-6 lg:p-8 rounded-xl md:rounded-2xl relative !border-2 !border-green-500 group transition-transform duration-300 hover:scale-105">
+            <div className="absolute -top-2 md:-top-3 left-4 md:left-6">
+              <span className="bg-green-500 text-black px-2 md:px-3 py-1 text-xs font-medium uppercase tracking-wide rounded-full">
+                ⚡ Better Choice
+              </span>
+            </div>
+            
+            <div className="text-center">
+              <div className="mb-4 md:mb-6">
+                <div className="text-3xl md:text-4xl mb-2">🚀</div>
+                <h3 className="text-lg md:text-xl font-medium text-white mb-3 md:mb-4">With LazyEdit</h3>
+                <p className="text-white/70 text-xs md:text-sm">AI-powered editing solution</p>
+              </div>
+              
+              <div className="space-y-3 md:space-y-4 mb-6 md:mb-8 text-left">
+                {comparisons.map((item, index) => (
+                  <div key={index} className="flex items-start text-white text-sm md:text-base bg-green-500/10 p-3 rounded-lg border border-green-500/20">
+                    <span className="text-green-400 mr-2 md:mr-3 mt-0.5 flex-shrink-0">
+                      {item.feature.split(' ')[0]}
+                    </span>
+                    <div>
+                      <div className="text-white font-medium text-xs md:text-sm mb-1">
+                        {item.feature.substring(item.feature.indexOf(' ') + 1)}
+                      </div>
+                      <div className="text-white/90 text-xs md:text-sm font-medium">
+                        {item.lazyEdit}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              
+              <button className="relative text-sm md:text-base px-6 md:px-8 py-3 w-full text-center font-medium bg-gradient-to-br from-green-500 via-green-400 to-green-600 overflow-hidden rounded-lg">
+                {/* Noise texture overlay */}
+                <div 
+                  className="absolute inset-0 w-full h-full scale-[1.2] transform opacity-10 [mask-image:radial-gradient(#fff,transparent,75%)]"
+                  style={{
+                    backgroundImage: 'url(/noise.webp)',
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center'
+                  }}
+                ></div>
+                {/* Button text */}
+                <span className="relative z-10 text-center justify-center text-white font-semibold flex items-center gap-2">
+                  START WITH LAZYEDIT
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom CTA */}
+        <div className="text-center">
+          <p className="text-white/70 text-xs md:text-sm px-4 md:px-0">
+            Join thousands who've already made the switch 🎯 • Save 70% time • 10X faster results
+          </p>
         </div>
       </div>
     </section>
