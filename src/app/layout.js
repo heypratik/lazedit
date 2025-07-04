@@ -1,34 +1,46 @@
-"use client";
-
-import { Inter } from "next/font/google";
 import "./globals.css";
-import { Modals } from "@/components/modals";
-import { Toaster } from "@/components/ui/sonner";
-// import "bootstrap/dist/css/bootstrap.min.css";
-import { GlobalProvider } from "@/context/GlobalContext";
-import { SessionProvider } from "next-auth/react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import Providers from "../components/providers";
+import { Inter } from "next/font/google";
+import ClientLayout from "@/components/ClientLayout";
 
 const inter = Inter({ subsets: ["latin"] });
-const queryClient = new QueryClient();
+
+export const metadata = {
+  title: "LazeEdit - AI Image Editor | Best Photoshop Alternative 2025",
+  description:
+    "Edit images by just telling LazeEdit what you want. Remove backgrounds, change text, create banners — no design skills needed. Free Photoshop alternative with AI magic. Try now!",
+  metadataBase: new URL("https://www.lazedit.com"),
+  openGraph: {
+    title: "LazeEdit - AI Image Editor | Best Photoshop Alternative 2025",
+    description: "Edit images by just telling LazeEdit what you want...",
+    url: "https://www.lazedit.com",
+    siteName: "LazeEdit",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "LazeEdit AI Image Editor Preview",
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "LazeEdit - AI Image Editor | Best Photoshop Alternative 2025",
+    description: "Edit images by just telling LazeEdit what you want...",
+    images: ["/og-image.png"],
+  },
+  icons: {
+    icon: "/icon-logo.png",
+    apple: "/icon-logo.png",
+  },
+};
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Providers>
-          <QueryClientProvider client={queryClient}>
-            <ReactQueryDevtools />
-            <SessionProvider>
-              <GlobalProvider>
-                <Toaster />
-                <Modals />
-                {children}
-              </GlobalProvider>
-            </SessionProvider>
-          </QueryClientProvider>
-        </Providers>
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );

@@ -39,7 +39,7 @@ const Hero = () => {
       <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-white/3"></div>
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
       
-      <div className="max-w-full mx-auto relative z-10 flex-1 flex items-center">
+      <div className="max-w-full w-full mx-auto relative z-10 flex-1 flex items-center">
         <div className="text-center space-y-6 w-full">
           <div className="space-y-4 mt-20">
             <span className='p-1 glass-strong rounded-full text-white'>⚡What took you 3 weeks, AI does in 3 words </span>
@@ -58,7 +58,7 @@ const Hero = () => {
             <div 
               className="absolute inset-0 w-full h-full scale-[1.2] transform opacity-10 [mask-image:radial-gradient(#fff,transparent,75%)]"
               style={{
-                backgroundImage: 'url(https://assets.aceternity.com/noise.webp)',
+                backgroundImage: 'url(/noise.webp)',
                 backgroundSize: 'cover',
                 backgroundPosition: 'center'
               }}
@@ -75,7 +75,7 @@ const Hero = () => {
           {/* Infinite Image Scroll Section */}
           <div className="w-full mt-12 relative">
             {/* Infinite scroll container - shows exactly 5 images */}
-            <div className="relative overflow-hidden mx-auto max-w-full carousel-container">
+            <div className="relative overflow-hidden mx-auto carousel-container">
               {/* Gradient fade effects */}
               <div className="absolute left-0 top-0 w-16 h-full bg-gradient-to-r from-black to-transparent z-10 pointer-events-none"></div>
               <div className="absolute right-0 top-0 w-16 h-full bg-gradient-to-l from-black to-transparent z-10 pointer-events-none"></div>
