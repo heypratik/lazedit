@@ -17,13 +17,13 @@ const Header = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            <a href="#features" className="text-white/70 hover:text-white transition-colors text-sm">
+            <a href="#features" className="text-white no-underline hover:text-white transition-colors text-sm">
               Features
             </a>
-            <a href="#pricing" className="text-white/70 hover:text-white transition-colors text-sm">
+            <a href="#pricing" className="text-white no-underline hover:text-white transition-colors text-sm">
               Pricing
             </a>
-            <a href="#demo" className="text-white/70 hover:text-white transition-colors text-sm">
+            <a href="#demo" className="text-white no-underline hover:text-white transition-colors text-sm">
               Examples
             </a>
           </nav>
