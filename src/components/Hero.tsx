@@ -36,8 +36,8 @@ const Hero = () => {
       <div className="absolute bottom-10 md:bottom-20 left-1/4 w-18 md:w-36 h-18 md:h-36 bg-white/6 rounded-full blur-xl md:blur-3xl animate-pulse delay-300"></div>
       
       {/* Gradient overlays */}
-      {/* <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-white/3"></div> */}
-      {/* <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div> */}
+      <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-white/3"></div>
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
       
       <div className="max-w-full w-full mx-auto relative z-10 flex-1 flex items-center">
         <div className="text-center space-y-4 md:space-y-6 w-full px-4 md:px-0">
@@ -51,7 +51,7 @@ const Hero = () => {
             </h1>
             
             <p className="text-base md:text-lg text-white/70 mx-auto leading-relaxed max-w-2xl px-4 md:px-0">
-              🚀 From idea to image in seconds. Transform and create images with simple text commands.<br className="hidden md:block" />
+              🚀 Transform and create images with simple text commands.<br className="hidden md:block" />
               <span className="md:hidden"> </span>No complex tools, no learning curve, no expensive designers.
             </p>
           </div>
@@ -81,8 +81,8 @@ const Hero = () => {
             {/* Infinite scroll container - full width */}
             <div className="relative overflow-hidden w-full carousel-container">
               {/* Gradient fade effects - hidden on mobile for better visibility */}
-              <div className="absolute left-0 top-0 w-8 md:w-16 h-full bg-gradient-to-r from-black to-transparent z-10 pointer-events-none hidden md:block"></div>
-              <div className="absolute right-0 top-0 w-8 md:w-16 h-full bg-gradient-to-l from-black to-transparent z-10 pointer-events-none hidden md:block"></div>
+              {/* <div className="absolute left-0 top-0 w-8 md:w-16 h-full bg-gradient-to-r from-black to-transparent z-10 pointer-events-none hidden md:block"></div> */}
+              {/* <div className="absolute right-0 top-0 w-8 md:w-16 h-full bg-gradient-to-l from-black to-transparent z-10 pointer-events-none hidden md:block"></div> */}
               
               {/* Scrolling images container */}
               <div className="flex gap-2 md:gap-4 infinite-scroll">
