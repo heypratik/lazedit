@@ -19,7 +19,7 @@ const Pricing = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
           {/* Individual Plan */}
-          <div className="glass p-4 md:p-6 lg:p-8 rounded-xl md:rounded-2xl relative !border-2 !border-orange-500 group transition-transform duration-300 hover:scale-105">
+          <div className="glass p-4 md:p-6 lg:p-8 rounded-xl md:rounded-2xl relative !border-2 !border-orange-500 group transition-transform duration-300">
             <div className="absolute -top-2 md:-top-3 left-4 md:left-6">
               <span className="bg-white text-black px-2 md:px-3 py-1 text-xs font-medium uppercase tracking-wide rounded-full">
                 🔥 Hot Deal
@@ -80,7 +80,7 @@ const Pricing = () => {
           </div>
 
           {/* Team Plan */}
-          <div className="glass p-4 md:p-6 lg:p-8 rounded-xl md:rounded-2xl relative border group transition-transform duration-300 hover:scale-105">
+          <div className="glass p-4 md:p-6 lg:p-8 rounded-xl md:rounded-2xl relative border group transition-transform duration-300">
             <div className="text-center">
               <div className="mb-4 md:mb-6">
                 <div className="text-3xl md:text-4xl mb-2">👥</div>

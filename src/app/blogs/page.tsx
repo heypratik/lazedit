@@ -104,7 +104,7 @@ const BlogPage = () => {
           {/* Masonry Layout - First 3 Posts */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-16">
             {/* Large Featured Post */}
-            <article className="lg:col-span-2 lg:row-span-2 glass p-6 group hover:scale-105 transition-transform duration-300 cursor-pointer">
+            <article className="lg:col-span-2 lg:row-span-2 glass p-6 group transition-transform duration-300 cursor-pointer">
               <img 
                 src={featuredPosts[0].image} 
                 alt={featuredPosts[0].title}
@@ -137,7 +137,7 @@ const BlogPage = () => {
 
             {/* Two Smaller Posts */}
             {featuredPosts.slice(1).map((post) => (
-              <article key={post.id} className="glass p-4 group hover:scale-105 transition-transform duration-300 cursor-pointer">
+              <article key={post.id} className="glass p-4 group transition-transform duration-300 cursor-pointer">
                 <img 
                   src={post.image} 
                   alt={post.title}
@@ -174,7 +174,7 @@ const BlogPage = () => {
           {regularPosts.length > 0 && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {regularPosts.map((post) => (
-                <article key={post.id} className="glass p-6 group hover:scale-105 transition-transform duration-300 cursor-pointer">
+                <article key={post.id} className="glass p-6 group transition-transform duration-300 cursor-pointer">
                   <img 
                     src={post.image} 
                     alt={post.title}
