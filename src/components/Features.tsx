@@ -70,63 +70,72 @@ Every size for every platform - website headers, email banners, social covers, m
     ];
 
     return (
-        <section id="features" className="py-20 section-padding relative">
+        <section id="features" className="py-12 md:py-20 section-padding relative">
             {/* Background patterns */}
             <div className="absolute inset-0 pattern-dots opacity-40"></div>
             <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-white/5 to-transparent"></div>
             <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-white/5 to-transparent"></div>
             
-            <div className="max-w-7xl mx-auto relative z-10">
-                <div className="text-center mb-4">
-                    <h2 className="text-3xl sm:text-4xl font-medium mb-4 text-white">
+            <div className="max-w-7xl mx-auto relative z-10 px-4 md:px-6 lg:px-8">
+                <div className="text-center mb-8 md:mb-12">
+                    <h2 className="text-2xl md:text-3xl lg:text-4xl font-medium mb-3 md:mb-4 text-white">
                         Powerful Features
                     </h2>
-                    <p className="text-lg text-white/70 max-w-2xl mx-auto">
+                    <p className="text-base md:text-lg text-white max-w-2xl mx-auto px-4 md:px-0">
                         Everything you need for professional image editing
                     </p>
                 </div>
 
-                <div className="space-y-4">
+                <div className="space-y-6 md:space-y-8">
                     {features.map((feature, index) => {
                         const IconComponent = feature.icon;
                         const isReverse = index % 2 === 1;
                         return (
                             <div 
                                 key={feature.title}
-                                className={`flex flex-col lg:flex-row items-center gap-6 glass-strong rounded-2 p-4 ${
+                                className={`flex flex-col lg:flex-row items-center gap-4 md:gap-6 lg:gap-8 glass-strong rounded-2 p-2 md:p-6 ${
                                     isReverse ? 'lg:flex-row-reverse' : ''
                                 }`}
                             >
-                                <div className="flex-1 relative group">
-                                    <div className="absolute -inset-2 "></div>
-                                    <div className="relative aspect-[4/3] overflow-hidden">
+                                {/* Image Section */}
+                                <div className="w-full lg:flex-1 relative group">
+                                    <div className="absolute -inset-2"></div>
+                                    <div className="relative aspect-[4/3] md:aspect-[3/2] lg:aspect-[4/3] overflow-hidden rounded-lg">
                                         <img 
                                             src={feature.image} 
                                             alt={feature.title}
-                                            className="w-full h-full object-cover"
+                                            className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent"></div>
                                     </div>
                                 </div>
                                 
-                                <div className="flex-1 space-y-6">
-                                    <div className="flex items-center gap-4">
-                                        <h4 className="text-2xl sm:text-3xl font-medium text-white">
+                                {/* Content Section */}
+                                <div className="w-full lg:flex-1 space-y-3 md:space-y-4">
+                                    <div className="flex items-start gap-3 md:gap-4">
+                                        <div className="hidden md:block">
+                                            <IconComponent className="w-6 h-6 md:w-8 md:h-8 text-white/80 mt-1 flex-shrink-0" />
+                                        </div>
+                                        <h4 className="text-xl md:text-2xl lg:text-3xl font-medium text-white leading-tight">
                                             {feature.title}
                                         </h4>
                                     </div>
-                                    <p className="text-white/70 text-base leading-relaxed mt-2">
-                                        {feature.description}
-                                    </p>
+                                    <div className="md:ml-10 lg:ml-12">
+                                        <p className="text-white text-sm md:text-base lg:text-base leading-relaxed whitespace-pre-line">
+                                            {feature.description}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         );
                     })}
                 </div>
             </div>
-                <div className='flex items-center justify-center mt-12'>
-                    <span className='text-center text-white/70 text-base'>and a ton more...</span>
-                </div>
+            
+            {/* Bottom text */}
+            <div className='flex items-center justify-center mt-8 md:mt-12 px-4'>
+                <span className='text-center text-white text-sm md:text-base'>and a ton more...</span>
+            </div>
         </section>
     );
 };

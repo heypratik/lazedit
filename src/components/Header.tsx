@@ -12,7 +12,7 @@ const Header = () => {
   return (
     <header className="fixed top-0 w-full z-50 glass-strong">
       <div className="max-w-7xl mx-auto section-padding relative z-10">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-16 px-4">
           <Logo />
 
           {/* Desktop Navigation */}

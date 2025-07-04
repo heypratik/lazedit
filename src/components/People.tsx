@@ -48,13 +48,15 @@ const people = [
 
 function People() {
   return (
-    <div className="flex items-center justify-center gap-2">
+    <div className="flex flex-col lg:flex-row items-center justify-center gap-2">
                 <div className="flex flex-row items-center justify-center">
                   <AnimatedTooltip items={people} />
                 </div>
-                <span className="text-white font-medium  ml-4">⭐⭐⭐⭐⭐</span>
-                <span className="text-white/60"> 4.9/5 | </span>
-              <span className="text-white/60 mt-0">Trusted by 1000+ businesses who fired their designers</span>
+                <div className='flex items-center justify-center gap-2'>
+                  <span className="text-white font-medium  ml-4">⭐⭐⭐⭐⭐</span>
+                <span className="text-white/60"> 4.9/5</span>
+                </div>
+              <span className="text-white/60 mt-0 hidden sm:block"> | Trusted by 1000+ businesses who fired their designers</span>
               </div>
   )
 }
