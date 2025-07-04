@@ -74,11 +74,11 @@ const Hero = () => {
 
           {/* Infinite Image Scroll Section */}
           <div className="w-full mt-12 relative">
-            {/* Infinite scroll container - shows exactly 5 images */}
-            <div className="relative overflow-hidden mx-auto carousel-container">
+            {/* Infinite scroll container - full width */}
+            <div className="relative overflow-hidden w-full carousel-container">
               {/* Gradient fade effects */}
-              <div className="absolute left-0 top-0 w-16 h-full bg-gradient-to-r from-black to-transparent z-10 pointer-events-none"></div>
-              <div className="absolute right-0 top-0 w-16 h-full bg-gradient-to-l from-black to-transparent z-10 pointer-events-none"></div>
+              {/* <div className="absolute left-0 top-0 w-16 h-full bg-gradient-to-r from-black to-transparent z-10 pointer-events-none"></div> */}
+              {/* <div className="absolute right-0 top-0 w-16 h-full bg-gradient-to-l from-black to-transparent z-10 pointer-events-none"></div> */}
               
               {/* Scrolling images container */}
               <div className="flex gap-4 infinite-scroll">
@@ -104,15 +104,16 @@ const Hero = () => {
 
       {/* Custom CSS for infinite scroll animation */}
       <style jsx>{`
-        /* Container that shows exactly 5 images */
+        /* Full width carousel that shows 5 images on desktop */
         .carousel-container {
-          width: calc(5 * (18rem + 1rem) - 1rem);
+          width: 100%;
         }
         
         .image-container {
           flex: none;
-          width: 16rem; /* Fixed width for each image container */
-          height: 16rem; /* Fixed height */
+          width: calc((100vw - 8rem) / 5 - 1rem); /* 5 images with gaps, accounting for padding */
+          height: 25rem;
+          min-width: 12rem; /* Minimum size */
         }
         
         .infinite-scroll {
@@ -134,44 +135,21 @@ const Hero = () => {
           animation-play-state: paused;
         }
         
-        /* Responsive adjustments */
-        @media (max-width: 1200px) {
-          .carousel-container {
-            width: calc(5 * (16rem + 1rem) - 1rem);
-          }
-          .image-container {
-            width: 16rem;
-            height: 7rem;
-          }
-        }
-        
-        @media (max-width: 1024px) {
-          .carousel-container {
-            width: calc(5 * (14rem + 1rem) - 1rem);
-          }
-          .image-container {
-            width: 14rem;
-            height: 6rem;
-          }
-        }
-        
+        /* Tablet: 2 images taking full width */
         @media (max-width: 768px) {
-          .carousel-container {
-            width: calc(4 * (12rem + 1rem) - 1rem);
-          }
           .image-container {
-            width: 12rem;
-            height: 5rem;
+            width: calc((100vw - 4rem) / 2 - 0.5rem);
+            height: 12rem;
+            min-width: 10rem;
           }
         }
         
-        @media (max-width: 640px) {
-          .carousel-container {
-            width: calc(3 * (10rem + 1rem) - 1rem);
-          }
+        /* Mobile: 1 image taking most of the width */
+        @media (max-width: 480px) {
           .image-container {
-            width: 10rem;
-            height: 4rem;
+            width: calc(100vw - 6rem);
+            height: 10rem;
+            min-width: 16rem;
           }
         }
       `}</style>
