@@ -55,7 +55,7 @@ const Comparison = () => {
               
               <div className="space-y-3 md:space-y-4 mb-6 md:mb-8 text-left">
                 {comparisons.map((item, index) => (
-                  <div key={index} className="flex items-start text-white/60 text-sm md:text-base bg-red-500/5 p-3 rounded-lg border border-red-500/10">
+                  <div key={index} className="flex items-start text-white/60 text-sm md:text-base bg-red-500/5 p-3 rounded-lg">
                     <span className="text-white/40 mr-2 md:mr-3 mt-0.5 flex-shrink-0">
                       {item.feature.split(' ')[0]}
                     </span>
@@ -71,18 +71,28 @@ const Comparison = () => {
                 ))}
               </div>
               
-              <div className="text-center p-4 bg-red-500/10 rounded-lg border border-red-500/20">
-                <span className="text-white/60 font-medium text-sm">
+                            <button className="relative text-sm md:text-base px-6 md:px-8 py-3 w-full text-center font-medium bg-red-500/5 overflow-hidden rounded-lg">
+                {/* Noise texture overlay */}
+                <div 
+                  className="absolute inset-0 w-full h-full scale-[1.2] transform opacity-10 [mask-image:radial-gradient(#fff,transparent,75%)]"
+                  style={{
+                    backgroundImage: 'url(/noise.webp)',
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center'
+                  }}
+                ></div>
+                {/* Button text */}
+                <span className="relative z-10 text-center justify-center text-white font-semibold flex items-center gap-2">
                   😞 Slow & Expensive
                 </span>
-              </div>
+              </button>
             </div>
           </div>
 
           {/* LazyEdit Box */}
-          <div className="glass p-4 md:p-6 lg:p-8 rounded-xl md:rounded-2xl relative !border-2 !border-green-500 group transition-transform duration-300 hover:scale-105">
+          <div className="glass p-4 md:p-6 lg:p-8 rounded-xl md:rounded-2xl relative !border-2 !border-orange-500 group transition-transform duration-300">
             <div className="absolute -top-2 md:-top-3 left-4 md:left-6">
-              <span className="bg-green-500 text-black px-2 md:px-3 py-1 text-xs font-medium uppercase tracking-wide rounded-full">
+              <span className="bg-orange-500 text-white px-2 md:px-3 py-1 text-xs font-medium uppercase tracking-wide rounded-full">
                 ⚡ Better Choice
               </span>
             </div>
@@ -96,7 +106,7 @@ const Comparison = () => {
               
               <div className="space-y-3 md:space-y-4 mb-6 md:mb-8 text-left">
                 {comparisons.map((item, index) => (
-                  <div key={index} className="flex items-start text-white text-sm md:text-base bg-green-500/10 p-3 rounded-lg border border-green-500/20">
+                  <div key={index} className="flex items-start text-white text-sm md:text-base glass-strong p-3 rounded-lg border-0 border-white/20 hover:bg-white/10 transition-colors">
                     <span className="text-green-400 mr-2 md:mr-3 mt-0.5 flex-shrink-0">
                       {item.feature.split(' ')[0]}
                     </span>
@@ -112,7 +122,7 @@ const Comparison = () => {
                 ))}
               </div>
               
-              <button className="relative text-sm md:text-base px-6 md:px-8 py-3 w-full text-center font-medium bg-gradient-to-br from-green-500 via-green-400 to-green-600 overflow-hidden rounded-lg">
+              <button className="relative text-sm md:text-base px-6 md:px-8 py-3 w-full text-center font-medium bg-gradient-to-br from-orange-500 via-orange-400 to-orange-600 overflow-hidden rounded-lg">
                 {/* Noise texture overlay */}
                 <div 
                   className="absolute inset-0 w-full h-full scale-[1.2] transform opacity-10 [mask-image:radial-gradient(#fff,transparent,75%)]"

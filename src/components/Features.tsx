@@ -120,11 +120,9 @@ Every size for every platform - website headers, email banners, social covers, m
                                             {feature.title}
                                         </h4>
                                     </div>
-                                    <div className="md:ml-10 lg:ml-12">
                                         <p className="text-white text-sm md:text-base lg:text-base leading-relaxed whitespace-pre-line">
                                             {feature.description}
                                         </p>
-                                    </div>
                                 </div>
                             </div>
                         );
