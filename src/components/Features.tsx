@@ -113,9 +113,9 @@ Every size for every platform - website headers, email banners, social covers, m
                                 {/* Content Section */}
                                 <div className="w-full lg:flex-1 space-y-3 md:space-y-4">
                                     <div className="flex items-start gap-3 md:gap-4">
-                                        <div className="hidden md:block">
+                                        {/* <div className="hidden md:block">
                                             <IconComponent className="w-6 h-6 md:w-8 md:h-8 text-white/80 mt-1 flex-shrink-0" />
-                                        </div>
+                                        </div> */}
                                         <h4 className="text-xl md:text-2xl lg:text-3xl font-medium text-white leading-tight">
                                             {feature.title}
                                         </h4>

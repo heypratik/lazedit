@@ -1,15 +1,21 @@
 import React from 'react';
-import Logo from './Logo';
 import { FaArrowAltCircleRight } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <footer className="border-t border-white/10 py-16 section-padding">
+    <footer className="border-t border-white/10 py-16 section-padding bg-black">
         <div className="max-w-6xl mx-auto mb-12">
          <div className='flex items-start justify-between gap-8'>
             <div>
             <div className="space-y-4">
-            <Logo />
+            <div className="flex items-center space-x-3">
+              <div className="w-8 h-8 bg-white flex items-center justify-center text-black font-bold text-sm">
+                LE
+              </div>
+              <span className="text-xl font-medium text-white">
+                Lazy Edit
+              </span>
+            </div>
             <p className="text-white/60 text-base leading-relaxed">
               🚀 From idea to image in seconds. <br></br>Transform and create images with simple text commands. 
             </p>
