@@ -28,6 +28,7 @@ const Features = () => {
         {
             title: "🕺 Change Model Poses",
             description: `Got a model photo but need a different pose? Don't reshoot - just tell us what you want. "Make her point to the product." "Have him cross his arms." "Turn her to face the camera." Our AI understands body language and repositions your models instantly.
+
 No more expensive reshoot sessions because the model's hand was covering the logo. No more settling for "close enough" poses that don't showcase your product properly. Just describe the pose you need and watch your model move into position.`,
             image: "https://ik.imagekit.io/y5nxgqkj2/05-t-1-Untitled-1.jpg?updatedAt=1751723995136",
             icon: User,
@@ -35,6 +36,7 @@ No more expensive reshoot sessions because the model's hand was covering the log
         {
             title: "👕 Change Model Clothes",
             description: `Swap outfits, shoes, accessories - literally anything your model is wearing. "Put her in a red dress instead." "Give him Nike sneakers." "Add sunglasses and a watch." "Change the shirt to white." Our AI treats your model like a virtual dress-up doll, but with photorealistic results.
+
 No more booking separate models for different product categories. No more expensive wardrobe changes during shoots. One model photo becomes infinite outfit combinations. Want to show how your watch looks with formal wear AND casual clothes? Done in seconds.`,
             image: "https://ik.imagekit.io/y5nxgqkj2/02-t-1-Untitled-1.jpg?updatedAt=1751723994803",
             icon: Palette,
@@ -42,6 +44,7 @@ No more booking separate models for different product categories. No more expens
         {
             title: "🌴 Change Background Scenes",
             description: `Beach vibes? Mountain adventure? Luxury penthouse? Alien spaceship? (Hey, we don't judge your brand aesthetic.) Drop your product into any scene you can imagine without leaving your pajamas or hiring a travel photographer.
+
 Want your protein powder looking at home in a gym? Easy. Need your jewelry sparkling in a fancy restaurant? Done. Craving that "shot on location in Bali" look but your budget screams "shot in my garage"? We've got you covered.`,
             image: "https://ik.imagekit.io/y5nxgqkj2/06-t-1-Untitled-1.jpg?updatedAt=1751723994833",
             icon: Image,
@@ -56,6 +59,7 @@ Want your protein powder looking at home in a gym? Easy. Need your jewelry spark
         {
             title: "📱 Generate Promotional Posts",
             description: `"Make an Instagram story for our flash sale." "Create a Facebook ad for this product." "I need 5 different promo posts, all sizes." Boom. Done. Our AI cranks out scroll-stopping promotional content faster than you can say "engagement rate."
+
 Every size, every platform, every style. Square posts, story formats, Facebook ads, Pinterest pins - whatever the algorithm demands this week. Want 10 variations of the same promotion? Easy. Need it in 3 different color schemes? Child's play.`,
             image: "https://ik.imagekit.io/y5nxgqkj2/001.png?updatedAt=1751724144451",
             icon: Megaphone,
@@ -93,14 +97,14 @@ Every size, every platform, every style. Square posts, story formats, Facebook a
                         return (
                             <div 
                                 key={feature.title}
-                                className={`flex flex-col lg:flex-row items-center gap-4 md:gap-6 lg:gap-8 glass-strong rounded-2 p-2 md:p-6 ${
+                                className={`flex flex-col lg:flex-row items-center gap-4 md:gap-6 lg:gap-8 glass-strong rounded-2 p-3 md:p-6 ${
                                     isReverse ? 'lg:flex-row-reverse' : ''
                                 }`}
                             >
                                 {/* Image Section */}
                                 <div className="w-full lg:flex-1 relative group">
                                     <div className="absolute -inset-2"></div>
-                                    <div className="relative aspect-[4/3] md:aspect-[3/2] lg:aspect-[4/3] overflow-hidden rounded-lg">
+                                    <div className="relative aspect-[1/1] overflow-hidden rounded-lg">
                                         <img 
                                             src={feature.image} 
                                             alt={feature.title}
