@@ -74,7 +74,7 @@ const Hero = () => {
           </div>
           
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2 md:pt-0">
-            <button className="relative text-sm md:text-base px-6 md:px-8 py-3 md:py-3 font-medium bg-gradient-to-br from-orange-500 via-orange-400 to-orange-600 overflow-hidden w-full sm:w-auto max-w-xs sm:max-w-none">
+            <button className="relative text-sm md:text-base px-6 md:px-8 py-3 md:py-3 font-medium border-1 !border-orange-500 bg-gradient-to-br from-orange-500 via-orange-400 to-orange-600 overflow-hidden w-full sm:w-auto max-w-xs sm:max-w-none">
               {/* Noise texture overlay */}
               <div 
                 className="absolute inset-0 w-full h-full scale-[1.2] transform opacity-10 [mask-image:radial-gradient(#fff,transparent,75%)]"
@@ -87,6 +87,21 @@ const Hero = () => {
               {/* Button text */}
               <span className="relative z-10 text-white font-semibold text-base md:text-lg flex items-center justify-center gap-2">
                 Start Creating Now <IoArrowForwardOutline />
+              </span>
+            </button>
+            <button className="relative text-sm md:text-base px-6 md:px-8 py-3 md:py-3 font-medium overflow-hidden border border-gray-200 w-full sm:w-auto max-w-xs sm:max-w-none">
+              {/* Noise texture overlay */}
+              <div 
+                className="absolute inset-0 w-full h-full scale-[1.2] transform opacity-10 [mask-image:radial-gradient(#fff,transparent,75%)]"
+                style={{
+                  backgroundImage: 'url(/noise.webp)',
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center'
+                }}
+              ></div>
+              {/* Button text */}
+              <span className="relative z-10 text-white font-semibold text-base md:text-lg flex items-center justify-center gap-2">
+                Try Demo <IoArrowForwardOutline />
               </span>
             </button>
           </div>
@@ -120,7 +135,7 @@ const Hero = () => {
                       secondImage={imagesTransformed[index]}
                       firstImageClassName="object-cover object-left-top w-full"
                       secondImageClassname="object-cover object-left-top w-full"
-                      className="image-container glass-strong rounded-2 p-[4px] md:p-[6px] shadow-lg"
+                      className="image-container rounded-2 shadow-lg"
                       slideMode="hover"
                     />
                     ))}

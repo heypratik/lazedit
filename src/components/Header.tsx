@@ -3,6 +3,7 @@
 
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
+import { IoArrowForwardOutline } from 'react-icons/io5';
 import Logo from './Logo';
 
 
@@ -23,8 +24,11 @@ const Header = () => {
             <a href="#pricing" className="text-white no-underline hover:text-white transition-colors text-sm">
               Pricing
             </a>
-            <a href="#demo" className="text-white no-underline hover:text-white transition-colors text-sm">
-              Examples
+            <a href="/blogs" className="text-white no-underline hover:text-white transition-colors text-sm">
+              Blogs
+            </a>
+            <a href="/all-tools" className="text-white no-underline hover:text-white transition-colors text-sm">
+              All Tools
             </a>
           </nav>
 
@@ -36,9 +40,24 @@ const Header = () => {
             >
               Sign In
             </Button>
-            <Button className="bg-white text-black hover:bg-white/90 font-medium text-sm px-6">
+            {/* <Button className="bg-white text-black hover:bg-white/90 font-medium text-sm px-6">
               Get Started
-            </Button>
+            </Button> */}
+                        <button className="relative text-sm md:text-base px-4 md:px-4 py-2 md:py-2 font-medium border-orange-500 bg-gradient-to-br from-orange-500 via-orange-400 to-orange-600 overflow-hidden w-full sm:w-auto max-w-xs sm:max-w-none">
+                          {/* Noise texture overlay */}
+                          <div 
+                            className="absolute inset-0 w-full h-full scale-[1.2] transform opacity-10 [mask-image:radial-gradient(#fff,transparent,75%)]"
+                            style={{
+                              backgroundImage: 'url(/noise.webp)',
+                              backgroundSize: 'cover',
+                              backgroundPosition: 'center'
+                            }}
+                          ></div>
+                          {/* Button text */}
+                          <span className="relative z-10 text-white font-semibold text-sm md:text-sm flex items-center justify-center gap-2">
+                            GET STARTED <IoArrowForwardOutline />
+                          </span>
+                        </button>
           </div>
 
           {/* Mobile menu button */}
