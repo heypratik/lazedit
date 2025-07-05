@@ -4,22 +4,39 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { IoArrowForwardOutline } from "react-icons/io5";
 import People from './People';
+import { Compare } from "@/components/ui/compare";
+
 
 // Sample images for the infinite scroll
 const sampleImages = [
-  "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop",
-  "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=400&h=300&fit=crop",
-  "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&h=300&fit=crop",
-  "https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=400&h=300&fit=crop",
-  "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=300&fit=crop",
-  "https://images.unsplash.com/photo-1528747045269-390fe33c19f2?w=400&h=300&fit=crop",
-  "https://images.unsplash.com/photo-1542744094-3a31f272c490?w=400&h=300&fit=crop",
-  "https://images.unsplash.com/photo-1551836022-aadb801c60ae?w=400&h=300&fit=crop",
-  "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&h=300&fit=crop",
-  "https://images.unsplash.com/photo-1542744173-05336fcc7ad4?w=400&h=300&fit=crop",
-  "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=300&fit=crop",
-  "https://images.unsplash.com/photo-1528747045269-390fe33c19f2?w=400&h=300&fit=crop"
+  "https://ik.imagekit.io/y5nxgqkj2/6%20(2).jpg?updatedAt=1751716742397",
+  "https://ik.imagekit.io/y5nxgqkj2/1%20(2).jpg?updatedAt=1751716741698",
+  "https://ik.imagekit.io/y5nxgqkj2/4%20(1).jpg?updatedAt=1751716938945",
+  "https://ik.imagekit.io/y5nxgqkj2/2%20(3).jpg?updatedAt=1751717001709",
+  "https://ik.imagekit.io/y5nxgqkj2/9.jpg?updatedAt=1751717096994",
+  "https://ik.imagekit.io/y5nxgqkj2/7%20(3).jpg?updatedAt=1751717096483",
+  "https://ik.imagekit.io/y5nxgqkj2/10.jpg?updatedAt=1751717097047",
+  "https://ik.imagekit.io/y5nxgqkj2/8%20(1).jpg?updatedAt=1751717097030",
+  "https://ik.imagekit.io/y5nxgqkj2/3%20(1).jpg?updatedAt=1751717096071",
+  "https://ik.imagekit.io/y5nxgqkj2/5.jpg?updatedAt=1751717096366",
+  "https://ik.imagekit.io/y5nxgqkj2/11%20(2).jpg?updatedAt=1751717097152",
+  "https://ik.imagekit.io/y5nxgqkj2/white-background-makes-your-marketing-efforts-more-versatile.webp?updatedAt=1751717102442"
 ];
+
+const imagesTransformed = [
+  "https://ik.imagekit.io/y5nxgqkj2/2-Untitled-1.jpg?updatedAt=1751716743212", // Military BAG
+  "https://ik.imagekit.io/y5nxgqkj2/1-Untitled-1.jpg?updatedAt=1751716742069", // White Shoe
+  "https://ik.imagekit.io/y5nxgqkj2/4%20(2).png?updatedAt=1751716939548", //Girl in suit
+  "https://ik.imagekit.io/y5nxgqkj2/2%20(1).png?updatedAt=1751717001766", // taylrd
+  "https://ik.imagekit.io/y5nxgqkj2/9.png?updatedAt=1751717102385", //Dogs
+  "https://ik.imagekit.io/y5nxgqkj2/7%20(2).png?updatedAt=1751717097656",
+  "https://ik.imagekit.io/y5nxgqkj2/10%20(2).png?updatedAt=1751717102353", //earphone
+  "https://ik.imagekit.io/y5nxgqkj2/8%20(2).png?updatedAt=1751717102141", // girl in tshiort
+  "https://ik.imagekit.io/y5nxgqkj2/3%20(2).png?updatedAt=1751717097607", // perfume
+  "https://ik.imagekit.io/y5nxgqkj2/5.png?updatedAt=1751717097289", // ice cream
+  "https://ik.imagekit.io/y5nxgqkj2/11.png?updatedAt=1751717103138", // indian traditional dress
+  "https://ik.imagekit.io/y5nxgqkj2/bag-train.png?updatedAt=1751717601497" // bag train
+]
 
 const Hero = () => {
   return (
@@ -90,13 +107,22 @@ const Hero = () => {
                 {[...Array(3)].map((_, setIndex) => (
                   <React.Fragment key={setIndex}>
                     {sampleImages.map((image, index) => (
-                      <div key={`${setIndex}-${index}`} className="image-container glass-strong rounded-2 p-[4px] md:p-[6px] shadow-lg">
-                        <img
-                          src={image}
-                          alt={`Sample ${index + 1}`}
-                          className="w-full h-full object-cover rounded-2 shadow-lg hover:scale-105 transition-transform duration-300"
-                        />
-                      </div>
+                      // <div key={`${setIndex}-${index}`} className="image-container glass-strong rounded-2 p-[4px] md:p-[6px] shadow-lg">
+                      //   <img
+                      //     src={image}
+                      //     alt={`Sample ${index + 1}`}
+                      //     className="w-full h-full object-cover rounded-2 shadow-lg hover:scale-105 transition-transform duration-300"
+                      //   />
+                      // </div>
+                      <Compare
+                      key={`${setIndex}-${index}`}
+                      firstImage={image}
+                      secondImage={imagesTransformed[index]}
+                      firstImageClassName="object-cover object-left-top w-full"
+                      secondImageClassname="object-cover object-left-top w-full"
+                      className="image-container glass-strong rounded-2 p-[4px] md:p-[6px] shadow-lg"
+                      slideMode="hover"
+                    />
                     ))}
                   </React.Fragment>
                 ))}
