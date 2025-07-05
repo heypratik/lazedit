@@ -104,7 +104,7 @@ Every size, every platform, every style. Square posts, story formats, Facebook a
                                         <img 
                                             src={feature.image} 
                                             alt={feature.title}
-                                            className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                                            className="w-full h-full object-cover rounded-2 transition-transform duration-300 hover:scale-105"
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent"></div>
                                     </div>
