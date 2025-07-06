@@ -27,9 +27,9 @@ const Header = () => {
             <a href="/blogs" className="text-white no-underline hover:text-white transition-colors text-sm">
               Blogs
             </a>
-            <a href="/all-tools" className="text-white no-underline hover:text-white transition-colors text-sm">
+            {/* <a href="/all-tools" className="text-white no-underline hover:text-white transition-colors text-sm">
               All Tools
-            </a>
+            </a> */}
           </nav>
 
           {/* CTA Buttons */}
@@ -75,18 +75,18 @@ const Header = () => {
 
         {/* Mobile menu */}
         {isMenuOpen && (
-          <div className="md:hidden py-4 glass-strong mt-2">
+          <div className="md:hidden p-4 glass-strong mt-2 ">
             <nav className="flex flex-col space-y-4">
-              <a href="#features" className="text-white/70 hover:text-white transition-colors text-sm">
+              <a href="#features" className="text-white no-underline hover:text-white transition-colors text-sm">
                 Features
               </a>
-              <a href="#pricing" className="text-white/70 hover:text-white transition-colors text-sm">
+              <a href="#pricing" className="text-white no-underline hover:text-white transition-colors text-sm">
                 Pricing
               </a>
-              <a href="#demo" className="text-white/70 hover:text-white transition-colors text-sm">
+              <a href="#demo" className="text-white no-underline hover:text-white transition-colors text-sm">
                 Examples
               </a>
-              <div className="flex flex-col space-y-2 pt-4">
+              <div className="flex flex-col space-y-2 pt-0 mt-0">
                 <Button variant="ghost" className="text-white/70 hover:text-white text-sm">
                   Sign In
                 </Button>
