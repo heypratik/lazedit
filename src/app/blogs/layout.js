@@ -7,14 +7,16 @@ export const metadata = {
     "Learn and explore the world of LazeEdit through our blog posts.",
 };
 
-export default function RootLayout({ children }) {
+export default function BlogLayout({ children }) {
   return (
-    <html lang="en">
-      <body>
-        <Header />
-        <main className="min-h-screen bg-black">{children}</main>
-        <Footer />
-      </body>
-    </html>
+    <>
+      <Header />
+      <main className="min-h-screen bg-[#08090a] pt-16 blog-post_content">
+        <div className="content-left"></div>
+        <div className="content-center">{children}</div>
+        <div className="content-right"></div>
+      </main>
+      <Footer />
+    </>
   );
 }
