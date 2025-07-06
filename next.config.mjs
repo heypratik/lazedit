@@ -1,9 +1,3 @@
-import mdx from "@next/mdx";
-
-const withMDX = mdx({
-  extension: /\.mdx?$/,
-});
-
 const nextConfig = {
   images: {
     remotePatterns: [
@@ -14,8 +8,7 @@ const nextConfig = {
       { protocol: "https", hostname: "d7dum6r51r1fd.cloudfront.net" },
     ],
   },
-  pageExtensions: ["js", "jsx", "ts", "tsx", "md", "mdx"],
   reactStrictMode: true,
 };
 
-export default withMDX(nextConfig);
+export default nextConfig;
