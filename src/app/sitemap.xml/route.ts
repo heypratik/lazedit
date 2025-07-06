@@ -31,8 +31,6 @@ export async function GET() {
   const staticPages = [
     '',
     '/blogs',
-    '/pricing',
-    '/about', 
   ];
 
   // Get all blog posts dynamically
