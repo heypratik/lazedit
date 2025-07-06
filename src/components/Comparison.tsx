@@ -30,7 +30,7 @@ const Comparison = () => {
   ];
 
   return (
-    <section className="py-8 md:py-12 lg:py-16 px-4 md:px-6 lg:px-8 relative !pb-0">
+    <section className="py-8 md:py-12 lg:py-16 relative !pb-0">
       <div className="absolute inset-0 pattern-dots opacity-10"></div>
       <div className="max-w-4xl mx-auto relative z-10">
         
