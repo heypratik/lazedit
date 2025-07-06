@@ -35,16 +35,16 @@ const Index = () => {
         {/* Canonical */}
         <link rel="canonical" href="https://www.lazedit.com/" />
         <link rel="icon" href="/icon-logo.png" />
-      </Head>
-    <main className="min-h-screen bg-black">
-      <Header />
-      <Hero />
-      <Features />
-      <Reviews />
-      <Pricing />
-      <FAQ />
-      <Footer />
-    </main>
+        </Head>
+        <main className="min-h-screen bg-black">
+        <Header />
+        <Hero />
+        <Features />
+        <Reviews />
+        <Pricing />
+        <FAQ />
+        <Footer />
+      </main>
     </>
   );
 };
