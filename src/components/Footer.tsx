@@ -1,6 +1,11 @@
 import React from 'react';
 import { FaArrowAltCircleRight } from "react-icons/fa";
 import Logo from './Logo';
+import {pageDetails} from '@/app/[slug]/page';
+
+function getPageDetailsKeys() {
+  return Object.keys(pageDetails);
+}
 
 const Footer = () => {
   return (
@@ -61,10 +66,20 @@ const Footer = () => {
           {/* Product */}
           <div>
             <h3 className="text-white font-medium mb-3 sm:mb-4 text-xs sm:text-sm uppercase tracking-wide">
-              Product
+              All Pages
             </h3>
             <ul className="space-y-2 sm:space-y-3 text-xs sm:text-sm text-white list-none !p-0 !ml-0">
-              <li>
+              {getPageDetailsKeys().map((key) => (
+                <li key={key}>
+                  <a 
+                    href={`/${key}`} 
+                    className="transition-colors text-white/70 hover:text-white no-underline"
+                  >
+                    {key.split('-').join(' ').toUpperCase()}
+                  </a>
+                </li>
+              ))}
+              {/* <li>
                 <a href="#" className="transition-colors text-white/70 hover:text-white no-underline">
                   Features
                 </a>
@@ -83,7 +98,7 @@ const Footer = () => {
                 <a href="#" className="transition-colors text-white/70 hover:text-white no-underline">
                   Examples
                 </a>
-              </li>
+              </li> */}
             </ul>
           </div>
 
