@@ -11,14 +11,29 @@ import Pricing from '@/components/Pricing';
 import FAQ from '@/components/FAQ';
 import Footer from '@/components/Footer';
 
-const pageDetails = {
+export const pageDetails = {
     'free-photoshop-alternatives': {
         'hero' : {
             title: '🔥 Free Photoshop Alternative',
             description: '🚀 Transform and create images with simple text commands.',
             subdescription: 'No need to learn complex photoshop tool. LazeEdit is the best free photoshop alternative.',
         }
-    }
+    },
+    'ai-image-editor-with-prompt': {
+        'hero' : {
+            title: '🔥 AI Image Editor with Prompt',
+            description: '🚀 Transform and create images by simply choosing the right prompt.',
+            subdescription: 'No need to write complex prompts. LazeEdit is the best AI image editor with prompt.',
+        }
+    },
+    'ai-photo-editor-with-prompt': {
+        'hero' : {
+            title: '🔥 AI Photo Editor with Prompt',
+            description: '🚀 Transform and create photos by simply choosing the right prompt.',
+            subdescription: 'No need to write complex prompts. LazeEdit is the best AI photo editor with prompt.',
+        }
+    },
+    
 }
 
 export default async function DynamicPage({ params }: { params: { slug: string } }) {
