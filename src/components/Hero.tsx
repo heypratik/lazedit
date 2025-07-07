@@ -38,7 +38,11 @@ const imagesTransformed = [
   "https://ik.imagekit.io/y5nxgqkj2/bag-train.png?updatedAt=1751717601497" // bag train
 ]
 
-const Hero = () => {
+const Hero = ({
+  title = "🔥 FIRE YOUR GRAPHIC DESIGNER TODAY", 
+  description= "🚀 Transform and create images with simple text commands.", 
+  subdescription ="No complex tools, no learning curve, no expensive designers."
+  }) => {
   return (
     <section className="min-h-screen flex flex-col items-center justify-center section-padding pt-16 md:pt-20 pb-8 md:pb-12 relative overflow-hidden">
       {/* Complex background patterns */}
@@ -63,13 +67,13 @@ const Hero = () => {
               ⚡What took you 3 weeks, AI does in 3 words 
             </span>
             <h1 className="text-3xl md:text-5xl font-bold leading-tight tracking-tight">
-              <span className="text-white">🔥 FIRE YOUR GRAPHIC DESIGNER TODAY</span>
+              <span className="text-white">{title}</span>
               <br />
             </h1>
             
             <p className="text-base md:text-lg text-white/70 mx-auto leading-relaxed max-w-2xl px-4 md:px-0">
-              🚀 Transform and create images with simple text commands.<br className="hidden md:block" />
-              <span className="md:hidden"> </span>No complex tools, no learning curve, no expensive designers.
+              {description}<br className="hidden md:block" />
+              <span className="md:hidden"> </span>{subdescription}
             </p>
           </div>
           

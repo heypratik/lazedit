@@ -16,11 +16,11 @@ const Index = () => {
   return (
     <>
         <Head>
-        <title>LazeEdit - AI Image Editor | Best Photoshop Alternative 2025</title>
+        <title>LazeEdit - AI Image Editor | The Best AI First Image Editor</title>
         <meta name="description" content="Edit images by just telling LazeEdit what you want. Remove backgrounds, change text, create banners - no design skills needed. Free Photoshop alternative with AI magic. Try now!" />
 
         {/* Open Graph (Facebook, Insta, LinkedIn) */}
-        <meta property="og:title" content="LazeEdit - AI Image Editor | Best Photoshop Alternative 2025" />
+        <meta property="og:title" content="LazeEdit - AI Image Editor | The Best AI First Image Editor" />
         <meta property="og:description" content="Edit images by just telling LazeEdit what you want. Remove backgrounds, change text, create banners - no design skills needed. Free Photoshop alternative with AI magic. Try now!" />
         <meta property="og:image" content="https://yourdomain.com/og-image.png" />
         <meta property="og:url" content="https://www.lazedit.com/" />
@@ -28,7 +28,7 @@ const Index = () => {
 
         {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="LazeEdit - AI Image Editor | Best Photoshop Alternative 2025" />
+        <meta name="twitter:title" content="LazeEdit - AI Image Editor | The Best AI First Image Editor" />
         <meta name="twitter:description" content="Edit images by just telling LazeEdit what you want. Remove backgrounds, change text, create banners - no design skills needed. Free Photoshop alternative with AI magic. Try now!" />
         <meta name="twitter:image" content="https://yourdomain.com/og-image.png" />
 
