@@ -193,17 +193,14 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-white/10 pt-6 sm:pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
           <div className="text-xs sm:text-sm text-white/70 order-2 sm:order-1">
-            © 2025 Lazy Edit. All rights reserved.
+            © 2025 LazeEdit. All rights reserved.
           </div>
-          <div className="flex flex-wrap justify-center sm:justify-end gap-4 sm:gap-6 text-xs sm:text-sm text-white/50 order-1 sm:order-2">
-            <a href="#" className="hover:text-white transition-colors no-underline">
-              Privacy
+          <div className="flex flex-wrap justify-center sm:justify-end gap-4 sm:gap-6 text-xs sm:text-sm !text-white order-1 sm:order-2">
+            <a href="/privacy-policy" className="hover:text-white transition-colors no-underline !text-white">
+              Privacy Policy
             </a>
-            <a href="#" className="hover:text-white transition-colors no-underline">
-              Terms
-            </a>
-            <a href="#" className="hover:text-white transition-colors no-underline">
-              Cookies
+            <a href="terms-conditions" className="hover:text-white transition-colors no-underline !text-white">
+              Terms & Conditions
             </a>
           </div>
         </div>
