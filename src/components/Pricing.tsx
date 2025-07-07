@@ -31,11 +31,11 @@ const Pricing = () => {
                 <div className="text-3xl md:text-4xl mb-2">🎯</div>
                 <h3 className="text-lg md:text-xl font-medium text-white mb-3 md:mb-4">Individual</h3>
                 <div className="flex items-center justify-center gap-1 md:gap-2 mb-2">
-                  <span className="text-lg md:text-2xl text-white/50 line-through">$29</span>
-                  <span className="text-4xl md:text-6xl lg:text-7xl font-bold text-white">$16</span>
+                  <span className="text-lg md:text-2xl text-white/50 line-through">$30</span>
+                  <span className="text-4xl md:text-6xl lg:text-7xl font-bold text-white">$15</span>
                   <span className="text-white/70 text-sm md:text-base">/month</span>
                 </div>
-                <p className="text-white/60 text-xs md:text-sm">Save $108/year 💰</p>
+                <p className="text-white/60 text-xs md:text-sm">Save $180/year 💰</p>
               </div>
               
               <div className="space-y-3 md:space-y-4 mb-6 md:mb-8 text-left">
