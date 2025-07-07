@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import {pageDetails} from '@/app/[slug]/page'
 import fs from 'fs';
 import path from 'path';
 
@@ -23,6 +24,10 @@ function getBlogPosts() {
     console.error('Error reading blog posts:', error);
     return [];
   }
+}
+
+function getPageDetailsKeys() {
+  return Object.keys(pageDetails);
 }
 
 export async function GET() {
@@ -57,6 +62,17 @@ export async function GET() {
           <lastmod>${post.lastmod}</lastmod>
           <changefreq>monthly</changefreq>
           <priority>0.7</priority>
+        </url>`;
+      })
+      .join('')}
+    ${getPageDetailsKeys()
+      .map((slug) => {
+        return `
+        <url>
+          <loc>${baseUrl}/${slug}</loc>
+          <lastmod>${new Date().toISOString()}</lastmod>
+          <changefreq>weekly</changefreq>
+          <priority>0.8</priority>
         </url>`;
       })
       .join('')}
