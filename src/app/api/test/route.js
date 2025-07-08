@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 const { User, Organization } = require("../../../../models");
 
-export async function getOrganizationByUserId(userId) {
+async function getOrganizationByUserId(userId) {
   try {
     const user = await User.findOne({
       where: { id: userId },
