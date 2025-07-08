@@ -1,26 +1,44 @@
 {
   "development": {
-    "username": "postgres",
-    "password": "GerSIXA5xX5oi29",
-    "database": "mybranzpostdb",
-    "host": "mybranz.ce3ahuhl1k4l.us-east-1.rds.amazonaws.com",
-    "port": 6543,
-    "dialect": "postgres"
+    "username": "neondb_owner",
+    "password": "npg_N7SuRT5yZCwa",
+    "database": "neondb",
+    "host": "ep-little-cherry-aelhy310-pooler.c-2.us-east-2.aws.neon.tech",
+    "port": 5432,
+    "dialect": "postgres",
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    }
   },
   "test": {
-    "username": "root",
-    "password": null,
-    "database": "database_test",
-    "host": "127.0.0.1",
-    "dialect": "mysql",
-    "dialectModule": "pg"
+    "username": "neondb_owner",
+    "password": "npg_N7SuRT5yZCwa",
+    "database": "neondb",
+    "host": "ep-little-cherry-aelhy310-pooler.c-2.us-east-2.aws.neon.tech",
+    "port": 5432,
+    "dialect": "postgres",
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    }
   },
   "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
-    "dialect": "mysql",
-    "dialectModule": "pg"
+    "username": "neondb_owner",
+    "password": "npg_N7SuRT5yZCwa",
+    "database": "neondb",
+    "host": "ep-little-cherry-aelhy310-pooler.c-2.us-east-2.aws.neon.tech",
+    "port": 5432,
+    "dialect": "postgres",
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    }
   }
 }

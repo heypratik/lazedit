@@ -1,12 +1,15 @@
-import {getImages} from "../../../lib/s3";
-export async function POST(req, res) {
+import { NextResponse } from "next/server";
+import User from "../../../../models/user";
 
-    const ress = await getImages();
-
-    return new Response(JSON.stringify(ress), {
-        status: 200,
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    });
+export async function GET(req) {
+  try {
+    const users = await User.findAll();
+    return NextResponse.json(users, { status: 200 });
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch users" },
+      { status: 500 }
+    );
+  }
 }

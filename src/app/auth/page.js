@@ -230,7 +230,7 @@ function Auth() {
           </DialogHeader>
         </DialogContent>
       </Dialog>
-      <div className="flex min-h-full flex-1">
+      <div className="flex min-h-full flex-1 h-[100vh]">
         <div className="relative w-0 flex-1 lg:block">
           <img
             className="absolute inset-0 h-full w-full object-cover bg-[#f6f6f6]"
