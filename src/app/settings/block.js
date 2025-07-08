@@ -17,7 +17,6 @@ import {
   fetchProducts,
   fetchFromDBCu,
 } from "@/network/APIService";
-import CSVImporter from "../import/CSV";
 import { CiImageOn } from "react-icons/ci";
 import { FaUndo } from "react-icons/fa";
 import { getSignedUrlCf } from "../../lib/s3";

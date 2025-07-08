@@ -1,4 +1,3 @@
-import EmailBuildingWrapper from "../email-building/page";
 import { Suspense } from "react";
 
 export default function Home() {
@@ -6,7 +5,7 @@ export default function Home() {
     <div>
       {/* <Dashboard /> */}
       {/* <PostBuilding /> */}
-      <EmailBuildingWrapper />
+      {/* <EmailBuildingWrapper /> */}
       {/* <FathersDay /> */}
       {/* <PreviewContent /> */}
       {/* <Settings /> */}
