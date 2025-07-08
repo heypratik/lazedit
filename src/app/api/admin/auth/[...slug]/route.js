@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
-import User from "../../../../../../models/user";
-import Store from "../../../../../../models/Store";
+const { User } = require("../../../../../../models");
 import bcrypt from "bcryptjs";
 import { stripe } from "../../../../utlis/stripe";
 import { createDecipheriv } from "crypto";

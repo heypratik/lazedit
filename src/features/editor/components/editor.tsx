@@ -36,7 +36,7 @@ import { FilterSidebar } from "./filter-sidebar";
 import { AiSidebar } from "./ai-sidebar";
 import { DrawSidebar } from "./draw-sidebar";
 import { SettingsSidebar } from "./settings-sidebar";
-import { useUpdateProject } from "@/app/editor/hooks/use-update-project";
+import { useUpdateProject } from "@/app/dashboard/hooks/use-update-project";
 import debounce from "lodash.debounce";
 
 interface EditorProps {

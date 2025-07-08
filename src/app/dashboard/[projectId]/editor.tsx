@@ -5,7 +5,7 @@ import {Editor} from '@/features/editor/components/editor'
 import Link from "next/link";
 import { Loader, TriangleAlert } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {getProjectById} from "./../actions/project.actions"
+import {getProjectById} from "../actions/project.actions"
 import {useGetProject} from "../hooks/use-get-project"
 
 interface EditorProjectIdPageProps {

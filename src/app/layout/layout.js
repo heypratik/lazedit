@@ -165,19 +165,13 @@ export default function CustomLayout({ children }) {
               </SidebarItem> */}
 
               {/* Modified Emails section with submenus */}
-              <div className="relative">
+              {/* <div className="relative">
                 <SubMenuItem
                   icon={TicketIcon}
                   label="Campaigns"
                   isOpen={openMenus.emails}
                   onToggle={() => toggleMenu("emails")}
                 >
-                  {/* <SubMenuItem
-                    label="Templates"
-                    href="/emails/templates"
-                    isOpen={openMenus.templates}
-                    onToggle={() => toggleMenu("templates")}
-                  > */}
                   <SidebarItem href="/calendar">
                     <SidebarLabel>Calendar</SidebarLabel>
                   </SidebarItem>
@@ -192,47 +186,20 @@ export default function CustomLayout({ children }) {
                   <SidebarItem href="/segments">
                     <SidebarLabel>Segments</SidebarLabel>
                   </SidebarItem>
-
-                  {/* </SubMenuItem> */}
-                  {/* <SubMenuItem
-                    label="Campaigns"
-                    href="/emails/campaigns"
-                    isOpen={openMenus.campaigns}
-                    onToggle={() => toggleMenu("campaigns")}
-                  >
-                    <SidebarItem href="/emails/campaigns/active">
-                      <SidebarLabel>Active</SidebarLabel>
-                    </SidebarItem>
-                    <SidebarItem href="/emails/campaigns/draft">
-                      <SidebarLabel>Drafts</SidebarLabel>
-                    </SidebarItem>
-                    <SidebarItem href="/emails/campaigns/completed">
-                      <SidebarLabel>Completed</SidebarLabel>
-                    </SidebarItem>
-                  </SubMenuItem> */}
                 </SubMenuItem>
-              </div>
-
-              <SidebarItem href="/insights">
-                <ChartPieIcon />
-                <SidebarLabel>Insights</SidebarLabel>
-              </SidebarItem>
-              <SidebarItem href="/editor">
-                <PaintBrushIcon />
-                <SidebarLabel>MyBranz Canvas</SidebarLabel>
-              </SidebarItem>
+              </div> */}
               <SidebarItem href="/settings">
                 <Cog6ToothIcon />
-                <SidebarLabel>Brand Settings</SidebarLabel>
+                <SidebarLabel>Settings</SidebarLabel>
               </SidebarItem>
             </SidebarSection>
             <SidebarSpacer />
-            <SidebarSection>
+            {/* <SidebarSection>
               <SidebarItem href="/support">
                 <QuestionMarkCircleIcon />
                 <SidebarLabel>Support</SidebarLabel>
               </SidebarItem>
-            </SidebarSection>
+            </SidebarSection> */}
           </SidebarBody>
           <SidebarFooter className="max-lg:hidden">
             <Dropdown>

@@ -1,7 +1,7 @@
 "use server";
 
 import Store from "../../../../models/Store";
-import User from "../../../../models/Users";
+const { User, Organization } = require("../../../../models");
 
 export default async function getOnboarded({
   storeId,
@@ -51,17 +51,38 @@ export default async function getOnboarded({
   }
 }
 
-export async function getStoreByUserId(userId) {
+// export async function getStoreByUserId(userId) {
+//   try {
+//     const store = await Store.findOne({
+//       where: {
+//         userId,
+//       },
+//     });
+
+//     return store.toJSON();
+//   } catch (error) {
+//     console.error("Error getting store by userId:", error);
+//     throw error;
+//   }
+// }
+
+export async function getOrganizationByUserId(userId) {
   try {
-    const store = await Store.findOne({
-      where: {
-        userId,
+    const user = await User.findOne({
+      where: { id: userId },
+      include: {
+        model: Organization,
+        as: "organization",
       },
     });
 
-    return store.toJSON();
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    return user.organization;
   } catch (error) {
-    console.error("Error getting store by userId:", error);
+    console.error("Error fetching organization:", error.message);
     throw error;
   }
 }
