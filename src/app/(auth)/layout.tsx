@@ -14,3 +14,6 @@ export default function AuthLayout({children}: AuthLayoutProps) {
     </div>
   )
 }
+
+
+// this was created by the canva course we can remove it later

@@ -31,10 +31,6 @@ export async function middleware(request: NextRequest) {
   
       const activeDate = new Date("2025-01-06T00:00:00.000Z"); // Fixed date: 6th Jan 2025
       const userCreatedDate = new Date(session.user.created_at);
-
-      console.log(userCreatedDate)
-      console.log(activeDate)
-      console.log(userCreatedDate < activeDate)
   
       if (userCreatedDate < activeDate) {
           activeUser = true;
