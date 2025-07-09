@@ -1,40 +1,46 @@
 "use server";
 
-import Store from "../../../../models/Store";
 const { User, Organization } = require("../../../../models");
+import { authOptions } from "@/lib/authOptions";
+import { getServerSession } from "next-auth";
+import { where } from "sequelize";
 
 export default async function getOnboarded({
-  storeId,
-  klaviyoKey,
-  location,
-  domain,
-  mediaObjectKey,
+  organizationId,
+  organizationName,
 }) {
   try {
-    const store = await Store.findOne({
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      throw new Error("User not authenticated");
+    }
+    const org = await Organization.findOne({
       where: {
-        id: storeId,
+        id: organizationId,
       },
     });
 
-    if (!store) {
-      throw new Error("Store not found");
+    console.log("Organization: Reached");
+
+    if (!org) {
+      throw new Error("Organization not found");
     }
 
     // Update Store with onboarding data
-    const updatedStore = await store.update({
-      klaviyoKey,
-      location,
-      domain,
-      mediaObjectKey,
+    const updatedStore = await org.update({
+      name: organizationName,
     });
+
+    console.log("Updated Store: Reacjed");
 
     // Update User with onboarding data
     const user = await User.findOne({
       where: {
-        id: store.userId,
+        id: session.user.id,
       },
     });
+
+    console.log("User: Reached");
 
     if (!user) {
       throw new Error("User not found");
@@ -50,21 +56,6 @@ export default async function getOnboarded({
     throw error;
   }
 }
-
-// export async function getStoreByUserId(userId) {
-//   try {
-//     const store = await Store.findOne({
-//       where: {
-//         userId,
-//       },
-//     });
-
-//     return store.toJSON();
-//   } catch (error) {
-//     console.error("Error getting store by userId:", error);
-//     throw error;
-//   }
-// }
 
 export async function getOrganizationByUserId(userId) {
   try {

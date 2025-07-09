@@ -11,7 +11,7 @@ export default async function Page() {
     redirect("/auth");
   }
 
-  const store = await getOrganizationByUserId(session?.user?.id);
+  const organization = await getOrganizationByUserId(session?.user?.id);
 
-  return <Onboarding session={session} store={store} />;
+  return <Onboarding session={session} organization={organization} />;
 }

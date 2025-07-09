@@ -8,7 +8,7 @@ import { TouchTarget } from './button'
 import { Link } from './link'
 
 export function Sidebar({ className, ...props }) {
-  return <nav {...props} className={clsx(className, 'flex h-full flex-col')} />
+  return <nav {...props} className={clsx(className, 'flex h-full flex-col glass-strong')} />
 }
 
 export function SidebarHeader({ className, ...props }) {
@@ -58,7 +58,7 @@ export function SidebarSection({ className, ...props }) {
 }
 
 export function SidebarDivider({ className, ...props }) {
-  return <hr {...props} className={clsx(className, 'my-4 border-t border-zinc-950/5 lg:-mx-4 dark:border-white/5')} />
+  return <hr {...props} className={clsx(className, 'my-4 border-t border-white/20 lg:-mx-4 dark:border-white/5')} />
 }
 
 export function SidebarSpacer({ className, ...props }) {
@@ -67,7 +67,7 @@ export function SidebarSpacer({ className, ...props }) {
 
 export function SidebarHeading({ className, ...props }) {
   return (
-    <h3 {...props} className={clsx(className, 'mb-1 px-2 text-xs/6 font-medium text-zinc-500 dark:text-zinc-400')} />
+    <h3 {...props} className={clsx(className, 'mb-1 px-2 text-xs/6 font-medium text-white dark:white')} />
   )
 }
 
@@ -78,24 +78,24 @@ export const SidebarItem = React.forwardRef(function SidebarItem(
 ) {
   let classes = clsx(
     // Base
-    'flex w-full items-center gap-3 rounded-lg px-2 py-2.5 text-left text-base/6 font-medium text-zinc-950 sm:py-2 sm:text-sm/5 no-underline',
+    'flex w-full items-center gap-3 rounded-lg px-2 py-2.5 text-left text-base/6 font-medium text-white sm:py-2 sm:text-sm/5 no-underline',
     // Leading icon/icon-only
     'data-[slot=icon]:*:size-6 data-[slot=icon]:*:shrink-0 data-[slot=icon]:*:fill-zinc-500 sm:data-[slot=icon]:*:size-5 no-underline',
     // Trailing icon (down chevron or similar)
     'data-[slot=icon]:last:*:ml-auto data-[slot=icon]:last:*:size-5 sm:data-[slot=icon]:last:*:size-4 no-underline',
     // Avatar
-    'data-[slot=avatar]:*:-m-0.5 data-[slot=avatar]:*:size-7 data-[slot=avatar]:*:[--ring-opacity:10%] sm:data-[slot=avatar]:*:size-6 data-[hover]:no-underline data-[hover]:text-[#f23250]',
+    'data-[slot=avatar]:*:-m-0.5 data-[slot=avatar]:*:size-7 data-[slot=avatar]:*:[--ring-opacity:10%] sm:data-[slot=avatar]:*:size-6 data-[hover]:no-underline data-[hover]:text-[#fff]',
     // Hover
-    'data-[hover]:bg-zinc-950/5 data-[slot=icon]:*:data-[hover]:fill-zinc-950 data-[hover]:no-underline data-[hover]:text-[#f23250]',
+    'data-[hover]:bg-zinc-950/5 data-[slot=icon]:*:data-[hover]:fill-white data-[hover]:no-underline data-[hover]:text-[#fff]',
     // Active
-    'data-[active]:bg-zinc-950/5 data-[slot=icon]:*:data-[active]:fill-zinc-950 data-[hover]:no-underline data-[hover]:text-[#f23250]',
+    'data-[active]:bg-zinc-950/5 data-[slot=icon]:*:data-[active]:fill-white data-[hover]:no-underline data-[hover]:text-[#fff]',
     // Current
-    'data-[slot=icon]:*:data-[current]:fill-zinc-950 data-[hover]:no-underline data-[hover]:text-[#f23250]',
+    'data-[slot=icon]:*:data-[current]:fill-white data-[hover]:no-underline data-[hover]:text-[#fff]',
     // Dark mode
     'dark:text-white dark:data-[slot=icon]:*:fill-zinc-400 data-[hover]:no-underline',
-    'dark:data-[hover]:bg-white/5 dark:data-[slot=icon]:*:data-[hover]:fill-white data-[hover]:no-underline data-[hover]:text-[#f23250]',
-    'dark:data-[active]:bg-white/5 dark:data-[slot=icon]:*:data-[active]:fill-white data-[hover]:no-underline data-[hover]:text-[#f23250]',
-    'dark:data-[slot=icon]:*:data-[current]:fill-white data-[hover]:no-underline data-[hover]:text-[#f23250]'
+    'dark:data-[hover]:bg-white/5 dark:data-[slot=icon]:*:data-[hover]:fill-white data-[hover]:no-underline data-[hover]:text-[#fff]',
+    'dark:data-[active]:bg-white/5 dark:data-[slot=icon]:*:data-[active]:fill-white data-[hover]:no-underline data-[hover]:text-[#fff]',
+    'dark:data-[slot=icon]:*:data-[current]:fill-white data-[hover]:no-underline data-[hover]:text-[#fff]'
   )
 
   return (
@@ -103,7 +103,7 @@ export const SidebarItem = React.forwardRef(function SidebarItem(
       {current && (
         <motion.span
           layoutId="current-indicator"
-          className="absolute inset-y-2 -left-4 w-0.5 rounded-full bg-zinc-950 dark:bg-white"
+          className="absolute inset-y-2 -left-4 w-0.5 rounded-full bg-white dark:bg-white"
         />
       )}
       {'href' in props ? (
