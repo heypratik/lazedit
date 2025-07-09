@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-const { User } = require("../../../../../../models");
+const { User, Organization } = require("../../../../../../models");
 import bcrypt from "bcryptjs";
 import { stripe } from "../../../../utlis/stripe";
 import { createDecipheriv } from "crypto";
@@ -74,9 +74,15 @@ export async function POST(req, { params }) {
         name,
       });
 
+      const org = await Organization.create({
+        name: "",
+        // Add any other organization fields as needed
+      });
+
       const user = await User.create({
         name,
         email,
+        organization_id: org.id,
         password: hashedPassword,
         stripeCustomerId: stripeCustomer.id,
       });

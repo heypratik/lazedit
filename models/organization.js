@@ -13,7 +13,6 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      // Add more fields as needed
     },
     {
       tableName: "organizations",
