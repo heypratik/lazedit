@@ -10,9 +10,9 @@ export default function Editor({ organization, userId }) {
   return (
     <CustomLayout>
       <Toaster />
-      <Banner organization={organization} userId={userId}/>
+      <Banner organization={organization} userId={userId} />
       {/* <Templates store={store} /> */}
-      <ProjectsTable organization={organization}/>
+      <ProjectsTable organization={organization} userId={userId} />
     </CustomLayout>
   );
 }

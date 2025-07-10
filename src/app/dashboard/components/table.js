@@ -25,7 +25,7 @@ import {
 } from "../actions/project.actions";
 import { useRouter } from "next/navigation";
 
-const ProjectsTable = ({ store }) => {
+const ProjectsTable = ({ organization, userId }) => {
   const router = useRouter();
   const [projects, setProjects] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
@@ -42,7 +42,12 @@ const ProjectsTable = ({ store }) => {
   const fetchProjects = async () => {
     try {
       setLoading(true);
-      const response = await getProjects(store.id, currentPage, limit);
+      const response = await getProjects(
+        organization.id,
+        userId,
+        currentPage,
+        limit
+      );
       setProjects(response.rows);
       setTotalPages(Math.ceil(response.count / limit));
     } catch (error) {
@@ -113,15 +118,23 @@ const ProjectsTable = ({ store }) => {
           </TableHeader>
           <TableBody>
             {projects.map((project) => (
-              <TableRow key={project.id} className="cursor-pointer">
-                <TableCell onClick={() => router.push(`/editor/${project.id}`)}>
+              <TableRow
+                key={project.id}
+                className="cursor-pointer glass-strong hover:glass-strong text-white"
+              >
+                <TableCell
+                  onClick={() => router.push(`/dashboard/${project.id}`)}
+                >
                   {project.name}
                 </TableCell>
                 <TableCell
-                  onClick={() => router.push(`/editor/${project.id}`)}
+                  onClick={() => router.push(`/dashboard/${project.id}`)}
                 >{`${project.width} x ${project.height}`}</TableCell>
-                <TableCell onClick={() => router.push(`/editor/${project.id}`)}>
-                  {format(new Date(project.updatedAt), "MMM dd, yyyy")}
+                <TableCell
+                  onClick={() => router.push(`/dashboard/${project.id}`)}
+                >
+                  {project.updatedAt}
+                  {/* {format(new Date(project.updatedAt), "MMM dd, yyyy")} */}
                 </TableCell>
                 <TableCell>
                   <DropdownMenu>

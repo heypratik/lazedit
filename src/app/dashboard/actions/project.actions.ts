@@ -47,12 +47,12 @@ export async function getProjectById(id: any) {
 }
 
 // Paginated All Projects based on storeId
-export async function getProjects(storeId: any, page: any, limit: any) {
+export async function getProjects(orgId: any, userId: any, page: any, limit: any) {
     try {
         const projects = await Project.findAndCountAll({
             where: {
-                storeId: storeId,
-                isTemplate: false
+                organization_id: orgId,
+                user_id: userId
             },
             limit: limit,
             offset: page * limit
@@ -65,6 +65,7 @@ export async function getProjects(storeId: any, page: any, limit: any) {
         }
     } catch (error) {
         console.log(error)
+        return error
     }
 }
 
@@ -90,7 +91,7 @@ export async function getAllTemplates(page: any, limit: any) {
     }
 }
 
-export async function duplicateTemplate(storeId: any, projectId: any) {
+export async function duplicateTemplate(orgId: any, user_id: any, projectId: any) {
     try {
         const originalProject = await Project.findByPk(projectId, {
             raw: true
@@ -101,14 +102,14 @@ export async function duplicateTemplate(storeId: any, projectId: any) {
         }
 
         // Remove unique identifiers and add new storeId
-        const { id, createdAt, updatedAt, isTemplate, ...projectData } = originalProject;
+        const { id, createdAt, updatedAt, ...projectData } = originalProject;
         
         // Create new project with the provided storeId
         const newProject = await Project.create({
             ...projectData,
             id: uuid(),
-            isTemplate: false,
-            storeId: storeId
+            organization_id: orgId,
+            user_id: user_id,
         });
 
         if (newProject) {

@@ -6,7 +6,7 @@ import { IoIosArrowDropright, IoIosArrowDropleft } from "react-icons/io";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Loader } from "lucide-react";
 
-const AllTemplates = ({ store }) => {
+const AllTemplates = ({ organization, userId }) => {
   const router = useRouter();
   const [templates, setTemplates] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
@@ -16,8 +16,6 @@ const AllTemplates = ({ store }) => {
   const [templateToCopy, setTemplateToCopy] = useState(null);
   const [templateCache, setTemplateCache] = useState({});
   const limit = 5;
-
-  console.log(totalPages, currentPage, "hello");
 
   useEffect(() => {
     // Effect to handle page changes
@@ -92,9 +90,9 @@ const AllTemplates = ({ store }) => {
     try {
       setTemplateToCopy(project.id);
       setDisable(true);
-      const newProject = await duplicateTemplate(store.id, project.id);
+      const newProject = await duplicateTemplate(organization.id, project.id);
       console.log(newProject);
-      router.push(`/editor/${newProject.id}`);
+      router.push(`/dashboard/${newProject.id}`);
     } catch (error) {
       setTemplateToCopy(null);
       console.error("Error duplicating project:", error);
