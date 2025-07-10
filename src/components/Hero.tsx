@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { IoArrowForwardOutline } from "react-icons/io5";
 import People from './People';
 import { Compare } from "@/components/ui/compare";
-
+import Link from 'next/link';
 
 // Sample images for the infinite scroll
 const sampleImages = [
@@ -78,6 +78,7 @@ const Hero = ({
           </div>
           
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2 md:pt-0">
+            <Link href="/auth">
             <button className="relative text-sm md:text-base px-6 md:px-8 py-3 md:py-3 font-medium border-1 !border-orange-500 bg-gradient-to-br from-orange-500 via-orange-400 to-orange-600 overflow-hidden w-full sm:w-auto max-w-xs sm:max-w-none">
               {/* Noise texture overlay */}
               <div 
@@ -93,8 +94,9 @@ const Hero = ({
                 Start Creating Now <IoArrowForwardOutline />
               </span>
             </button>
-            <button className="relative text-sm md:text-base px-6 md:px-8 py-3 md:py-3 font-medium overflow-hidden border border-gray-200 w-full sm:w-auto max-w-xs sm:max-w-none">
-              {/* Noise texture overlay */}
+            </Link>
+            
+            {/* <button className="relative text-sm md:text-base px-6 md:px-8 py-3 md:py-3 font-medium overflow-hidden border border-gray-200 w-full sm:w-auto max-w-xs sm:max-w-none">
               <div 
                 className="absolute inset-0 w-full h-full scale-[1.2] transform opacity-10 [mask-image:radial-gradient(#fff,transparent,75%)]"
                 style={{
@@ -103,11 +105,10 @@ const Hero = ({
                   backgroundPosition: 'center'
                 }}
               ></div>
-              {/* Button text */}
               <span className="relative z-10 text-white font-semibold text-base md:text-lg flex items-center justify-center gap-2">
                 Try Demo <IoArrowForwardOutline />
               </span>
-            </button>
+            </button> */}
           </div>
 
           <People />

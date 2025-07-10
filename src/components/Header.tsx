@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { IoArrowForwardOutline } from 'react-icons/io5';
 import Logo from './Logo';
+import Link from 'next/link';
 
 
 const Header = () => {
@@ -34,16 +35,9 @@ const Header = () => {
 
           {/* CTA Buttons */}
           <div className="hidden md:flex items-center space-x-3">
-            <Button 
-              variant="ghost" 
-              className="text-white/70 hover:text-white hover:bg-white/10 text-sm"
-            >
-              Sign In
-            </Button>
-            {/* <Button className="bg-white text-black hover:bg-white/90 font-medium text-sm px-6">
-              Get Started
-            </Button> */}
-                        <button className="relative text-sm md:text-base px-4 md:px-4 py-2 md:py-2 font-medium border-orange-500 bg-gradient-to-br from-orange-500 via-orange-400 to-orange-600 overflow-hidden w-full sm:w-auto max-w-xs sm:max-w-none">
+            <Link href="/auth"><Button  variant="ghost"  className="text-white/70 hover:text-white hover:bg-white/10 text-sm"> Sign In </Button></Link>
+            <Link href="/auth">
+            <button className="relative text-sm md:text-base px-4 md:px-4 py-2 md:py-2 font-medium border-orange-500 bg-gradient-to-br from-orange-500 via-orange-400 to-orange-600 overflow-hidden w-full sm:w-auto max-w-xs sm:max-w-none">
                           {/* Noise texture overlay */}
                           <div 
                             className="absolute inset-0 w-full h-full scale-[1.2] transform opacity-10 [mask-image:radial-gradient(#fff,transparent,75%)]"
@@ -58,6 +52,7 @@ const Header = () => {
                             GET STARTED <IoArrowForwardOutline />
                           </span>
                         </button>
+            </Link>
           </div>
 
           {/* Mobile menu button */}
@@ -87,12 +82,16 @@ const Header = () => {
                 Examples
               </a>
               <div className="flex flex-col space-y-2 pt-0 mt-0">
+                <Link href="/auth">
                 <Button variant="ghost" className="text-white/70 hover:text-white text-sm">
                   Sign In
                 </Button>
+                </Link>
+                <Link href="/auth">
                 <Button className="bg-white text-black hover:bg-white/90 text-sm">
                   Get Started
                 </Button>
+                </Link>
               </div>
             </nav>
           </div>
