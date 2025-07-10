@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 export default function Logo() {
   return (
-    <Link href="/editor">
+    <Link href="/dashboard">
     <div className=' size-8 relative shrink-0'>   
     <Image
     src="/icon-logo.png"
