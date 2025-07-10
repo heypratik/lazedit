@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 
 const Comparison = () => {
   const comparisons = [
@@ -71,7 +72,8 @@ const Comparison = () => {
                 ))}
               </div>
               
-                            <button className="relative text-sm md:text-base px-6 md:px-8 py-3 w-full text-center font-medium bg-red-500/5 overflow-hidden rounded-lg">
+              <Link href="/auth">
+              <button className="relative text-sm md:text-base px-6 md:px-8 py-3 w-full text-center font-medium bg-red-500/5 overflow-hidden rounded-lg">
                 {/* Noise texture overlay */}
                 <div 
                   className="absolute inset-0 w-full h-full scale-[1.2] transform opacity-10 [mask-image:radial-gradient(#fff,transparent,75%)]"
@@ -86,6 +88,7 @@ const Comparison = () => {
                   😞 Slow & Expensive
                 </span>
               </button>
+              </Link>
             </div>
           </div>
 
@@ -122,6 +125,7 @@ const Comparison = () => {
                 ))}
               </div>
               
+              <Link href="/auth">
               <button className="relative text-sm md:text-base px-6 md:px-8 py-3 w-full text-center font-medium bg-gradient-to-br from-orange-500 via-orange-400 to-orange-600 overflow-hidden rounded-lg">
                 {/* Noise texture overlay */}
                 <div 
@@ -137,6 +141,7 @@ const Comparison = () => {
                   START WITH LAZYEDIT
                 </span>
               </button>
+              </Link>
             </div>
           </div>
         </div>

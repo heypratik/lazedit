@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import Comparison from '@/components/Comparison';
+import Link from 'next/link';
 
 const Pricing = () => {
   return (
@@ -61,6 +62,7 @@ const Pricing = () => {
                 </div>
               </div>
               
+              <Link href="/auth">
               <button className="relative text-sm md:text-base px-6 md:px-8 py-3 w-full text-center font-medium bg-gradient-to-br from-orange-500 via-orange-400 to-orange-600 overflow-hidden rounded-lg">
                 {/* Noise texture overlay */}
                 <div 
@@ -76,6 +78,7 @@ const Pricing = () => {
                   START NOW
                 </span>
               </button>
+              </Link>
             </div>
           </div>
 
@@ -115,6 +118,7 @@ const Pricing = () => {
                 </div>
               </div>
               
+              <Link href="/auth">
               <button className="relative text-sm md:text-base px-6 md:px-8 py-3 w-full text-center font-medium bg-gradient-to-br from-orange-500 via-orange-400 to-orange-600 overflow-hidden rounded-lg">
                 {/* Noise texture overlay */}
                 <div 
@@ -130,6 +134,7 @@ const Pricing = () => {
                   CONTACT US
                 </span>
               </button>
+              </Link>
             </div>
           </div>
         </div>
