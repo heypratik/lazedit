@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
-import Project from "../../../../../models/Projects";
+const { Project } = require("../../../../../models");
 
 export const dynamic = "force-dynamic";
 

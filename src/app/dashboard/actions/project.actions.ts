@@ -1,10 +1,13 @@
 "use server"
 
 // @ts-ignore
-import Projects from "../../../../models/Projects"
+// import Projects from "../../../../models/Projects"
+const { Project } = require("../../../../models");
+
 import { uuid } from "uuidv4";
 
-export async function createProject(storeId: any) {
+export async function createProject(orgId: any, userId: any) {
+    console.log("Creating project for orgId:", orgId, "and userId:", userId);
     try {
         const project = {
             id: uuid(),
@@ -12,10 +15,11 @@ export async function createProject(storeId: any) {
             json: "",
             width: 900,
             height: 1200,
-            storeId: storeId
+            organization_id: orgId,
+            user_id: userId,
         }   
 
-        const response = await Projects.create(project)
+        const response = await Project.create(project)
 
         if (response) {
             return response.dataValues
@@ -24,12 +28,13 @@ export async function createProject(storeId: any) {
         }
     } catch (error) {
         console.log(error)
+        return error
     }
 }
 
 export async function getProjectById(id: any) {
     try {
-        const project = await await Projects.findByPk(id);
+        const project = await await Project.findByPk(id);
 
         if (project) {
             return project.dataValues
@@ -44,7 +49,7 @@ export async function getProjectById(id: any) {
 // Paginated All Projects based on storeId
 export async function getProjects(storeId: any, page: any, limit: any) {
     try {
-        const projects = await Projects.findAndCountAll({
+        const projects = await Project.findAndCountAll({
             where: {
                 storeId: storeId,
                 isTemplate: false
@@ -66,7 +71,7 @@ export async function getProjects(storeId: any, page: any, limit: any) {
 // Paginated All Templates
 export async function getAllTemplates(page: any, limit: any) {
     try {
-        const projects = await Projects.findAndCountAll({
+        const projects = await Project.findAndCountAll({
             where: {
                 isTemplate: true
             },
@@ -87,7 +92,7 @@ export async function getAllTemplates(page: any, limit: any) {
 
 export async function duplicateTemplate(storeId: any, projectId: any) {
     try {
-        const originalProject = await Projects.findByPk(projectId, {
+        const originalProject = await Project.findByPk(projectId, {
             raw: true
         });
 
@@ -99,7 +104,7 @@ export async function duplicateTemplate(storeId: any, projectId: any) {
         const { id, createdAt, updatedAt, isTemplate, ...projectData } = originalProject;
         
         // Create new project with the provided storeId
-        const newProject = await Projects.create({
+        const newProject = await Project.create({
             ...projectData,
             id: uuid(),
             isTemplate: false,
@@ -119,7 +124,7 @@ export async function duplicateTemplate(storeId: any, projectId: any) {
 
 export async function duplicateProject(projectId: any) {
     try {
-        const originalProject = await Projects.findByPk(projectId, {
+        const originalProject = await Project.findByPk(projectId, {
             raw: true
         });
 
@@ -131,7 +136,7 @@ export async function duplicateProject(projectId: any) {
         const { id, createdAt, updatedAt, isTemplate, ...projectData } = originalProject;
         
         // Create new project with the provided storeId
-        const newProject = await Projects.create({
+        const newProject = await Project.create({
             ...projectData,
             id: uuid(),
             isTemplate: false,
@@ -150,7 +155,7 @@ export async function duplicateProject(projectId: any) {
 
 export async function deleteProject(projectId: any) {
     try {
-        const project = await Projects.findByPk(projectId);
+        const project = await Project.findByPk(projectId);
 
         if (project) {
             await project.destroy();

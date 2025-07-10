@@ -17,7 +17,7 @@ export function SidebarHeader({ className, ...props }) {
       {...props}
       className={clsx(
         className,
-        'flex flex-col border-b border-zinc-950/5 p-4 dark:border-white/5 [&>[data-slot=section]+[data-slot=section]]:mt-2.5'
+        'flex flex-col border-b border-white/20 p-4 dark:border-white/20 [&>[data-slot=section]+[data-slot=section]]:mt-2.5'
       )}
     />
   )
@@ -41,7 +41,7 @@ export function SidebarFooter({ className, ...props }) {
       {...props}
       className={clsx(
         className,
-        'flex flex-col border-t border-zinc-950/5 p-4 dark:border-white/5 [&>[data-slot=section]+[data-slot=section]]:mt-2.5'
+        'flex flex-col border-t border-white/20 p-4 dark:border-white/20 [&>[data-slot=section]+[data-slot=section]]:mt-2.5'
       )}
     />
   )
@@ -52,7 +52,7 @@ export function SidebarSection({ className, ...props }) {
 
   return (
     <LayoutGroup id={id}>
-      <div {...props} data-slot="section" className={clsx(className, 'flex flex-col gap-0.5')} />
+      <div {...props} data-slot="section" className={clsx(className, 'flex flex-col gap-0.5 sidebar-links')} />
     </LayoutGroup>
   )
 }
@@ -67,7 +67,7 @@ export function SidebarSpacer({ className, ...props }) {
 
 export function SidebarHeading({ className, ...props }) {
   return (
-    <h3 {...props} className={clsx(className, 'mb-1 px-2 text-xs/6 font-medium text-white dark:white')} />
+    <h3 {...props} className={clsx(className, 'mb-1 px-2 text-xs/6 font-medium text-red-500 dark:white')} />
   )
 }
 
@@ -84,18 +84,18 @@ export const SidebarItem = React.forwardRef(function SidebarItem(
     // Trailing icon (down chevron or similar)
     'data-[slot=icon]:last:*:ml-auto data-[slot=icon]:last:*:size-5 sm:data-[slot=icon]:last:*:size-4 no-underline',
     // Avatar
-    'data-[slot=avatar]:*:-m-0.5 data-[slot=avatar]:*:size-7 data-[slot=avatar]:*:[--ring-opacity:10%] sm:data-[slot=avatar]:*:size-6 data-[hover]:no-underline data-[hover]:text-[#fff]',
+    'data-[slot=avatar]:*:-m-0.5 data-[slot=avatar]:*:size-7 data-[slot=avatar]:*:[--ring-opacity:10%] sm:data-[slot=avatar]:*:size-6 data-[hover]:no-underline data-[hover]:text-[#0edbff] no-underline',
     // Hover
-    'data-[hover]:bg-zinc-950/5 data-[slot=icon]:*:data-[hover]:fill-white data-[hover]:no-underline data-[hover]:text-[#fff]',
+    'data-[hover]:glass-subtle data-[slot=icon]:*:data-[hover]:fill-white data-[hover]:no-underline data-[hover]:text-white !text-white no-underline',
     // Active
-    'data-[active]:bg-zinc-950/5 data-[slot=icon]:*:data-[active]:fill-white data-[hover]:no-underline data-[hover]:text-[#fff]',
+    'data-[active]:glass-subtle data-[slot=icon]:*:data-[active]:fill-white data-[hover]:no-underline data-[hover]:text-white no-underline',
     // Current
-    'data-[slot=icon]:*:data-[current]:fill-white data-[hover]:no-underline data-[hover]:text-[#fff]',
+    'data-[slot=icon]:*:data-[current]:fill-white data-[hover]:no-underline data-[hover]:text-[#c57a7a] no-underline',
     // Dark mode
-    'dark:text-white dark:data-[slot=icon]:*:fill-zinc-400 data-[hover]:no-underline',
-    'dark:data-[hover]:bg-white/5 dark:data-[slot=icon]:*:data-[hover]:fill-white data-[hover]:no-underline data-[hover]:text-[#fff]',
-    'dark:data-[active]:bg-white/5 dark:data-[slot=icon]:*:data-[active]:fill-white data-[hover]:no-underline data-[hover]:text-[#fff]',
-    'dark:data-[slot=icon]:*:data-[current]:fill-white data-[hover]:no-underline data-[hover]:text-[#fff]'
+    'dark:text-white dark:data-[slot=icon]:*:fill-zinc-400 data-[hover]:no-underline no-underline',
+    'dark:data-[hover]:bg-white/5 dark:data-[slot=icon]:*:data-[hover]:fill-white data-[hover]:no-underline data-[hover]:text-[#9727ff] no-underline',
+    'dark:data-[active]:bg-white/5 dark:data-[slot=icon]:*:data-[active]:fill-white data-[hover]:no-underline data-[hover]:text-[#ff2768] no-underline',
+    'dark:data-[slot=icon]:*:data-[current]:fill-white data-[hover]:no-underline data-[hover]:text-[#069240d1fffd1] no-underline'
   )
 
   return (
@@ -131,5 +131,5 @@ export const SidebarItem = React.forwardRef(function SidebarItem(
 })
 
 export function SidebarLabel({ className, ...props }) {
-  return <span {...props} className={`${clsx(className, 'truncate')} no-underline`} />
+  return <span {...props} className={`${clsx(className, 'truncate !no-underline')} !no-underline text-white/70 hover:text-white`} />
 }

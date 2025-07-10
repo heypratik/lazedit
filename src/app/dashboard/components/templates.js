@@ -107,23 +107,25 @@ const AllTemplates = ({ store }) => {
   return (
     <div className="w-full space-y-4 mt-8">
       <div className="flex items-center gap-4">
-        <h3 className="text-xl font-semibold m-0">All Templates</h3>
+        <h3 className="text-xl font-semibold m-0 text-white/70">
+          All Templates
+        </h3>
         <div className="flex justify-between items-center gap-2">
           <IoIosArrowDropleft
             size="34px"
-            className="cursor-pointer text-gray-400 disabled:text-gray-200 disabled:cursor-not-allowed"
+            className="cursor-pointer text-white/70 disabled:text-gray-200 disabled:cursor-not-allowed"
             onClick={() => handlePageChange(Math.max(0, currentPage - 1))}
             disabled={currentPage < 1 || loading}
           />
           <IoIosArrowDropright
             size="34px"
-            className="cursor-pointer text-gray-400 disabled:text-gray-200 disabled:cursor-not-allowed"
+            className="cursor-pointer text-white/70 disabled:text-gray-200 disabled:cursor-not-allowed"
             onClick={() =>
               handlePageChange(Math.min(totalPages - 1, currentPage + 1))
             }
             disabled={currentPage >= totalPages - 1 || loading}
           />
-          <span className="text-sm text-gray-600 ml-4">
+          <span className="text-sm text-white/70 ml-4">
             Page {currentPage + 1} of {totalPages || 1}
           </span>
         </div>
@@ -184,7 +186,7 @@ const AllTemplates = ({ store }) => {
 
       {templates.length === 0 && !loading && (
         <div className="flex justify-center items-center h-64">
-          <p className="text-gray-500">No templates found</p>
+          <p className="text-white">No templates found</p>
         </div>
       )}
     </div>

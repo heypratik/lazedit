@@ -6,13 +6,13 @@ import { Banner } from "./components/banner";
 import ProjectsTable from "./components/table";
 import Templates from "./components/templates";
 
-export default function Editor({ store }) {
+export default function Editor({ organization, userId }) {
   return (
     <CustomLayout>
       <Toaster />
-      <Banner store={store} />
-      <Templates store={store} />
-      <ProjectsTable store={store} />
+      <Banner organization={organization} userId={userId}/>
+      {/* <Templates store={store} /> */}
+      <ProjectsTable organization={organization}/>
     </CustomLayout>
   );
 }

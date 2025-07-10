@@ -16,7 +16,6 @@ import { ActiveTool, Editor } from "@/features/editor/types";
 import {cn} from "@/lib/utils";
 import {useFilePicker} from "use-file-picker";
 import { useMutationState } from "@tanstack/react-query";
-import { Input } from "@headlessui/react";
 import { Minimize, ZoomIn, ZoomOut } from "lucide-react";
 
 interface NavbarProps {
