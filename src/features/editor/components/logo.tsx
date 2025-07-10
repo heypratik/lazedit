@@ -6,7 +6,7 @@ export default function Logo() {
     <Link href="/editor">
     <div className=' size-8 relative shrink-0'>   
     <Image
-    src="/logo.png"
+    src="/icon-logo.png"
     alt="Logo"
     className='shrink-0 hover:opacity-75 transition'
     width={50}

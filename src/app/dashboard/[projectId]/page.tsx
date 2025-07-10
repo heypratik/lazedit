@@ -43,7 +43,6 @@ export default async function Page({params}: {
   }
 
   let store = await getStore(session?.user?.id);
-  store.shopifyStoreId = session.user.shopifyStoreId
 
   return (
     <EditorProjectIdPage store={store}  params={params}/>

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import Project from "../../../../../../models/Projects";
+const { Project } = require("../../../../../../models");
 
 export async function PATCH(request) {
   try {

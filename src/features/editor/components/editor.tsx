@@ -133,7 +133,7 @@ export const Editor = ({initialData, store}: EditorProps) => {
         {/* <FilterSidebar  editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool}/> */}
 
         {/* <FontSidebar editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool}/> */}
-        <ImageSideBar editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool} store={store}/>
+        {/* <ImageSideBar editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool} store={store}/> */}
         {/* <DrawSidebar editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool}/> */}
         <main className="bg-muted flex-1 overflow-auto relative flex flex-col">
           <Toolbar

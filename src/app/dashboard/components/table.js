@@ -98,15 +98,17 @@ const ProjectsTable = ({ store }) => {
 
   return (
     <div className="w-full space-y-4 mt-8">
-      <h3 className="text-xl font-semibold m-0">Recent Projects</h3>
+      <h3 className="text-xl font-semibold m-0 text-white/70">
+        Recent Projects
+      </h3>
       <div className="min-h-[300px]">
         <Table>
           <TableHeader>
-            <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Dimensions</TableHead>
-              <TableHead>Last Updated</TableHead>
-              <TableHead className="w-16">Actions</TableHead>
+            <TableRow className="glass-strong hover:glass-strong text-white">
+              <TableHead className="text-white">Name</TableHead>
+              <TableHead className="text-white">Dimensions</TableHead>
+              <TableHead className="text-white">Last Updated</TableHead>
+              <TableHead className="w-16 text-white">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -156,7 +158,7 @@ const ProjectsTable = ({ store }) => {
 
             {projects.length === 0 && (
               <TableRow>
-                <TableCell colSpan={4} className="text-center">
+                <TableCell colSpan={4} className="text-center text-white/70">
                   No projects found
                 </TableCell>
               </TableRow>
@@ -168,19 +170,19 @@ const ProjectsTable = ({ store }) => {
       <div className="flex justify-between items-center mt-8">
         <Button
           onClick={() => setCurrentPage((prev) => Math.max(0, prev - 1))}
-          className="bg-[#ee5067] text-white"
+          className="bg-white text-black"
           disabled={currentPage === 0 || loading}
         >
           Previous
         </Button>
-        <span className="text-sm text-gray-600">
+        <span className="text-sm text-white/70">
           Page {currentPage + 1} of {totalPages}
         </span>
         <Button
           onClick={() =>
             setCurrentPage((prev) => Math.min(totalPages - 1, prev + 1))
           }
-          className="bg-[#ee5067] text-white"
+          className="bg-white text-black"
           disabled={currentPage >= totalPages - 1 || loading}
         >
           Next

@@ -147,11 +147,7 @@ export default function CustomLayout({ children }) {
       sidebar={
         <Sidebar>
           <SidebarHeader className="flex flex-row gap-2 items-center justify-center">
-            <Avatar
-              className="w-10 h-10"
-              src="https://www.mybranz.com/logo.png"
-            />
-            <SidebarLabel>MyBranz Emails</SidebarLabel>
+            <img src="/white-logo-full.png" alt="Logo" className="w-24" />
           </SidebarHeader>
           <SidebarBody>
             <SidebarSection>
