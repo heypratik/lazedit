@@ -1,12 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "../../components/ui/tabs";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
@@ -57,7 +51,7 @@ function Auth() {
       }
     },
     [email, password, isLogin]
-  ); // Add dependencies
+  );
 
   // Add event listener only on client side
   useEffect(() => {
@@ -145,74 +139,6 @@ function Auth() {
   const inputStyles =
     "block w-full rounded-md border-2 border-gray-300 focus:border-[#f23251] p-2 ring-0 ring-inset ring-[#f23251] placeholder:text-gray-400 sm:text-sm sm:leading-6";
 
-  const FormInputs = ({ type }) => (
-    <div className="space-y-6">
-      {type === "signup" && (
-        <div>
-          <label
-            htmlFor="name"
-            className="block text-sm font-medium leading-6 text-gray-900"
-          >
-            Full Name
-          </label>
-          <div className="mt-2">
-            <input
-              id="name"
-              name="name"
-              type="text"
-              autoComplete="name"
-              required
-              className={inputStyles}
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          </div>
-        </div>
-      )}
-      <div>
-        <label
-          htmlFor="email"
-          className="block text-sm font-medium leading-6 text-gray-900"
-        >
-          Email address
-        </label>
-        <div className="mt-2">
-          <input
-            id="email"
-            name="email"
-            type="email"
-            autoComplete="email"
-            required
-            className={inputStyles}
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-      </div>
-
-      <div>
-        <label
-          htmlFor="password"
-          className="block text-sm font-medium leading-6 text-gray-900"
-        >
-          Password
-        </label>
-        <div className="mt-2">
-          <input
-            id="password"
-            name="password"
-            type="password"
-            autoComplete="current-password"
-            required
-            className={inputStyles}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-      </div>
-    </div>
-  );
-
   return (
     <>
       <Toaster />
@@ -242,91 +168,140 @@ function Auth() {
           <div className="mx-auto w-full max-w-sm lg:w-96">
             <div className="flex justify-start">
               <img
-                className="w-20 h-20 text-center rounded-full"
-                src="https://www.mybranz.com/logo.png"
+                className="w-28 text-center"
+                src="/black-logo-full.png"
                 alt="Company logo"
               />
             </div>
             <h2 className="mt-8 text-2xl font-bold leading-9 tracking-tight text-gray-900">
               {isLogin ? "Welcome back!" : "Create your account"}
             </h2>
-            <Tabs value={isLogin ? "login" : "signup"} className="w-full">
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger
+
+            {/* Tab Navigation */}
+            <div className="mt-6">
+              <div className="grid w-full grid-cols-2 rounded-lg bg-gray-100 p-1">
+                <button
+                  type="button"
                   disabled={isLoading}
-                  value="login"
+                  className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
+                    isLogin
+                      ? "bg-white text-gray-900 shadow-sm"
+                      : "text-gray-500 hover:text-gray-700"
+                  }`}
                   onClick={() => setIsLogin(true)}
                 >
                   Login
-                </TabsTrigger>
-                <TabsTrigger
+                </button>
+                <button
+                  type="button"
                   disabled={isLoading}
-                  value="signup"
+                  className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
+                    !isLogin
+                      ? "bg-white text-gray-900 shadow-sm"
+                      : "text-gray-500 hover:text-gray-700"
+                  }`}
                   onClick={() => setIsLogin(false)}
                 >
                   Sign Up
-                </TabsTrigger>
-              </TabsList>
-              <TabsContent value="login">
-                <div className="mt-10">
-                  <form
-                    onSubmit={(e) => e.preventDefault()}
-                    className="space-y-6"
-                  >
-                    <FormInputs type="login" />
-                    <div className="flex items-center justify-between">
-                      <p className="text-sm text-gray-500">
-                        {isLogin
-                          ? "Don't have an account?"
-                          : "Already have an account?"}
-                        <button
-                          type="button"
-                          className="pl-1 font-bold text-[#f23251] underline"
-                          onClick={() => setIsLogin(!isLogin)}
-                        >
-                          {isLogin ? "Sign up" : "Login"}
-                        </button>
-                      </p>
+                </button>
+              </div>
+            </div>
+
+            {/* Form Content */}
+            <div className="mt-10">
+              <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
+                {!isLogin && (
+                  <div>
+                    <label
+                      htmlFor="name"
+                      className="block text-sm font-medium leading-6 text-gray-900"
+                    >
+                      Full Name
+                    </label>
+                    <div className="mt-2">
+                      <input
+                        id="name"
+                        name="name"
+                        type="text"
+                        autoComplete="name"
+                        required
+                        className={inputStyles}
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                      />
                     </div>
-                  </form>
-                </div>
-              </TabsContent>
-              <TabsContent value="signup">
-                <div className="mt-10">
-                  <form
-                    onSubmit={(e) => e.preventDefault()}
-                    className="space-y-6"
-                  >
-                    <FormInputs type="signup" />
-                    <div className="flex items-center justify-between">
-                      <p className="text-sm text-gray-500">
-                        {isLogin
-                          ? "Don't have an account?"
-                          : "Already have an account?"}
-                        <button
-                          type="button"
-                          className="pl-1 font-bold text-[#f23251] underline"
-                          onClick={() => setIsLogin(!isLogin)}
-                        >
-                          {isLogin ? "Sign up" : "Login"}
-                        </button>
-                      </p>
-                    </div>
-                  </form>
-                </div>
-              </TabsContent>
-              <button
-                type="button"
-                className="flex w-full justify-center rounded-md bg-[#f23251] px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-[#f23251] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#f23251] items-center gap-2"
-                onClick={submitFunction}
-                disabled={isLoading}
-              >
-                {isLogin ? "Login" : "Sign up"}
-                {isLoading && (
-                  <RiLoader4Fill fontSize={20} className="spinner" />
+                  </div>
                 )}
-              </button>
-            </Tabs>
+                <div>
+                  <label
+                    htmlFor="email"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
+                    Email address
+                  </label>
+                  <div className="mt-2">
+                    <input
+                      id="email"
+                      name="email"
+                      type="email"
+                      autoComplete="email"
+                      required
+                      className={inputStyles}
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="password"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
+                    Password
+                  </label>
+                  <div className="mt-2">
+                    <input
+                      id="password"
+                      name="password"
+                      type="password"
+                      autoComplete="current-password"
+                      required
+                      className={inputStyles}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <p className="text-sm text-gray-500">
+                    {isLogin
+                      ? "Don't have an account?"
+                      : "Already have an account?"}
+                    <button
+                      type="button"
+                      className="pl-1 font-bold text-[#000] underline"
+                      onClick={() => setIsLogin(!isLogin)}
+                    >
+                      {isLogin ? "Sign up" : "Login"}
+                    </button>
+                  </p>
+                </div>
+
+                <button
+                  type="button"
+                  className="flex w-full justify-center rounded-md bg-[#000] px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-[#000] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#000] items-center gap-2"
+                  onClick={submitFunction}
+                  disabled={isLoading}
+                >
+                  {isLogin ? "Login" : "Sign up"}
+                  {isLoading && (
+                    <RiLoader4Fill fontSize={20} className="spinner" />
+                  )}
+                </button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
