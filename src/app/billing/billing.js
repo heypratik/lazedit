@@ -16,23 +16,13 @@ const Billing = ({ session, user }) => {
   const { createBillingPortal, loadingPortal } = useStripePortal();
 
   const plans = [
-    // {
-    //     id: 1,
-    //     name: 'Essential',
-    //     monthly_plan_id: 'price_1QL5scGvRrdKx7JCh3SQaPqX',
-    //     yearly_plan_id: 'price_1QL5vkGvRrdKx7JC64FFLE9Y',
-    //     monthly_price: 129,
-    //     yearly_price: 1032,
-    //     features: ['Send up to 2 emails and 4 social posts per month', 'AI-powered email generation and scheduling', 'Custom segmentation for each campaign'],
-    //     trial: 7,
-    // },
     {
-      id: 2,
+      id: 1,
       name: "Individual",
       monthly_plan_id: "price_1RjMLLC3lVSKOiCb8vqRm7dd",
       yearly_plan_id: "price_1RjMMwC3lVSKOiCbgwgWV09h",
       monthly_price: 16,
-      yearly_price: 165,
+      yearly_price: 13,
       features: [
         "✅ 350 AI image edits per month",
         "⚡ All AI editing features",
@@ -43,12 +33,12 @@ const Billing = ({ session, user }) => {
       trial: 0,
     },
     {
-      id: 3,
+      id: 2,
       name: "Teams",
       monthly_plan_id: "price_1RjMLyC3lVSKOiCbd7qrMrxt",
       yearly_plan_id: "price_1RjMNCC3lVSKOiCbt2CogAJt",
-      monthly_price: 59,
-      yearly_price: 649,
+      monthly_price: 60,
+      yearly_price: 54,
       features: [
         "♾️ 5X more image edits",
         "🤝 Team collaboration tools",
@@ -96,7 +86,7 @@ const Billing = ({ session, user }) => {
     return billingCycle === "monthly"
       ? `$${plan.monthly_price}/mo`
       : plan.yearly_price
-      ? `$${plan.yearly_price}/yr`
+      ? `$${plan.yearly_price}/mo`
       : "No Yearly Plan";
   };
 
@@ -105,10 +95,11 @@ const Billing = ({ session, user }) => {
       {!user.isActiveUser && (
         <div>
           <div className="flex justify-between items-center">
-            <h1 className="text-2xl font-bold">Start Now 🚀</h1>
-            <div className="flex items-center space-x-2">
+            <h1 className="text-2xl font-bold text-white">Start Now 🚀</h1>
+            <div className="flex items-center space-x-2  text-white">
               <span>Monthly</span>
               <Switch
+                className="bg-gray-700"
                 checked={billingCycle === "yearly"}
                 onCheckedChange={(checked) =>
                   setBillingCycle(checked ? "yearly" : "monthly")
@@ -122,28 +113,47 @@ const Billing = ({ session, user }) => {
             {plans.map((plan) => (
               <div
                 key={plan.id}
-                className="border rounded-lg p-6 flex flex-col justify-between"
+                className="border rounded-lg p-6 flex flex-col justify-between glass-strong"
               >
-                <div className="flex items-center gap-2 mb-2">
+                <div className="flex items-center gap-2 mb-2  text-white">
                   <h2 className="text-xl font-semibold m-0">{plan.name}</h2>
-                  {/* <p className=" text-[10px] m-0 bg-black rounded-md py-1 px-2 text-white inline-block">
-                    7 DAYS FREE TRIAL
-                  </p> */}
+                  {billingCycle === "yearly" && (
+                    <p className=" text-[10px] m-0 bg-orange-500 rounded-md py-1 px-2 text-white inline-block">
+                      20% OFF
+                    </p>
+                  )}
                 </div>
-                <p className="text-2xl font-bold">{renderPrice(plan)}</p>
+                <p className="text-2xl font-bold  text-white mb-0 pb-0">
+                  {renderPrice(plan)}
+                </p>
+                <span className="text-white/70 text-sm mt-0">
+                  Billed {billingCycle}
+                </span>
                 <ul className="mt-4 space-y-2">
                   {plan.features.map((feature, index) => (
-                    <li key={index} className="text-sm text-gray-600">
+                    <li key={index} className="text-sm  text-white">
                       {feature}
                     </li>
                   ))}
                 </ul>
                 <button
-                  disabled={renderPrice(plan) === "No Yearly Plan"}
-                  className="mt-6 bg-[#f23250] text-white py-2 px-4 rounded hover:bg-[#f2324fab] disabled:bg-gray-400"
                   onClick={() => handleStripePlan(plan)}
+                  disabled={renderPrice(plan) === "No Yearly Plan"}
+                  className="relative text-sm md:text-base px-4 md:px-4 py-2 md:py-2 font-medium border-orange-500 bg-gradient-to-br from-orange-500 via-orange-400 to-orange-600 overflow-hidden w-full sm:w-auto max-w-xs sm:max-w-none"
                 >
-                  Select Plan
+                  {/* Noise texture overlay */}
+                  <div
+                    className="absolute inset-0 w-full h-full scale-[1.2] transform opacity-10 [mask-image:radial-gradient(#fff,transparent,75%)]"
+                    style={{
+                      backgroundImage: "url(/noise.webp)",
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                    }}
+                  ></div>
+                  {/* Button text */}
+                  <span className="relative z-10 text-white font-semibold text-sm md:text-sm flex items-center justify-center gap-2">
+                    Select Plan
+                  </span>
                 </button>
               </div>
             ))}
@@ -152,9 +162,9 @@ const Billing = ({ session, user }) => {
       )}
       {user.isActiveUser && (
         <>
-          <Profile />
+          <Profile session={session} user={user} />
           <div className=" justify-between items-start flex flex-col mx-auto">
-            <h1 className="text-2xl font-bold">Billing</h1>
+            <h1 className="text-2xl font-bold text-white/70">Billing</h1>
           </div>
           <div className=" justify-between items-start flex flex-col mx-auto">
             <Button
