@@ -120,7 +120,7 @@ const ProjectsTable = ({ organization, userId }) => {
             {projects.map((project) => (
               <TableRow
                 key={project.id}
-                className="cursor-pointer glass-strong hover:glass-strong text-white"
+                className="cursor-pointer glass-subtle hover:glass-strong text-white"
               >
                 <TableCell
                   onClick={() => router.push(`/dashboard/${project.id}`)}
