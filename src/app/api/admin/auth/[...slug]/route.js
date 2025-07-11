@@ -120,6 +120,7 @@ export async function POST(req, { params }) {
   }
 
   if (slug.length === 1 && slug[0] === "get-user") {
+    console.log("GET USER REQUEST RECEIVED");
     const { userId } = await req.json();
     const user = await User.findOne({
       where: { id: userId },

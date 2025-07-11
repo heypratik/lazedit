@@ -42,7 +42,8 @@ function constructUserBilling(userObj) {
   obj = {
     stripeCustomerId: stripeCustomerId,
     stripePlanEndsAt: stripePlanEndsAt,
-    isActiveUser: new Date(stripePlanEndsAt).getTime() > Date.now(),
+    // isActiveUser: new Date(stripePlanEndsAt).getTime() > Date.now(),
+    isActiveUser: false,
     email: email,
     id: id,
     updated_at: updated_at,

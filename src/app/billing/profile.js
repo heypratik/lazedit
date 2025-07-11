@@ -6,7 +6,7 @@ import { Button } from "../layout/button";
 import toast, { Toaster } from "react-hot-toast";
 import { RiLoader4Fill } from "react-icons/ri";
 
-function Profile({ session, store }) {
+function Profile({ session, user }) {
   // States
   const [userId, setUserId] = useState(null);
   const [fullName, setFullName] = useState("");
@@ -88,16 +88,16 @@ function Profile({ session, store }) {
   }
 
   useEffect(() => {
-    if (store) {
-      setFullName(store.name);
-      setEmail(store.email);
+    if (user) {
+      setFullName(user.name);
+      setEmail(user.email);
     }
-  }, [store]);
+  }, [user]);
 
   return (
     <div>
       <Toaster />
-      <h1 className="text-2xl font-bold">Profile</h1>
+      <h1 className="text-2xl font-bold text-white/70">Profile</h1>
       <Divider />
       <div className="flex flex-col max-w-4xl mx-auto">
         <div className="mt-6 items-center justify-between gap-4 flex">
@@ -105,8 +105,8 @@ function Profile({ session, store }) {
             htmlFor="fullName"
             className="form-label font-bold flex flex-col"
           >
-            <span className="text-base ">Full Name</span>
-            <span className="text-sm text-gray-700 font-normal">
+            <span className="text-base text-white">Full Name</span>
+            <span className="text-sm text-white/70 font-normal">
               Your full name.
             </span>
           </label>
@@ -124,8 +124,8 @@ function Profile({ session, store }) {
 
         <div className="mt-6 items-center justify-between gap-4 flex">
           <label htmlFor="email" className="form-label font-bold flex flex-col">
-            <span className="text-base ">Email</span>
-            <span className="text-sm text-gray-700 font-normal">
+            <span className="text-base text-white">Email</span>
+            <span className="text-sm text-white/70 font-normal">
               Your primary email for account related communication.
             </span>
           </label>
@@ -140,7 +140,7 @@ function Profile({ session, store }) {
           />
         </div>
         <div className="flex items-center justify-end gap-4 mt-4">
-          <Button outline className="text-black">
+          <Button outline className="bg-black text-white">
             Cancel
           </Button>
           <Button className="bg-black text-white" onClick={handleSubmit}>
