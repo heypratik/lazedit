@@ -10,7 +10,7 @@ const models = {
   User: require("./user")(sequelize),
   Organization: require("./organization")(sequelize),
   Project: require("./project")(sequelize),
-  Image: require("./image")(sequelize),
+  Image: require("./Image")(sequelize),
 };
 
 // Define associations
