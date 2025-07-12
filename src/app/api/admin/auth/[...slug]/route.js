@@ -11,7 +11,7 @@ export async function POST(req, { params }) {
   const { slug } = await params;
 
   if (slug.length === 1 && slug[0] === "login") {
-    const { email, password, type, shopifyStoreId } = await req.json();
+    const { email, password, type } = await req.json();
 
     if (type == "custom") {
       if (!email || !password) {

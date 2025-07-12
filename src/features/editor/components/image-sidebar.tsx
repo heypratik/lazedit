@@ -25,7 +25,7 @@ export const useMultiImageUpload = () => {
   const [isUploading, setIsUploading] = useState(false);
   const [uploadedObjectKeys, setUploadedObjectKeys] = useState<any>([]);
 
-  const uploadFile = async (file: any, storeId: any) => {
+  const uploadFile = async (file: any, orgId: any) => {
     // Create an ArrayBuffer from the file
     const arrayBuffer = await file.arrayBuffer();
     const buffer = new Uint8Array(arrayBuffer);
@@ -37,7 +37,7 @@ export const useMultiImageUpload = () => {
         "Content-Type": "application/octet-stream",
         "File-Name": file.name,
         Mimetype: file.type,
-        Store: storeId,
+        organizationId: orgId,
       },
       body: buffer,
     });
@@ -49,7 +49,7 @@ export const useMultiImageUpload = () => {
     return response.json();
   };
 
-  const handleMultipleImageUpload = useCallback(async (e: React.ChangeEvent<HTMLInputElement>, storeId: any) => {
+  const handleMultipleImageUpload = useCallback(async (e: React.ChangeEvent<HTMLInputElement>, orgId: any) => {
     // Reset states at the start of each upload
     setIsUploading(true);
     setUploadedObjectKeys([]);
@@ -65,7 +65,7 @@ export const useMultiImageUpload = () => {
     try {
       for (const file of files) {
         try {
-          const response = await uploadFile(file, storeId);
+          const response = await uploadFile(file, orgId);
           if (response.success && response.data.objectKey) {
             uploadedKeys.push(response.data.objectKey);
             toast.success(`Uploaded: ${file.name}`);
@@ -114,16 +114,14 @@ interface ImageSideBar {
   editor: Editor | undefined;
   activeTool: ActiveTool;
   onChangeActiveTool: (tool: ActiveTool) => void;
-  store: any
+  organization: any
 }
 export const ImageSideBar = ({
   editor,
   activeTool,
   onChangeActiveTool,
-  store
+  organization
 }: ImageSideBar) => {
-
-  console.log(store)
 
   const queryClient = useQueryClient();
 
@@ -169,13 +167,13 @@ export const ImageSideBar = ({
     pageParam: number | null;
     queryKey: [string, number, string];
   }) => {
-    const [_, storeId, searchTermS3] = queryKey; // Extract storeId and searchTerm from queryKey
+    const [_, orgId, searchTermS3] = queryKey; // Extract storeId and searchTerm from queryKey
     const limit = 5;
 
-    if (!storeId) throw new Error("storeId is required");
+    if (!orgId) throw new Error("storeId is required");
 
     const response = await fetch(
-      `/api/admin/user/get-images?storeId=${storeId}&page=${pageParam}&limit=${limit}&search=${
+      `/api/admin/user/get-images?organization=${orgId}&page=${pageParam}&limit=${limit}&search=${
         searchTermS3 || ""
       }`
     );
@@ -200,7 +198,7 @@ export const ImageSideBar = ({
     refetch: refetchShopifyAssets,
   } = useInfiniteQuery({
     // queryKey: ["storeAssets", session.user.shopifyStoreId, searchTermShopify],
-    queryKey: ["storeAssets", store.shopifyStoreId, searchTermShopify], 
+    queryKey: ["storeAssets", 'e6867ffa12de8c38dabf6c198c1cd8a3991edda139301bf89571b6adb36a03dc53bf9f94b00c066108c3e85a6fccc6c0', searchTermShopify], 
      // @ts-ignore
     queryFn: fetchAssetsLists,
     getNextPageParam: (lastPage) => lastPage.pageInfo.endCursor || null,
@@ -216,11 +214,11 @@ export const ImageSideBar = ({
     isFetchingNextPage: isFetchingNextS3Assets,
     refetch,
   } = useInfiniteQuery({
-    queryKey: ["s3Assets", store.id, debouncedSearchTerm],
+    queryKey: ["s3Assets", organization.id, debouncedSearchTerm],
     // @ts-ignore
     queryFn: fetchS3AssetsNew,
     getNextPageParam: (lastPage) => lastPage.nextPage,
-    enabled: store.id ? true : false,
+    enabled: organization.id ? true : false,
   });
 
   // Handle search input change and refetch
@@ -249,9 +247,9 @@ export const ImageSideBar = ({
 
   useEffect(() => {
     if (uploadedObjectKeys.length > 0) {
-      queryClient.invalidateQueries({ queryKey: ["s3Assets", store.id] });
+      queryClient.invalidateQueries({ queryKey: ["s3Assets", organization.id] });
     }
-  }, [uploadedObjectKeys, queryClient, store.id]);
+  }, [uploadedObjectKeys, queryClient, organization.id]);
 
   const {data, isLoading, isError} = useGetImages();
 
@@ -264,57 +262,101 @@ export const ImageSideBar = ({
   
 
   return (
-<aside
-      className={cn(
-        "bg-white relative border-r z-[40] w-[360px] h-full flex flex-col overflow-y-scroll overflow-x-hidden",
+<aside className={cn(
+        "glass-strong relative border-r z-[40] w-[360px] h-full flex flex-col overflow-y-scroll overflow-x-hidden",
         activeTool === "images" ? "block" : "hidden"
       )}
     >
-      {/* <ToolSidebarHeader title="Images" description="Select or Add Images" /> */}
+      <div className="w-full p-3">
+        <div className="flex items-center justify-between mt-3 mb-4 flex-col gap-2">
+                  <button
+                    className="glass-subtle flex items-center text-white text-xs py-2 justify-center gap-2 w-full hover:bg-white/10 transition-all duration-200"
+                    onClick={() => {
+                      const fileUploadElement = document?.getElementById("file-upload");
+                      if (fileUploadElement) {
+                        fileUploadElement.click();
+                      }
+                    }}
+                    disabled={isUploading}
+                  >
+                    Upload Images
+                    <RiLoader4Fill
+                      fontSize={20}
+                      className={`spinner ${isUploading ? "block" : "hidden"}`}
+                    />
+                  </button>
+                  <input
+                    type="file"
+                    id="file-upload"
+                    multiple
+                    onChange={(e) => {
+                      handleMultipleImageUpload(e, organization.id).then(() => {
+                        e.target.files = null;
+                      });
+                    }}
+                    accept="image/*"
+                    style={{ display: "none" }}
+                  />
+                  <input
+                    type="text"
+                    name="s3-search"
+                    placeholder="Search files..."
+                    className="w-full px-3 py-2 text-xs bg-white/10 border border-white/20 rounded text-white placeholder-white/50 focus:outline-none focus:border-white/40 resize-none"
+                    onChange={(e) => handleSearchChange(e)}
+                  />
+                </div>
 
-      {/* <div className="p-4 border-b">
-        <UploadButton 
-        appearance={{
-          button: "w-full text font-medium bg-[#f33351] ring-0 outline-0 border-0 focus:ring-0 focus:outline-0 focus:border-0 hover:bg-[#f33351] hover:ring-0 hover:outline-0 hover:border-0",
-          allowedContent: "hidden"
-        }}
-        content={{
-          button: "Upload Image"
-        }}
-        endpoint="imageUploader"
-        onClientUploadComplete={(url) => editor?.addImage(url[0].url)}
-        />
-      </div> */}
+                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-2 py-0 overflow-y-auto scrollbar">
+                  {s3Assets?.pages?.length > 0
+                    ? s3Assets?.pages?.map((page, index) => {
+                        return page?.data?.map((image: any, index: any) => {
+                          return (
+                            <div
+                              key={image.id}
+                              className="rounded-2"
+                              onClick={() => editor?.addImage(image.signedUrl)}
+                            >
+                              <img
+                                src={image.signedUrl}
+                                alt="Gallery Image 1"
+                                width="100"
+                                onClick={() => {
+                                  editor?.addImage(image.signedUrl)
+                                }}
+                                height="100"
+                                className="object-cover w-full rounded-lg overflow-hidden border border-gray-200 cursor-pointer"
+                                style={{
+                                  aspectRatio: "100/100",
+                                  objectFit: "cover",
+                                }}
+                              />
+                            </div>
+                          );
+                        });
+                      })
+                    : "Uploaded assets not found"}
+                </div>
+                <div className="flex items-center justify-center  mt-5">
+                  <RiLoader4Fill
+                    fontSize={30}
+                    className={`mr-5 spinner ${
+                      s3AssetsLoading || isFetchingNextS3Assets
+                        ? "block"
+                        : "hidden"
+                    }`}
+                  />
+                  <button
+                    onClick={() => fetchNextS3Assets()}
+                    disabled={!hasNextS3Assets}
+                    className="glass-subtle text-xs p-2 text-white flex items-center justify-center gap-2"
+                  >
+                    Load More
+                  </button>
+                </div>
+      </div>
 
-      {/* {isLoading && (
-        <div className="flex items-center justify-center flex-1 h-full">
-          <Loader className="size-4 text-muted-foreground animate-spin" />
-        </div>
-      )}
-
-{isError && (
-        <div className="flex items-center justify-center flex-1 h-full gap-y-4 flex-col">
-          <AlertTriangle className="size-4 text-muted-foreground" />
-          <p className="text-muted-foreground text-xs">Failed to Fetch Images</p>
-        </div>
-      )}
-
-      <ScrollArea>
-        <div className="p-4 ">
-          <div className="grid grid-cols-2 gap-4">
-        {data && data.map((image: any) => {
-          return ( 
-            <button onClick={() => editor?.addImage(image.urls.regular)} key={image.id} className="relative w-full h-[100px] group hover:opacity-75 transition bg-muted rounded-sm overflow-hidden border">
-              <Image fill src={image.urls.small} className="object-cover" alt={image?.alt?.description || "Image"} />
-              <Link target="_blank" href={image.links.html} className="opacity-0 group-hover:opacity-100 absolute left-0 bottom-0 w-full text-[10px] truncate text-white hover:underline p-1 bg-black/50 text-left">{image.user.name}</Link>
-            </button>
-          )
-        })}
-        </div>
-        </div>
-      </ScrollArea> */}
-
-<Tabs defaultValue="shopify" className="w-full p-3">
+      
+{/* <Tabs defaultValue="shopify" className="w-full p-3">
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="shopify">Shopify Assets</TabsTrigger>
                 <TabsTrigger value="custom">Uploaded Assets</TabsTrigger>
@@ -374,92 +416,9 @@ export const ImageSideBar = ({
                 </div>
               </TabsContent>
               <TabsContent value="custom">
-                <div className="flex items-center justify-between mt-3 mb-4 flex-col gap-2">
-                  <Button
-                    className="bg-gray-300 hover:bg-gray-300 hover:text-gray-600 text-xs text-gray-600 flex items-center justify-center gap-2 w-full"
-                    onClick={() => {
-                      const fileUploadElement = document?.getElementById("file-upload");
-                      if (fileUploadElement) {
-                        fileUploadElement.click();
-                      }
-                    }}
-                    disabled={isUploading}
-                  >
-                    Upload Images
-                    <RiLoader4Fill
-                      fontSize={20}
-                      className={`spinner ${isUploading ? "block" : "hidden"}`}
-                    />
-                  </Button>
-                  <input
-                    type="file"
-                    id="file-upload"
-                    multiple
-                    onChange={(e) => {
-                      handleMultipleImageUpload(e, store.id).then(() => {
-                        e.target.files = null;
-                      });
-                    }}
-                    accept="image/*"
-                    style={{ display: "none" }}
-                  />
-                  <input
-                    type="text"
-                    name="s3-search"
-                    placeholder="Search"
-                    className="border border-gray-200 rounded-lg p-2 w-full"
-                    onChange={(e) => handleSearchChange(e)}
-                  />
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-2 py-0 overflow-y-auto scrollbar">
-                  {s3Assets?.pages?.length > 0
-                    ? s3Assets?.pages?.map((page, index) => {
-                        return page?.data?.map((image: any, index: any) => {
-                          return (
-                            <div
-                              key={image.id}
-                              onClick={() => editor?.addImage(image.signedUrl)}
-                            >
-                              <img
-                                src={image.signedUrl}
-                                alt="Gallery Image 1"
-                                width="100"
-                                onClick={() => {
-                                  editor?.addImage(image.signedUrl)
-                                }}
-                                height="100"
-                                className="object-cover w-full rounded-lg overflow-hidden border border-gray-200 cursor-pointer"
-                                style={{
-                                  aspectRatio: "100/100",
-                                  objectFit: "cover",
-                                }}
-                              />
-                            </div>
-                          );
-                        });
-                      })
-                    : "Uploaded assets not found"}
-                </div>
-                <div className="flex items-center justify-center  mt-5">
-                  <RiLoader4Fill
-                    fontSize={30}
-                    className={`mr-5 spinner ${
-                      s3AssetsLoading || isFetchingNextS3Assets
-                        ? "block"
-                        : "hidden"
-                    }`}
-                  />
-                  <Button
-                    onClick={() => fetchNextS3Assets()}
-                    disabled={!hasNextS3Assets}
-                    className="bg-black text-white flex items-center justify-center gap-2"
-                  >
-                    Load More
-                  </Button>
-                </div>
+                
               </TabsContent>
-            </Tabs>
+            </Tabs> */}
       <ToolSidebarClose onClick={onClose} />
     </aside>
   );

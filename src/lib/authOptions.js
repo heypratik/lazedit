@@ -16,7 +16,7 @@ export const authOptions = {
                 email: credentials.email,
                 password: credentials.password,
                 type: credentials.type,
-                shopifyStoreId: credentials.shopifyStoreId || null,
+                // shopifyStoreId: credentials.shopifyStoreId || null,
               }),
             }
           );

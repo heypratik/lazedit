@@ -2,6 +2,7 @@ import EditorProjectIdPage from "./editor"
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
 import { redirect } from "next/navigation";
+import { getOrganizationByUserId } from "@/app/onboarding/actions/onboarding";
 
 async function getStore(userId: any) {
   if (!userId) {
@@ -42,9 +43,9 @@ export default async function Page({params}: {
     redirect("/auth");
   }
 
-  let store = await getStore(session?.user?.id);
+  let org = await getOrganizationByUserId(session?.user?.id);
 
   return (
-    <EditorProjectIdPage store={store}  params={params}/>
+    <EditorProjectIdPage organization={org}  params={params}/>
   );
 }

@@ -7,7 +7,7 @@ import {
   PutObjectCommand,
   ListObjectsV2Command,
 } from "@aws-sdk/client-s3";
-import Image from "../../models/Image";
+import Image from "../../models/-Image";
 import next from "next";
 
 const s3 = new S3Client({
@@ -18,18 +18,22 @@ const s3 = new S3Client({
   },
 });
 
-export const uploadFile = async (file, fileName, mimetype, store) => {
+export const uploadFile = async (file, fileName, mimetype, organization_id) => {
   const uploadParams = {
     Bucket: process.env.BUCKET_NAME,
     Body: file,
-    Key: `${store}/${fileName}`,
+    Key: `${organization_id}/${fileName}`,
     ContentType: mimetype,
   };
 
   return s3.send(new PutObjectCommand(uploadParams));
 };
 
-export const getSignedUrlCf = async (url, store, expirationOption) => {
+export const getSignedUrlCf = async (
+  url,
+  organization_id,
+  expirationOption
+) => {
   let expirationTime; // Duration in milliseconds
 
   // Determine expiration time based on the selected option
@@ -45,7 +49,7 @@ export const getSignedUrlCf = async (url, store, expirationOption) => {
   }
 
   const signedUrl = await getSignedUrl({
-    url: `https://d7dum6r51r1fd.cloudfront.net/${store}/${url}`,
+    url: `https://d7dum6r51r1fd.cloudfront.net/${organization_id}/${url}`,
     dateLessThan: new Date(Date.now() + expirationTime), // Set expiration time dynamically
     privateKey: process.env.NEXT_PRIVATE_KEY,
     keyPairId: process.env.NEXT_KEY_PAIR_ID, // KEY PAID ID NOT ATTACHED TO RIGHT CLOUDFRONT FXI TI
@@ -93,26 +97,33 @@ export const listAllImages = async (
   }
 };
 
-export const generateSignedUrls = async (keys, store, expirationOption) => {
+export const generateSignedUrls = async (
+  keys,
+  organization_id,
+  expirationOption
+) => {
   return Promise.all(
-    keys.map((key) => getSignedUrlCf(key, store, expirationOption))
+    keys.map((key) => getSignedUrlCf(key, organization_id, expirationOption))
   );
 };
 
 // Usage
-export async function getImages(storeId, continuationToken) {
-  if (!storeId) {
-    throw new Error("Store ID is required.");
+export async function getImages(organization_id, continuationToken) {
+  if (!organization_id) {
+    throw new Error("Organization ID is required.");
   }
   const bucketName = process.env.BUCKET_NAME;
-  const store = storeId;
   const expirationOption = "10years";
 
   try {
-    const keys = await listAllImages(bucketName, store, continuationToken);
+    const keys = await listAllImages(
+      bucketName,
+      organization_id,
+      continuationToken
+    );
     const signedUrls = await generateSignedUrls(
       keys.images,
-      store,
+      organization_id,
       expirationOption
     );
     return { signedUrls, nextToken: keys.nextToken || null };

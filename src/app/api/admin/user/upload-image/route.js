@@ -1,8 +1,13 @@
 import { uploadFile } from "../../../../../lib/s3";
-import Image from "../../../../../../models/Image";
+const { Image } = require("../../../../../../models");
+// import { getServerSession } from "next-auth";
+// import { authOptions } from "@/lib/authOptions";
+
 import { v4 as uuidv4 } from "uuid";
 
 export async function POST(req) {
+  // const session = await getServerSession(req, authOptions);
+  // console.log(session, "SESSION STARTED");
   const arrayBuffer = await req.arrayBuffer();
   const fileBuffer = Buffer.from(arrayBuffer);
   const fileName = (() => {
@@ -32,13 +37,20 @@ export async function POST(req) {
   })();
 
   const mimetype = req.headers.get("mimetype");
-  const store = req.headers.get("store");
+  const organizationId = req.headers.get("organizationId");
+  // const userId = req.headers.get("userId");
 
   try {
-    const result = await uploadFile(fileBuffer, fileName, mimetype, store);
+    const result = await uploadFile(
+      fileBuffer,
+      fileName,
+      mimetype,
+      organizationId
+    );
     if (result) {
       const image = await Image.create({
-        storeId: store,
+        user_id: 1,
+        organization_id: organizationId,
         filename: fileNameForDb,
         mediaObjectKey: fileName,
       });

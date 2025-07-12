@@ -10,9 +10,12 @@ const models = {
   User: require("./user")(sequelize),
   Organization: require("./organization")(sequelize),
   Project: require("./project")(sequelize),
+  Image: require("./image")(sequelize), // Add the new Image model
 };
 
 // Define associations
+
+// User - Organization associations
 models.User.belongsTo(models.Organization, {
   foreignKey: "organization_id",
   as: "organization",
@@ -23,15 +26,10 @@ models.Organization.hasMany(models.User, {
   as: "users",
 });
 
-// Project associations
+// Project - Organization associations
 models.Project.belongsTo(models.Organization, {
   foreignKey: "organization_id",
   as: "organization",
-});
-
-models.Project.belongsTo(models.User, {
-  foreignKey: "user_id",
-  as: "user",
 });
 
 models.Organization.hasMany(models.Project, {
@@ -39,9 +37,37 @@ models.Organization.hasMany(models.Project, {
   as: "projects",
 });
 
+// Project - User associations
+models.Project.belongsTo(models.User, {
+  foreignKey: "user_id",
+  as: "user",
+});
+
 models.User.hasMany(models.Project, {
   foreignKey: "user_id",
   as: "projects",
+});
+
+// Image - User associations
+models.Image.belongsTo(models.User, {
+  foreignKey: "user_id",
+  as: "user",
+});
+
+models.User.hasMany(models.Image, {
+  foreignKey: "user_id",
+  as: "images",
+});
+
+// Image - Organization associations
+models.Image.belongsTo(models.Organization, {
+  foreignKey: "organization_id",
+  as: "organization",
+});
+
+models.Organization.hasMany(models.Image, {
+  foreignKey: "organization_id",
+  as: "images",
 });
 
 module.exports = {
