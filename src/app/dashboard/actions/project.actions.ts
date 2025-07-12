@@ -1,8 +1,7 @@
 "use server"
 
 // @ts-ignore
-// import Projects from "../../../../models/Projects"
-const { Project } = require("../../../../models");
+const {Project} = require("../../../../models")
 
 import { uuid } from "uuidv4";
 
