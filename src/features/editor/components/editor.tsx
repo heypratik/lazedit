@@ -41,10 +41,10 @@ import debounce from "lodash.debounce";
 
 interface EditorProps {
   initialData?: any;
-  store?: any;
+  organization?: any;
 }
 
-export const Editor = ({initialData, store}: EditorProps) => {
+export const Editor = ({initialData, organization}: EditorProps) => {
 
   const {mutate} = useUpdateProject(initialData.id);
 
@@ -133,8 +133,8 @@ export const Editor = ({initialData, store}: EditorProps) => {
         {/* <FilterSidebar  editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool}/> */}
 
         {/* <FontSidebar editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool}/> */}
-        {/* <ImageSideBar editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool} store={store}/> */}
         {/* <DrawSidebar editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool}/> */}
+        <ImageSideBar editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool} organization={organization}/>
         <main className="bg-muted flex-1 overflow-auto relative flex flex-col">
           <Toolbar
             editor={editor}

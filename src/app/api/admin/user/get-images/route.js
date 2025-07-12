@@ -1,22 +1,22 @@
 import { NextResponse } from "next/server";
 import { Op } from "sequelize";
-import Image from "../../../../../../models/Image"; // Adjust the path if your models are stored elsewhere.
+const { Image } = require("../../../../../../models");
 import { getSignedUrlCf } from "../../../../../lib/s3";
 
 export const dynamic = "force-dynamic";
 
 export async function GET(request) {
-  // http://localhost:3000/api/admin/user/get-images?storeId=8&search=l&page=2&limit=5
+  // http://localhost:3000/api/admin/user/get-images?organization=8&search=l&page=2&limit=5
   try {
     const { searchParams } = new URL(request.url);
-    const storeId = searchParams.get("storeId");
+    const orgId = searchParams.get("organization");
     const search = searchParams.get("search") || ""; // Search term for `filename`
     const page = parseInt(searchParams.get("page") || "1", 10); // Default to page 1
     const limit = parseInt(searchParams.get("limit") || "10", 10); // Default to 10 results per page
 
-    if (!storeId) {
+    if (!orgId) {
       return NextResponse.json(
-        { error: "storeId query parameter is required" },
+        { error: "orgId query parameter is required" },
         { status: 400 }
       );
     }
@@ -26,7 +26,7 @@ export async function GET(request) {
     // Fetch the data with Sequelize
     const { rows: images, count: total } = await Image.findAndCountAll({
       where: {
-        storeId,
+        organization_id: orgId,
         filename: {
           [Op.like]: `%${search}%`,
         },
@@ -41,7 +41,7 @@ export async function GET(request) {
       images.map(async (image) => {
         const signedUrl = await getSignedUrlCf(
           image.mediaObjectKey,
-          storeId,
+          orgId,
           "10years" // Set your desired expiration option here
         );
         return {

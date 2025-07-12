@@ -12,12 +12,12 @@ interface EditorProjectIdPageProps {
   params: {
     projectId: string;
   };
-  store: any;
+  organization: any;
 };
 
 export default function EditorProjectIdPage({
   params,
-  store,
+  organization,
 }: EditorProjectIdPageProps) {
 
   // const data = await getProjectById(params.projectId);
@@ -47,7 +47,7 @@ export default function EditorProjectIdPage({
     );
   }
 
-  return <Editor initialData={data} store={store}/>
+  return <Editor initialData={data} organization={organization}/>;
 };
 
 
