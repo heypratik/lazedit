@@ -7,7 +7,7 @@ import {
   PutObjectCommand,
   ListObjectsV2Command,
 } from "@aws-sdk/client-s3";
-import Image from "../../models/-Image";
+import { Image } from "../../models";
 import next from "next";
 
 const s3 = new S3Client({
