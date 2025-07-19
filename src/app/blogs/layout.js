@@ -11,10 +11,8 @@ export default function BlogLayout({ children }) {
   return (
     <>
       <Header />
-      <main className="min-h-screen bg-[#08090a] pt-16 blog-post_content">
-        <div className="content-left"></div>
+      <main className="min-h-screen bg-[#08090a] pt-16">
         <div className="content-center">{children}</div>
-        <div className="content-right"></div>
       </main>
       <Footer />
     </>
