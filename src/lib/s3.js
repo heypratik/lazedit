@@ -50,9 +50,9 @@ export const getSignedUrlCf = async (
 
   const signedUrl = await getSignedUrl({
     url: `https://d1kw46qh6t9dlp.cloudfront.net/${organization_id}/${url}`,
-    dateLessThan: new Date(Date.now() + expirationTime), // Set expiration time dynamically
+    dateLessThan: new Date(Date.now() + expirationTime),
     privateKey: process.env.NEXT_PRIVATE_KEY,
-    keyPairId: process.env.NEXT_KEY_PAIR_ID, // KEY PAID ID NOT ATTACHED TO RIGHT CLOUDFRONT FXI TI
+    keyPairId: process.env.NEXT_KEY_PAIR_ID,
   });
 
   return signedUrl;
@@ -70,7 +70,7 @@ export const listAllImages = async (
     const params = {
       Bucket: bucketName,
       MaxKeys: 100,
-      Prefix: `${prefix}/`, // Optional: Specify folder path if needed
+      Prefix: `${prefix}/`,
       ContinuationToken: continuationToken,
     };
 
