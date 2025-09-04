@@ -16,7 +16,6 @@ export const authOptions = {
                 email: credentials.email,
                 password: credentials.password,
                 type: credentials.type,
-                // shopifyStoreId: credentials.shopifyStoreId || null,
               }),
             }
           );
@@ -24,7 +23,7 @@ export const authOptions = {
           const data = await response.json();
 
           if (data.success) {
-            return data.user; // Return user object with additional data
+            return data.user; 
           } else {
             throw new Error(data.message);
           }

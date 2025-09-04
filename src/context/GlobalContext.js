@@ -1,7 +1,6 @@
 "use client";
 
 import { createContext, useState } from "react";
-import { fetchAssetsList, fetchProducts } from "../network/APIService";
 
 export const GlobalContext = createContext();
 
