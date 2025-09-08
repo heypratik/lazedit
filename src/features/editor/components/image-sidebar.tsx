@@ -2,7 +2,6 @@ import { useEffect, useState, useCallback } from "react";
 import { ActiveTool, Editor, fonts } from "../types";
 import { cn } from "@/lib/utils";
 import { ToolSidebarClose } from "./tool-sidebar-close";
-import { useGetImages } from "@/features/image/api/use-get-images";
 import toast, { Toaster } from "react-hot-toast";
 import { RiLoader4Fill } from "react-icons/ri";
 import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
@@ -12,7 +11,6 @@ export const useMultiImageUpload = () => {
   const [uploadedObjectKeys, setUploadedObjectKeys] = useState<any>([]);
 
   const uploadFile = async (file: any, orgId: any) => {
-    // Create an ArrayBuffer from the file
     const arrayBuffer = await file.arrayBuffer();
     const buffer = new Uint8Array(arrayBuffer);
 
@@ -37,7 +35,6 @@ export const useMultiImageUpload = () => {
 
   const handleMultipleImageUpload = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>, orgId: any) => {
-      // Reset states at the start of each upload
       setIsUploading(true);
       setUploadedObjectKeys([]);
 
@@ -211,13 +208,9 @@ export const ImageSideBar = ({
     }
   }, [uploadedObjectKeys, queryClient, organization.id]);
 
-  const { data, isLoading, isError } = useGetImages();
-
   const onClose = () => {
     onChangeActiveTool("select");
   };
-
-  const value = editor?.getActiveFontFamily();
 
   return (
     <aside
