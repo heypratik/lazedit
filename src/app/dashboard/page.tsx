@@ -1,11 +1,10 @@
-import Editor from "./editor"
+import Editor from "./editor";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
 import { redirect } from "next/navigation";
-import { getOrganizationByUserId } from "@/app/onboarding/actions/onboarding";
+import { getOrganizationByUserId } from "@/app/dashboard/actions/project.actions";
 
 export default async function Page() {
-
   const session = await getServerSession(authOptions);
 
   if (!session) {
@@ -13,8 +12,6 @@ export default async function Page() {
   }
 
   const org = await getOrganizationByUserId(session.user.id);
-  
-  return (
-    <Editor organization={org} userId={session.user.id}/>
-  );
+
+  return <Editor organization={org} userId={session.user.id} />;
 }
