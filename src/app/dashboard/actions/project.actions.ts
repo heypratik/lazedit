@@ -2,6 +2,7 @@
 
 // @ts-ignore
 const {Project} = require("../../../../models")
+const { User, Organization } = require("../../../../models");
 
 import { uuid } from "uuidv4";
 
@@ -167,3 +168,24 @@ export async function deleteProject(projectId: any) {
         console.log(error);
     }
 }
+
+export async function getOrganizationByUserId(userId: any) {
+    try {
+      const user = await User.findOne({
+        where: { id: userId },
+        include: {
+          model: Organization,
+          as: "organization",
+        },
+      });
+  
+      if (!user) {
+        throw new Error("User not found");
+      }
+  
+      return user.organization;
+    } catch (error) {
+      console.error("Error fetching organization:", error);
+      throw error;
+    }
+  }

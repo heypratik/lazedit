@@ -11,7 +11,6 @@ export default function Editor({ organization, userId }) {
     <CustomLayout>
       <Toaster />
       <Banner organization={organization} userId={userId} />
-      {/* <Templates store={store} /> */}
       <ProjectsTable organization={organization} userId={userId} />
     </CustomLayout>
   );

@@ -1,8 +1,8 @@
-import EditorProjectIdPage from "./editor"
+import EditorProjectIdPage from "./editor";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
 import { redirect } from "next/navigation";
-import { getOrganizationByUserId } from "@/app/onboarding/actions/onboarding";
+import { getOrganizationByUserId } from "../actions/project.actions";
 
 async function getStore(userId: any) {
   if (!userId) {
@@ -32,7 +32,9 @@ async function getStore(userId: any) {
   }
 }
 
-export default async function Page({params}: {
+export default async function Page({
+  params,
+}: {
   params: {
     projectId: string;
   };
@@ -45,7 +47,5 @@ export default async function Page({params}: {
 
   let org = await getOrganizationByUserId(session?.user?.id);
 
-  return (
-    <EditorProjectIdPage organization={org}  params={params}/>
-  );
+  return <EditorProjectIdPage organization={org} params={params} />;
 }
