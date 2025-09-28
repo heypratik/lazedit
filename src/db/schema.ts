@@ -5,136 +5,101 @@ import {
   timestamp,
   pgTable,
   text,
-  primaryKey,
   integer,
+  serial,
+  jsonb,
+  json,
 } from "drizzle-orm/pg-core"
-import type { AdapterAccount } from "next-auth/adapters"
- 
-export const users = pgTable("user", {
-  id: text("id")
-    .primaryKey()
-    .$defaultFn(() => crypto.randomUUID()),
-  name: text("name"),
-  email: text("email").notNull(),
-  emailVerified: timestamp("emailVerified", { mode: "date" }),
-  image: text("image"),
-  password: text("password"), 
+
+// Organizations table (from your live Neon database)
+export const organizations = pgTable("organizations", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  created_at: timestamp("created_at", { mode: "date" }).notNull(),
+  updated_at: timestamp("updated_at", { mode: "date" }).notNull(),
 });
 
-export const usersRelations = relations(users, ({ many }) => ({
+// Users table (from your live Neon database)
+export const users = pgTable("users", {
+  id: serial("id").primaryKey(),
+  organization_id: integer("organization_id").references(() => organizations.id, { onDelete: "set null" }),
+  name: text("name").notNull(),
+  email: text("email").notNull().unique(),
+  password: text("password").notNull(),
+  stripeCustomerId: text("stripeCustomerId"),
+  stripePlanEndsAt: timestamp("stripePlanEndsAt", { mode: "date" }),
+  onboarded: boolean("onboarded").default(false),
+  creditsAvailable: integer("creditsAvailable").default(0).notNull(),
+  created_at: timestamp("created_at", { mode: "date" }).notNull(),
+  updated_at: timestamp("updated_at", { mode: "date" }).notNull(),
+});
+
+// Projects table (from your live Neon database)
+export const projects = pgTable("projects", {
+  id: text("id").primaryKey(),
+  name: text("name").notNull(),
+  organization_id: integer("organization_id").notNull().references(() => organizations.id, { onDelete: "cascade" }),
+  user_id: integer("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  json: json("json"),
+  height: integer("height"),
+  width: integer("width"),
+  thumbnail_url: text("thumbnail_url"),
+  created_at: timestamp("created_at", { mode: "date" }).notNull(),
+  updated_at: timestamp("updated_at", { mode: "date" }).notNull(),
+});
+
+// Images table (from your live Neon database)
+export const images = pgTable("images", {
+  id: serial("id").primaryKey(),
+  user_id: integer("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  organization_id: integer("organization_id").notNull().references(() => organizations.id, { onDelete: "cascade" }),
+  filename: text("filename").notNull(),
+  media_object_key: text("media_object_key").notNull(),
+  metadata: jsonb("metadata"),
+  created_at: timestamp("created_at", { mode: "date" }).notNull(),
+  updated_at: timestamp("updated_at", { mode: "date" }).notNull(),
+});
+
+// Relations
+export const organizationsRelations = relations(organizations, ({ many }) => ({
+  users: many(users),
   projects: many(projects),
+  images: many(images),
 }));
 
-export const accounts = pgTable(
-  "account",
-  {
-    userId: text("userId")
-      .notNull()
-      .references(() => users.id, { onDelete: "cascade" }),
-    type: text("type").$type<AdapterAccount>().notNull(),
-    provider: text("provider").notNull(),
-    providerAccountId: text("providerAccountId").notNull(),
-    refresh_token: text("refresh_token"),
-    access_token: text("access_token"),
-    expires_at: integer("expires_at"),
-    token_type: text("token_type"),
-    scope: text("scope"),
-    id_token: text("id_token"),
-    session_state: text("session_state"),
-  },
-  (account) => ({
-    compoundKey: primaryKey({
-      columns: [account.provider, account.providerAccountId],
-    }),
-  })
-)
- 
-export const sessions = pgTable("session", {
-  sessionToken: text("sessionToken").primaryKey(),
-  userId: text("userId")
-    .notNull()
-    .references(() => users.id, { onDelete: "cascade" }),
-  expires: timestamp("expires", { mode: "date" }).notNull(),
-})
- 
-export const verificationTokens = pgTable(
-  "verificationToken",
-  {
-    identifier: text("identifier").notNull(),
-    token: text("token").notNull(),
-    expires: timestamp("expires", { mode: "date" }).notNull(),
-  },
-  (verificationToken) => ({
-    compositePk: primaryKey({
-      columns: [verificationToken.identifier, verificationToken.token],
-    }),
-  })
-)
- 
-export const authenticators = pgTable(
-  "authenticator",
-  {
-    credentialID: text("credentialID").notNull().unique(),
-    userId: text("userId")
-      .notNull()
-      .references(() => users.id, { onDelete: "cascade" }),
-    providerAccountId: text("providerAccountId").notNull(),
-    credentialPublicKey: text("credentialPublicKey").notNull(),
-    counter: integer("counter").notNull(),
-    credentialDeviceType: text("credentialDeviceType").notNull(),
-    credentialBackedUp: boolean("credentialBackedUp").notNull(),
-    transports: text("transports"),
-  },
-  (authenticator) => ({
-    compositePK: primaryKey({
-      columns: [authenticator.userId, authenticator.credentialID],
-    }),
-  })
-)
-
-export const projects = pgTable("project", {
-  id: text("id")
-    .primaryKey()
-    .$defaultFn(() => crypto.randomUUID()),
-  name: text("name").notNull(),
-  userId: text("userId")
-    .notNull()
-    .references(() => users.id, {
-      onDelete: "cascade",
-    }),
-  json: text("json").notNull(),
-  height: integer("height").notNull(),
-  width: integer("width").notNull(),
-  thumbnailUrl: text("thumbnailUrl"),
-  isTemplate: boolean("isTemplate"),
-  isPro: boolean("isPro"),
-  createdAt: timestamp("createdAt", { mode: "date" }).notNull(),
-  updatedAt: timestamp("updatedAt", { mode: "date" }).notNull(),
-});
+export const usersRelations = relations(users, ({ one, many }) => ({
+  organization: one(organizations, {
+    fields: [users.organization_id],
+    references: [organizations.id],
+  }),
+  projects: many(projects),
+  images: many(images),
+}));
 
 export const projectsRelations = relations(projects, ({ one }) => ({
+  organization: one(organizations, {
+    fields: [projects.organization_id],
+    references: [organizations.id],
+  }),
   user: one(users, {
-    fields: [projects.userId],
+    fields: [projects.user_id],
     references: [users.id],
   }),
 }));
 
-export const projectsInsertSchema = createInsertSchema(projects);
+export const imagesRelations = relations(images, ({ one }) => ({
+  user: one(users, {
+    fields: [images.user_id],
+    references: [users.id],
+  }),
+  organization: one(organizations, {
+    fields: [images.organization_id],
+    references: [organizations.id],
+  }),
+}));
 
-export const subscriptions = pgTable("subscription", {
-  id: text("id")
-    .primaryKey()
-    .$defaultFn(() => crypto.randomUUID()),
-  userId: text("userId")
-    .notNull()
-    .references(() => users.id, {
-      onDelete: "cascade"
-    }),
-  subscriptionId: text("subscriptionId").notNull(),
-  customerId: text("customerId").notNull(),
-  priceId: text("priceId").notNull(),
-  status: text("status").notNull(),
-  currentPeriodEnd: timestamp("currentPeriodEnd", { mode: "date" }),
-  createdAt: timestamp("createdAt", { mode: "date" }).notNull(),
-  updatedAt: timestamp("updatedAt", { mode: "date" }).notNull(),
-});
+// Schema exports for easy use
+export const projectsInsertSchema = createInsertSchema(projects);
+export const usersInsertSchema = createInsertSchema(users);
+export const organizationsInsertSchema = createInsertSchema(organizations);
+export const imagesInsertSchema = createInsertSchema(images);

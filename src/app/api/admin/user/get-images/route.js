@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
-import { Op } from "sequelize";
-const { Image } = require("../../../../../../models");
+import { db } from "../../../../../db/drizzle";
+import { images } from "../../../../../db/schema";
+import { ilike, desc, count, eq, and } from "drizzle-orm";
 import { getSignedUrlCf } from "../../../../../lib/s3";
 
 export const dynamic = "force-dynamic";
@@ -23,29 +24,38 @@ export async function GET(request) {
 
     const offset = (page - 1) * limit;
 
-    // Fetch the data with Sequelize
-    const { rows: images, count: total } = await Image.findAndCountAll({
-      where: {
-        organization_id: orgId,
-        filename: {
-          [Op.like]: `%${search}%`,
-        },
-      },
-      limit,
-      offset,
-      order: [["created_at", "DESC"]], // Order by creation date (most recent first)
-    });
+    // Build where conditions
+    const whereConditions = [eq(images.organization_id, parseInt(orgId))];
+    if (search) {
+      whereConditions.push(ilike(images.filename, `%${search}%`));
+    }
+
+    // Fetch the data with Drizzle
+    const [imageResults, totalResult] = await Promise.all([
+      db.select()
+        .from(images)
+        .where(and(...whereConditions))
+        .orderBy(desc(images.created_at))
+        .limit(limit)
+        .offset(offset),
+
+      db.select({ count: count() })
+        .from(images)
+        .where(and(...whereConditions))
+    ]);
+
+    const total = totalResult[0].count;
 
     // Generate signed URLs for each image
     const imagesWithSignedUrls = await Promise.all(
-      images.map(async (image) => {
+      imageResults.map(async (image) => {
         const signedUrl = await getSignedUrlCf(
           image.mediaObjectKey,
           orgId,
           "10years" // Set your desired expiration option here
         );
         return {
-          ...image.toJSON(), // Convert Sequelize model instance to plain object
+          ...image, // Drizzle already returns plain objects
           signedUrl, // Attach the signed URL
         };
       })

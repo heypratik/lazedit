@@ -3,7 +3,6 @@
 // @ts-ignore
 const {Project} = require("../../../../models")
 const { User, Organization } = require("../../../../models");
-
 import { uuid } from "uuidv4";
 
 export async function createProject(orgId: any, userId: any) {

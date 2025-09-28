@@ -85,7 +85,6 @@
     "react-lottie": "^1.2.10",
     "react-use": "^17.6.0",
     "replicate": "^1.0.1",
-    "sequelize": "^6.37.5",
     "sonner": "^1.7.4",
     "stripe": "^17.6.0",
     "tailwind-merge": "^2.6.0",
