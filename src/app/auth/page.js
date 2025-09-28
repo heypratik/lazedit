@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { signIn } from "next-auth/react";
+import { signIn, signUp } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
 import { RiLoader4Fill } from "react-icons/ri";
@@ -67,20 +67,17 @@ function Auth() {
     setIsLoading(true);
     try {
       if (isLogin) {
-        const status = await signIn("credentials", {
-          redirect: false,
+        const { data, error } = await signIn.email({
           email: email,
           password: password,
-          type: "custom",
-          callbackUrl: "/dashboard",
         });
 
-        if (status?.ok) {
+        if (data) {
           setRedirect(true);
           router.push("/dashboard");
           notification(true, "Login Successful");
         } else {
-          notification(false, status?.error);
+          notification(false, error?.message || "Login failed");
         }
       } else {
         await signupFunction();
@@ -93,35 +90,30 @@ function Auth() {
 
   async function signupFunction() {
     try {
-      const response = await fetch("/api/admin/auth/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name, email, password }),
+      const { data, error } = await signUp.email({
+        name: name,
+        email: email,
+        password: password,
       });
 
-      if (response.ok) {
+      if (data) {
         notification(true, "Signup Successful");
 
-        const status = await signIn("credentials", {
-          redirect: false,
+        // Auto login after signup
+        const { data: loginData, error: loginError } = await signIn.email({
           email: email,
           password: password,
-          type: "custom",
-          callbackUrl: "/billing",
         });
 
-        if (status?.ok) {
+        if (loginData) {
           setRedirect(true);
           router.push("/billing");
           notification(true, "Login Successful");
         } else {
-          notification(false, status?.error);
+          notification(false, loginError?.message || "Auto-login failed");
         }
       } else {
-        const errorData = await response.json();
-        notification(false, errorData.message || "Signup Failed");
+        notification(false, error?.message || "Signup Failed");
       }
     } catch (error) {
       notification(false, "An error occurred during signup");

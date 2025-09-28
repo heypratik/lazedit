@@ -3,7 +3,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { signIn } from "next-auth/react";
+import { signIn } from "@/lib/auth-client";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { TriangleAlert } from "lucide-react";
@@ -27,16 +27,19 @@ export const SignInCard = () => {
   const params = useSearchParams();
   const error = params.get("error");
 
-  const onCredentialSignIn = (
+  const onCredentialSignIn = async (
     e: React.FormEvent<HTMLFormElement>
   ) => {
     e.preventDefault();
 
-    signIn("credentials", {
+    const { data, error } = await signIn.email({
       email: email,
       password: password,
-      callbackUrl: "/",
     });
+
+    if (data) {
+      window.location.href = "/";
+    }
   };
 
   const onProviderSignIn = (provider: "github" | "google") => {
