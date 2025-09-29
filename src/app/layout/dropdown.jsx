@@ -26,6 +26,7 @@ export function DropdownMenu({ anchor = 'bottom', className, ...props }) {
       <div className="relative">
         <Headless.MenuItems
           as="div"
+          anchor={anchor}
           {...props}
           className={clsx(
             className,

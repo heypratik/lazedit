@@ -33,17 +33,9 @@ import {
 } from "@heroicons/react/16/solid";
 import {
   Cog6ToothIcon,
-  PaintBrushIcon,
   HomeIcon,
   InboxIcon,
   MagnifyingGlassIcon,
-  MegaphoneIcon,
-  QuestionMarkCircleIcon,
-  SparklesIcon,
-  Square2StackIcon,
-  TicketIcon,
-  ChartPieIcon,
-  ChatBubbleBottomCenterTextIcon,
 } from "@heroicons/react/20/solid";
 import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
@@ -155,49 +147,14 @@ export default function CustomLayout({ children }) {
                 <HomeIcon />
                 <SidebarLabel>Dashboard</SidebarLabel>
               </SidebarItem>
-              {/* <SidebarItem href="/calendar">
-                <Square2StackIcon />
-                <SidebarLabel>Calendar</SidebarLabel>
-              </SidebarItem> */}
-
-              {/* Modified Emails section with submenus */}
-              {/* <div className="relative">
-                <SubMenuItem
-                  icon={TicketIcon}
-                  label="Campaigns"
-                  isOpen={openMenus.emails}
-                  onToggle={() => toggleMenu("emails")}
-                >
-                  <SidebarItem href="/calendar">
-                    <SidebarLabel>Calendar</SidebarLabel>
-                  </SidebarItem>
-
-                  <SidebarItem href="/create-campaign">
-                    <SidebarLabel>Emails</SidebarLabel>
-                  </SidebarItem>
-
-                  <SidebarItem href="/sms">
-                    <SidebarLabel>SMS</SidebarLabel>
-                  </SidebarItem>
-                  <SidebarItem href="/segments">
-                    <SidebarLabel>Segments</SidebarLabel>
-                  </SidebarItem>
-                </SubMenuItem>
-              </div> */}
               <SidebarItem href="/settings">
                 <Cog6ToothIcon />
                 <SidebarLabel>Settings</SidebarLabel>
               </SidebarItem>
             </SidebarSection>
             <SidebarSpacer />
-            {/* <SidebarSection>
-              <SidebarItem href="/support">
-                <QuestionMarkCircleIcon />
-                <SidebarLabel>Support</SidebarLabel>
-              </SidebarItem>
-            </SidebarSection> */}
           </SidebarBody>
-          <SidebarFooter className="max-lg:hidden">
+          <SidebarFooter className="max-lg:hidden relative z-50">
             <Dropdown>
               <DropdownButton as={SidebarItem}>
                 <span className="flex min-w-0 items-center gap-3">
@@ -226,7 +183,7 @@ export default function CustomLayout({ children }) {
                 </span>
                 <ChevronUpIcon />
               </DropdownButton>
-              <DropdownMenu className="min-w-64" anchor="top start">
+              <DropdownMenu className="min-w-64 z-[9999]" anchor="top">
                 <DropdownItem href="/billing">
                   <UserIcon />
                   <DropdownLabel>My profile</DropdownLabel>
