@@ -7,7 +7,7 @@ import { getOrganizationByUserId } from "@/app/dashboard/actions/project.actions
 
 export default async function Page() {
   const session = await auth.api.getSession({
-    headers: await headers(), // you need to pass the headers object.
+    headers: await headers(),
   });
 
   console.log(session);
