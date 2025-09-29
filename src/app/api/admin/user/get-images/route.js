@@ -32,16 +32,18 @@ export async function GET(request) {
 
     // Fetch the data with Drizzle
     const [imageResults, totalResult] = await Promise.all([
-      db.select()
+      db
+        .select()
         .from(images)
         .where(and(...whereConditions))
         .orderBy(desc(images.created_at))
         .limit(limit)
         .offset(offset),
 
-      db.select({ count: count() })
+      db
+        .select({ count: count() })
         .from(images)
-        .where(and(...whereConditions))
+        .where(and(...whereConditions)),
     ]);
 
     const total = totalResult[0].count;

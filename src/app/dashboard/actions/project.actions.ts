@@ -1,8 +1,8 @@
 "use server"
 
-// @ts-ignore
-const {Project} = require("../../../../models")
-const { User, Organization } = require("../../../../models");
+import { db } from "../../../db/drizzle";
+import { projects, user, organizations } from "../../../db/schema";
+import { eq, and, desc, count } from "drizzle-orm";
 import { uuid } from "uuidv4";
 
 export async function createProject(orgId: any, userId: any) {
@@ -16,12 +16,14 @@ export async function createProject(orgId: any, userId: any) {
             height: 1200,
             organization_id: orgId,
             user_id: userId,
-        }   
+            created_at: new Date(),
+            updated_at: new Date(),
+        }
 
-        const response = await Project.create(project)
+        const response = await db.insert(projects).values(project).returning();
 
-        if (response) {
-            return response.dataValues
+        if (response && response.length > 0) {
+            return response[0]
         } else {
             return null
         }
@@ -33,10 +35,10 @@ export async function createProject(orgId: any, userId: any) {
 
 export async function getProjectById(id: any) {
     try {
-        const project = await await Project.findByPk(id);
+        const project = await db.select().from(projects).where(eq(projects.id, id)).limit(1);
 
-        if (project) {
-            return project.dataValues
+        if (project && project.length > 0) {
+            return project[0]
         } else {
             return null
         }
@@ -48,17 +50,36 @@ export async function getProjectById(id: any) {
 // Paginated All Projects based on storeId
 export async function getProjects(orgId: any, userId: any, page: any, limit: any) {
     try {
-        const projects = await Project.findAndCountAll({
-            where: {
-                organization_id: orgId,
-                user_id: userId
-            },
-            limit: limit,
-            offset: page * limit
-        })
+        const offset = page * limit;
 
-        if (projects) {
-            return projects
+        const [projectResults, totalResult] = await Promise.all([
+            db.select()
+                .from(projects)
+                .where(and(
+                    eq(projects.organization_id, orgId),
+                    eq(projects.user_id, userId)
+                ))
+                .limit(limit)
+                .offset(offset)
+                .orderBy(desc(projects.created_at)),
+
+            db.select({ count: count() })
+                .from(projects)
+                .where(and(
+                    eq(projects.organization_id, orgId),
+                    eq(projects.user_id, userId)
+                ))
+        ]);
+
+        const total = totalResult[0].count;
+
+        const result = {
+            rows: projectResults,
+            count: total
+        };
+
+        if (result) {
+            return result
         } else {
             return null
         }
@@ -71,17 +92,29 @@ export async function getProjects(orgId: any, userId: any, page: any, limit: any
 // Paginated All Templates
 export async function getAllTemplates(page: any, limit: any) {
     try {
-        const projects = await Project.findAndCountAll({
-            where: {
-                isTemplate: true
-            },
-            limit: limit,
-            offset: page * limit
-        })
+        const offset = page * limit;
 
-        if (projects) {
-            console.log(projects)
-            return projects
+        const [projectResults, totalResult] = await Promise.all([
+            db.select()
+                .from(projects)
+                .limit(limit)
+                .offset(offset)
+                .orderBy(desc(projects.created_at)),
+
+            db.select({ count: count() })
+                .from(projects)
+        ]);
+
+        const total = totalResult[0].count;
+
+        const result = {
+            rows: projectResults,
+            count: total
+        };
+
+        if (result) {
+            console.log(result)
+            return result
         } else {
             return null
         }
@@ -92,27 +125,27 @@ export async function getAllTemplates(page: any, limit: any) {
 
 export async function duplicateTemplate(orgId: any, user_id: any, projectId: any) {
     try {
-        const originalProject = await Project.findByPk(projectId, {
-            raw: true
-        });
+        const originalProject = await db.select().from(projects).where(eq(projects.id, projectId)).limit(1);
 
-        if (!originalProject) {
+        if (!originalProject || originalProject.length === 0) {
             return null;
         }
 
         // Remove unique identifiers and add new storeId
-        const { id, createdAt, updatedAt, ...projectData } = originalProject;
-        
+        const { id, created_at, updated_at, ...projectData } = originalProject[0];
+
         // Create new project with the provided storeId
-        const newProject = await Project.create({
+        const newProject = await db.insert(projects).values({
             ...projectData,
             id: uuid(),
             organization_id: orgId,
             user_id: user_id,
-        });
+            created_at: new Date(),
+            updated_at: new Date(),
+        }).returning();
 
-        if (newProject) {
-            return newProject.dataValues;
+        if (newProject && newProject.length > 0) {
+            return newProject[0];
         } else {
             return null;
         }
@@ -124,26 +157,25 @@ export async function duplicateTemplate(orgId: any, user_id: any, projectId: any
 
 export async function duplicateProject(projectId: any) {
     try {
-        const originalProject = await Project.findByPk(projectId, {
-            raw: true
-        });
+        const originalProject = await db.select().from(projects).where(eq(projects.id, projectId)).limit(1);
 
-        if (!originalProject) {
+        if (!originalProject || originalProject.length === 0) {
             return null;
         }
 
         // Remove unique identifiers and add new storeId
-        const { id, createdAt, updatedAt, isTemplate, ...projectData } = originalProject;
-        
+        const { id, created_at, updated_at, ...projectData } = originalProject[0];
+
         // Create new project with the provided storeId
-        const newProject = await Project.create({
+        const newProject = await db.insert(projects).values({
             ...projectData,
             id: uuid(),
-            isTemplate: false,
-        });
+            created_at: new Date(),
+            updated_at: new Date(),
+        }).returning();
 
-        if (newProject) {
-            return newProject.dataValues;
+        if (newProject && newProject.length > 0) {
+            return newProject[0];
         } else {
             return null;
         }
@@ -155,10 +187,9 @@ export async function duplicateProject(projectId: any) {
 
 export async function deleteProject(projectId: any) {
     try {
-        const project = await Project.findByPk(projectId);
+        const result = await db.delete(projects).where(eq(projects.id, projectId)).returning();
 
-        if (project) {
-            await project.destroy();
+        if (result && result.length > 0) {
             return true;
         } else {
             return false;
@@ -170,19 +201,18 @@ export async function deleteProject(projectId: any) {
 
 export async function getOrganizationByUserId(userId: any) {
     try {
-      const user = await User.findOne({
-        where: { id: userId },
-        include: {
-          model: Organization,
-          as: "organization",
-        },
-      });
-  
-      if (!user) {
-        throw new Error("User not found");
+      const result = await db.select({
+        organization: organizations
+      })
+      .from(organizations)
+      .where(eq(organizations.user_id, userId))
+      .limit(1);
+
+      if (!result || result.length === 0) {
+        throw new Error("Organization not found for user");
       }
-  
-      return user.organization;
+
+      return result[0].organization;
     } catch (error) {
       console.error("Error fetching organization:", error);
       throw error;

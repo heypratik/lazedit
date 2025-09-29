@@ -9,6 +9,7 @@ import {
   serial,
   jsonb,
   json,
+  index,
 } from "drizzle-orm/pg-core"
 
 // Better-auth tables (auto-generated)
@@ -76,63 +77,60 @@ export const verification = pgTable("verification", {
 export const organizations = pgTable("organizations", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
+  user_id: text("user_id").references(() => user.id, { onDelete: "cascade" }),
   created_at: timestamp("created_at", { mode: "date" }).notNull(),
   updated_at: timestamp("updated_at", { mode: "date" }).notNull(),
-});
+}, (table) => ({
+  userIdIdx: index("organizations_user_id_idx").on(table.user_id),
+}));
 
-// Users table (from your live Neon database)
-export const users = pgTable("users", {
-  id: serial("id").primaryKey(),
-  organization_id: integer("organization_id").references(() => organizations.id, { onDelete: "set null" }),
-  name: text("name").notNull(),
-  email: text("email").notNull().unique(),
-  password: text("password").notNull(),
-  stripeCustomerId: text("stripeCustomerId"),
-  stripePlanEndsAt: timestamp("stripePlanEndsAt", { mode: "date" }),
-  onboarded: boolean("onboarded").default(false),
-  creditsAvailable: integer("creditsAvailable").default(0).notNull(),
-  created_at: timestamp("created_at", { mode: "date" }).notNull(),
-  updated_at: timestamp("updated_at", { mode: "date" }).notNull(),
-});
 
 // Projects table (from your live Neon database)
 export const projects = pgTable("projects", {
   id: text("id").primaryKey(),
   name: text("name").notNull(),
   organization_id: integer("organization_id").notNull().references(() => organizations.id, { onDelete: "cascade" }),
-  user_id: integer("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  user_id: text("user_id").notNull().references(() => user.id, { onDelete: "cascade" }),
   json: json("json"),
   height: integer("height"),
   width: integer("width"),
   thumbnail_url: text("thumbnail_url"),
   created_at: timestamp("created_at", { mode: "date" }).notNull(),
   updated_at: timestamp("updated_at", { mode: "date" }).notNull(),
-});
+}, (table) => ({
+  userIdIdx: index("projects_user_id_idx").on(table.user_id),
+  orgIdIdx: index("projects_org_id_idx").on(table.organization_id),
+  userOrgIdx: index("projects_user_org_idx").on(table.user_id, table.organization_id),
+}));
 
 // Images table (from your live Neon database)
 export const images = pgTable("images", {
   id: serial("id").primaryKey(),
-  user_id: integer("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  user_id: text("user_id").notNull().references(() => user.id, { onDelete: "cascade" }),
   organization_id: integer("organization_id").notNull().references(() => organizations.id, { onDelete: "cascade" }),
   filename: text("filename").notNull(),
-  media_object_key: text("media_object_key").notNull(),
+  mediaObjectKey: text("mediaObjectKey").notNull(),
   metadata: jsonb("metadata"),
   created_at: timestamp("created_at", { mode: "date" }).notNull(),
   updated_at: timestamp("updated_at", { mode: "date" }).notNull(),
-});
+}, (table) => ({
+  userIdIdx: index("images_user_id_idx").on(table.user_id),
+  orgIdIdx: index("images_org_id_idx").on(table.organization_id),
+  userOrgIdx: index("images_user_org_idx").on(table.user_id, table.organization_id),
+}));
 
 // Relations
-export const organizationsRelations = relations(organizations, ({ many }) => ({
-  users: many(users),
+export const organizationsRelations = relations(organizations, ({ one, many }) => ({
+  user: one(user, {
+    fields: [organizations.user_id],
+    references: [user.id],
+  }),
   projects: many(projects),
   images: many(images),
 }));
 
-export const usersRelations = relations(users, ({ one, many }) => ({
-  organization: one(organizations, {
-    fields: [users.organization_id],
-    references: [organizations.id],
-  }),
+export const userRelations = relations(user, ({ many }) => ({
+  organizations: many(organizations),
   projects: many(projects),
   images: many(images),
 }));
@@ -142,16 +140,16 @@ export const projectsRelations = relations(projects, ({ one }) => ({
     fields: [projects.organization_id],
     references: [organizations.id],
   }),
-  user: one(users, {
+  user: one(user, {
     fields: [projects.user_id],
-    references: [users.id],
+    references: [user.id],
   }),
 }));
 
 export const imagesRelations = relations(images, ({ one }) => ({
-  user: one(users, {
+  user: one(user, {
     fields: [images.user_id],
-    references: [users.id],
+    references: [user.id],
   }),
   organization: one(organizations, {
     fields: [images.organization_id],
@@ -161,6 +159,6 @@ export const imagesRelations = relations(images, ({ one }) => ({
 
 // Schema exports for easy use
 export const projectsInsertSchema = createInsertSchema(projects);
-export const usersInsertSchema = createInsertSchema(users);
+export const userInsertSchema = createInsertSchema(user);
 export const organizationsInsertSchema = createInsertSchema(organizations);
 export const imagesInsertSchema = createInsertSchema(images);

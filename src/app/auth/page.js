@@ -5,19 +5,6 @@ import { signIn, signUp } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
 import { RiLoader4Fill } from "react-icons/ri";
-import dynamic from "next/dynamic";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-
-// Dynamically import Lottie with SSR disabled
-const Lottie = dynamic(() => import("react-lottie"), {
-  ssr: false,
-});
 
 function Auth() {
   const router = useRouter();
@@ -28,19 +15,6 @@ function Auth() {
   const [name, setName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [redirect, setRedirect] = useState(false);
-  const [lottieOptions, setLottieOptions] = useState(null);
-
-  // Initialize Lottie options after component mounts
-  useEffect(() => {
-    import("./animation.json").then((animationData) => {
-      setLottieOptions({
-        loop: true,
-        autoplay: true,
-        animationData: animationData.default,
-        rendererSettings: { preserveAspectRatio: "xMidYMid slice" },
-      });
-    });
-  }, []);
 
   // Handle enter key press using useCallback to memoize the handler
   const handleEnterPress = React.useCallback(
@@ -63,7 +37,8 @@ function Auth() {
     }
   }, [handleEnterPress]);
 
-  async function submitFunction() {
+  async function submitFunction(isLogin) {
+    console.log("HEREEE");
     setIsLoading(true);
     try {
       if (isLogin) {
@@ -89,6 +64,7 @@ function Auth() {
   }
 
   async function signupFunction() {
+    console.log("here");
     try {
       const { data, error } = await signUp.email({
         name: name,
@@ -134,20 +110,6 @@ function Auth() {
   return (
     <>
       <Toaster />
-      <Dialog open={redirect}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle></DialogTitle>
-            <DialogDescription className="flex justify-center items-center flex-col">
-              <div className="flex flex-col space-y-3">
-                {lottieOptions && (
-                  <Lottie options={lottieOptions} height={400} width={400} />
-                )}
-              </div>
-            </DialogDescription>
-          </DialogHeader>
-        </DialogContent>
-      </Dialog>
       <div className="flex min-h-full flex-1 h-[100vh]">
         <div className="relative w-0 flex-1 lg:block">
           <img
@@ -284,7 +246,7 @@ function Auth() {
                 <button
                   type="button"
                   className="flex w-full justify-center rounded-md bg-[#000] px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-[#000] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#000] items-center gap-2"
-                  onClick={submitFunction}
+                  onClick={() => submitFunction(isLogin)}
                   disabled={isLoading}
                 >
                   {isLogin ? "Login" : "Sign up"}
