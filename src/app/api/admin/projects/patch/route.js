@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
-const { Project } = require("../../../../../../models");
+import { db } from "../../../../../db/drizzle";
+import { projects } from "../../../../../db/schema";
+import { eq } from "drizzle-orm";
 
 export async function PATCH(request) {
   try {
@@ -12,12 +14,14 @@ export async function PATCH(request) {
       );
     }
 
-    const updateProject = await Project.update(
-      { json, width, height },
-      { where: { id } }
-    );
+    // Update the project using Drizzle
+    const updateResult = await db
+      .update(projects)
+      .set({ json, width, height })
+      .where(eq(projects.id, id))
+      .returning();
 
-    if (!updateProject) {
+    if (updateResult.length === 0) {
       return NextResponse.json(
         { error: "Project not found." },
         { status: 404 }

@@ -11,13 +11,13 @@ interface CommandBarProps {
 const CommandBar = ({ editor }: CommandBarProps) => {
   const [isListening, setIsListening] = useState(false);
   const [inputValue, setInputValue] = useState('');
-  
+
   const editMutation = useEditImage();
-  
+
   const selectedObject = editor?.selectedObjects[0];
   // @ts-ignore
   const imageSrc = selectedObject?._originalElement?.currentSrc;
-  
+
   const isEditMode = !!imageSrc;
 
   const tips = [
@@ -26,28 +26,28 @@ const CommandBar = ({ editor }: CommandBarProps) => {
     "You can remove the background of an image by clicking on the imagee & selecting 'Remove Background' from the context menu.",
     "Check left sidebar for more tools to edit your image.",
   ]
-  
-  const suggestionPills = isEditMode 
+
+  const suggestionPills = isEditMode
     ? [
-        '🎭 Remove Background',
-        '✨ Upscale 2x',
-        '⚡ Adjust Brightness',
-        '✂️ Crop Canvas',
-        '🏷️ Add "Sale" or "New" Labels'
-      ]
+      '🎭 Remove Background',
+      '✨ Upscale 2x',
+      '⚡ Adjust Brightness',
+      '✂️ Crop Canvas',
+      '🏷️ Add "Sale" or "New" Labels'
+    ]
     : [
-        '🎭 Remove Background',
-        '✨ Upscale 2x',
-        '⚡ Adjust Brightness',
-        '✂️ Crop Canvas',
-        '🏷️ Add "Sale" or "New" Labels'
-      ];
+      '🎭 Remove Background',
+      '✨ Upscale 2x',
+      '⚡ Adjust Brightness',
+      '✂️ Crop Canvas',
+      '🏷️ Add "Sale" or "New" Labels'
+    ];
 
   const handleSubmit = (prompt: string) => {
     if (!prompt.trim() || !isEditMode || !imageSrc) return;
-    
+
     editMutation.mutate(
-      { 
+      {
         prompt: prompt.trim(),
         input_image: imageSrc,
         output_format: "jpg",
@@ -106,11 +106,10 @@ const CommandBar = ({ editor }: CommandBarProps) => {
           <button
             onClick={() => setIsListening(!isListening)}
             disabled={editMutation.isPending || !isEditMode}
-            className={`mr-3 w-12 h-12 flex items-center justify-center transition-all duration-200 ${
-              isListening 
-                ? 'bg-red-500/20 text-red-400 animate-pulse' 
-                : 'bg-white/5 text-white/60 hover:text-white hover:bg-white/10'
-            } ${(editMutation.isPending || !isEditMode) ? 'opacity-50 cursor-not-allowed' : ''}`}
+            className={`mr-3 w-12 h-12 flex items-center justify-center transition-all duration-200 ${isListening
+              ? 'bg-red-500/20 text-red-400 animate-pulse'
+              : 'bg-white/5 text-white/60 hover:text-white hover:bg-white/10'
+              } ${(editMutation.isPending || !isEditMode) ? 'opacity-50 cursor-not-allowed' : ''}`}
           >
             <Mic size={20} />
           </button>
@@ -119,8 +118,8 @@ const CommandBar = ({ editor }: CommandBarProps) => {
           <div className="flex-1 relative">
             <input
               type="text"
-              placeholder={isEditMode 
-                ? "Tell me how to edit this image..." 
+              placeholder={isEditMode
+                ? "Tell me how to edit this image..."
                 : "Select an image first to edit it..."
               }
               value={inputValue}
@@ -129,16 +128,16 @@ const CommandBar = ({ editor }: CommandBarProps) => {
               disabled={editMutation.isPending || !isEditMode}
               className="w-full h-12 bg-white/5 border-0 !border-gray-200 !border-white/20 px-4 pr-12 text-white text-base placeholder-white/40 focus:outline-none focus:border-white/40 transition-colors duration-200 font-text disabled:opacity-50"
             />
-            
+
             {/* Magic Wand & Send */}
             <div className="absolute right-1 top-1 flex items-center space-x-1">
-              <button 
+              <button
                 disabled={editMutation.isPending || !isEditMode}
                 className="w-10 h-10 flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 transition-all duration-200 disabled:opacity-50"
               >
                 ✨
               </button>
-              <button 
+              <button
                 onClick={handleSendClick}
                 disabled={editMutation.isPending || !isEditMode || !inputValue.trim()}
                 className="w-10 h-10 flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 transition-all duration-200 disabled:opacity-50"

@@ -5,19 +5,10 @@ import { use, useCallback, useEffect, useRef, useState } from "react";
 import { fabric } from "fabric";
 import { Navbar } from "@/features/editor/components/navbar";
 import { Sidebar } from "@/features/editor/components/sidebar";
-import {RightSidebar} from "@/features/editor/components/right-sidebar";
+import { RightSidebar } from "@/features/editor/components/right-sidebar";
 import { Toolbar } from "@/features/editor/components/toolbar";
 import { Footer } from "@/features/editor/components/footer";
 import { ActiveTool, selectionDependentTools } from "@/features/editor/types";
-import { ShapeSidebar } from "@/features/editor/components/shape-sidebar";
-import { FillColorSidebar } from "./fill-color-sidebar";
-import { StrokeColorSidebar } from "./stroke-color-sidebar"
-import { StrokeWidthSidebar } from "./stroke-width-sidebar";
-import { OpacitySidebar } from "./opacity-sidebar";
-import { TextSidebar } from "./text-sidebar";
-import { FontSidebar } from "./font-sidebar";
-import { IoBackspaceOutline } from "react-icons/io5";
-import { RemoveBgSidebar } from "./remove-bg-sidebar";
 
 import {
   ContextMenu,
@@ -30,7 +21,6 @@ import {
   ContextMenuSubTrigger,
   ContextMenuShortcut,
 } from "@/components/ui/context-menu"
-import { RiSendBackward, RiBringForward } from "react-icons/ri";
 import { ImageSideBar } from "./image-sidebar";
 import { FilterSidebar } from "./filter-sidebar";
 import { AiSidebar } from "./ai-sidebar";
@@ -44,19 +34,19 @@ interface EditorProps {
   organization?: any;
 }
 
-export const Editor = ({initialData, organization}: EditorProps) => {
+export const Editor = ({ initialData, organization }: EditorProps) => {
 
-  const {mutate} = useUpdateProject(initialData.id);
+  const { mutate } = useUpdateProject(initialData.id);
 
   const debounceSave = useCallback(
     debounce((values: {
-    json: string,
-    height: number,
-    width: number,
-  }) => {
-    // @ts-ignore
-    mutate(values)
-  }, 1000), [mutate]);
+      json: string,
+      height: number,
+      width: number,
+    }) => {
+      // @ts-ignore
+      mutate(values)
+    }, 1000), [mutate]);
 
   const [activeTool, setActiveTool] = useState<ActiveTool>("select");
 
@@ -65,7 +55,7 @@ export const Editor = ({initialData, organization}: EditorProps) => {
     if (selectionDependentTools.includes(activeTool)) {
       setActiveTool("select");
     }
-    
+
   }, [activeTool]);
 
   const { init, editor } = useEditor({
@@ -89,11 +79,11 @@ export const Editor = ({initialData, organization}: EditorProps) => {
 
     if (tool === activeTool) {
       return setActiveTool("select");
-    } 
+    }
 
     setActiveTool(tool);
 
-  } , [activeTool, editor]);
+  }, [activeTool, editor]);
 
   const canvasRef = useRef<any>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -112,15 +102,15 @@ export const Editor = ({initialData, organization}: EditorProps) => {
     return () => {
       canvas.dispose();
     };
-  }, [init]); 
+  }, [init]);
 
   const menuClass = "text-base cursor-pointer flex items-center justify-between";
 
   return (
     <div className="h-full flex flex-col bg-black">
-      <Navbar editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool} id={initialData?.id} name={initialData.name}/>
+      <Navbar editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool} id={initialData?.id} name={initialData.name} />
       <div className=" absolute h-[calc(100%-68px)] w-full top-[68px] flex bg-black">
-        <Sidebar activeTool={activeTool} onChangeActiveTool={onChangeActiveTool}/>
+        <Sidebar activeTool={activeTool} onChangeActiveTool={onChangeActiveTool} />
         {/* <ShapeSi0debar editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool}/> */}
         {/* <RemoveBgSidebar editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool}/>  */}
         {/* <OpacitySidebar editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool}/>  */}
@@ -134,7 +124,7 @@ export const Editor = ({initialData, organization}: EditorProps) => {
 
         {/* <FontSidebar editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool}/> */}
         {/* <DrawSidebar editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool}/> */}
-        <ImageSideBar editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool} organization={organization}/>
+        <ImageSideBar editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool} organization={organization} />
         <main className="bg-muted flex-1 overflow-auto relative flex flex-col">
           <Toolbar
             editor={editor}
@@ -144,7 +134,9 @@ export const Editor = ({initialData, organization}: EditorProps) => {
               editor?.canvas.getActiveObject()
             )}
           />
-          <div className="flex-1 bg-black dot-grid h-[calc(100% - 124px )]" ref={containerRef}>
+          <div className="flex-1 bg-black dot-grid h-[calc(100% - 124px )] canvas-container" ref={containerRef}>
+            <span className="side-gradient left-0 top-0 h-full w-[30px]"></span>
+            <span className="side-gradient right-0 top-0 h-full w-[30px]"></span>
             <canvas ref={canvasRef} />
             {/* <ContextMenu>
            
@@ -173,8 +165,8 @@ export const Editor = ({initialData, organization}: EditorProps) => {
           </div>
           <Footer editor={editor} />
         </main>
-        <RightSidebar editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool}/>
+        <RightSidebar editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool} />
       </div>
     </div>
-  ); 
+  );
 };

@@ -1,14 +1,11 @@
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/authOptions";
-const { Project } = require("../../../../../models");
+import { db } from "../../../../db/drizzle";
+import { projects } from "../../../../db/schema";
+import { eq } from "drizzle-orm";
 
 export const dynamic = "force-dynamic";
 
 export async function GET(request) {
-  // const session = await getServerSession(request, authOptions);
-
-  // console.log(session);
   try {
     const { searchParams } = new URL(request.url);
     const projectId = searchParams.get("projectId");
@@ -20,20 +17,27 @@ export async function GET(request) {
       );
     }
 
-    const project = await Project.findByPk(projectId);
+    // Fetch the project using Drizzle
+    const projectResults = await db
+      .select()
+      .from(projects)
+      .where(eq(projects.id, projectId))
+      .limit(1);
 
-    if (!project) {
+    if (projectResults.length === 0) {
       return NextResponse.json(
         { error: "Project not found." },
         { status: 404 }
       );
     }
 
+    const project = projectResults[0];
+
     return NextResponse.json({ data: project });
   } catch (error) {
     console.error(error);
     return NextResponse.json(
-      { error: "An error occurred while fetching images." },
+      { error: "An error occurred while fetching project." },
       { status: 500 }
     );
   }
