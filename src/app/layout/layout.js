@@ -37,10 +37,10 @@ import {
   InboxIcon,
   MagnifyingGlassIcon,
 } from "@heroicons/react/20/solid";
-import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useState } from "react";
+import { useGlobalSession } from "@/hooks/useGlobalSession";
 
 // New SubMenuItem component
 const SubMenuItem = ({
@@ -81,7 +81,7 @@ const SubMenuItem = ({
 };
 
 export default function CustomLayout({ children }) {
-  const { data: session, status } = useSession();
+  const { isAuthenticated, user } = useGlobalSession();
   const [openMenus, setOpenMenus] = useState({});
 
   const toggleMenu = (menuId) => {
@@ -166,15 +166,15 @@ export default function CustomLayout({ children }) {
                   />
                   <span className="min-w-0">
                     <span className="block truncate text-sm/5 font-medium text-zinc-950 dark:text-white w-full">
-                      {session ? (
-                        session?.user?.name
+                      {isAuthenticated ? (
+                        user?.name
                       ) : (
                         <Skeleton className="w-[200px] h-4 mb-2" />
                       )}
                     </span>
                     <span className="block truncate text-xs/5 font-normal text-zinc-500 dark:text-zinc-400">
-                      {session ? (
-                        session?.user?.email
+                      {isAuthenticated ? (
+                        user?.email
                       ) : (
                         <Skeleton className="w-full h-4" />
                       )}

@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { signIn, signUp } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
-import { RiLoader4Fill } from "react-icons/ri";
+import { RiLoader4Fill, RiCheckFill } from "react-icons/ri";
 
 function Auth() {
   const router = useRouter();
@@ -38,7 +38,6 @@ function Auth() {
   }, [handleEnterPress]);
 
   async function submitFunction(isLogin) {
-    console.log("HEREEE");
     setIsLoading(true);
     try {
       if (isLogin) {
@@ -83,7 +82,7 @@ function Auth() {
 
         if (loginData) {
           setRedirect(true);
-          router.push("/billing");
+          router.push("/dashboard");
           notification(true, "Login Successful");
         } else {
           notification(false, loginError?.message || "Auto-login failed");
@@ -245,13 +244,22 @@ function Auth() {
 
                 <button
                   type="button"
-                  className="flex w-full justify-center rounded-md bg-[#000] px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-[#000] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#000] items-center gap-2"
+                  className="flex w-full justify-center rounded-md bg-[#000] px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-[#000] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#000] items-center gap-2 disabled:cursor-not-allowed"
                   onClick={() => submitFunction(isLogin)}
-                  disabled={isLoading}
+                  disabled={isLoading || redirect}
                 >
-                  {isLogin ? "Login" : "Sign up"}
-                  {isLoading && (
-                    <RiLoader4Fill fontSize={20} className="spinner" />
+                  {redirect ? (
+                    <>
+                      <RiCheckFill fontSize={20} />
+                      Redirecting
+                    </>
+                  ) : (
+                    <>
+                      {isLogin ? "Login" : "Sign up"}
+                      {isLoading && (
+                        <RiLoader4Fill fontSize={20} className="spinner" />
+                      )}
+                    </>
                   )}
                 </button>
               </form>

@@ -3,7 +3,7 @@
 import { Modals } from "@/components/modals";
 import { Toaster } from "@/components/ui/sonner";
 import { GlobalProvider } from "@/context/GlobalContext";
-import { SessionProvider } from "next-auth/react";
+import { SessionProvider } from "@/context/SessionProvider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Providers from "./providers";
