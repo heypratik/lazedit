@@ -49,13 +49,12 @@ export const Editor = ({ initialData, organization }: EditorProps) => {
     }, 1000), [mutate]);
 
   const [activeTool, setActiveTool] = useState<ActiveTool>("select");
+  const [isImageEditInprogress, setIsImageEditInprogress] = useState<boolean>(false);
 
   const onClearSelection = useCallback(() => {
-
     if (selectionDependentTools.includes(activeTool)) {
       setActiveTool("select");
     }
-
   }, [activeTool]);
 
   const { init, editor } = useEditor({
@@ -134,9 +133,9 @@ export const Editor = ({ initialData, organization }: EditorProps) => {
               editor?.canvas.getActiveObject()
             )}
           />
-          <div className="flex-1 bg-black dot-grid h-[calc(100% - 124px )] canvas-container" ref={containerRef}>
-            <span className="side-gradient left-0 top-0 h-full w-[30px]"></span>
-            <span className="side-gradient right-0 top-0 h-full w-[30px]"></span>
+          <div className={`flex-1 bg-black dot-grid h-[calc(100% - 124px )] ${isImageEditInprogress && 'show-animation'}`} ref={containerRef}>
+            <span className={`${isImageEditInprogress && 'side-gradient'} left-0 top-0 h-full w-[30px]`}></span>
+            <span className={`${isImageEditInprogress && 'side-gradient'} right-0 top-0 h-full w-[30px]`}></span>
             <canvas ref={canvasRef} />
             {/* <ContextMenu>
            
@@ -163,7 +162,7 @@ export const Editor = ({ initialData, organization }: EditorProps) => {
   </ContextMenuContent>
 </ContextMenu> */}
           </div>
-          <Footer editor={editor} />
+          <Footer editor={editor} isImageEditInprogress={isImageEditInprogress} setIsImageEditInprogress={setIsImageEditInprogress} />
         </main>
         <RightSidebar editor={editor} activeTool={activeTool} onChangeActiveTool={onChangeActiveTool} />
       </div>

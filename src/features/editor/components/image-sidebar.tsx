@@ -146,8 +146,7 @@ export const ImageSideBar = ({
     if (!orgId) throw new Error("storeId is required");
 
     const response = await fetch(
-      `/api/admin/user/get-images?organization=${orgId}&page=${pageParam}&limit=${limit}&search=${
-        searchTermS3 || ""
+      `/api/admin/user/get-images?organization=${orgId}&page=${pageParam}&limit=${limit}&search=${searchTermS3 || ""
       }`
     );
     if (!response.ok) {
@@ -261,39 +260,38 @@ export const ImageSideBar = ({
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-2 py-0 overflow-y-auto scrollbar">
           {s3Assets?.pages?.length > 0
             ? s3Assets?.pages?.map((page, index) => {
-                return page?.data?.map((image: any, index: any) => {
-                  return (
-                    <div
-                      key={image.id}
-                      className="rounded-2"
-                      onClick={() => editor?.addImage(image.signedUrl)}
-                    >
-                      <img
-                        src={image.signedUrl}
-                        alt="Gallery Image 1"
-                        width="100"
-                        onClick={() => {
-                          editor?.addImage(image.signedUrl);
-                        }}
-                        height="100"
-                        className="object-cover w-full rounded-lg overflow-hidden border border-gray-200 cursor-pointer"
-                        style={{
-                          aspectRatio: "100/100",
-                          objectFit: "cover",
-                        }}
-                      />
-                    </div>
-                  );
-                });
-              })
+              return page?.data?.map((image: any, index: any) => {
+                return (
+                  <div
+                    key={image.id}
+                    className="rounded-2"
+                    onClick={() => editor?.addImage(image.signedUrl)}
+                  >
+                    <img
+                      src={image.signedUrl}
+                      alt="Gallery Image 1"
+                      width="100"
+                      onClick={() => {
+                        editor?.addImage(image.signedUrl);
+                      }}
+                      height="100"
+                      className="object-cover w-full rounded-lg overflow-hidden border border-gray-200 cursor-pointer"
+                      style={{
+                        aspectRatio: "100/100",
+                        objectFit: "cover",
+                      }}
+                    />
+                  </div>
+                );
+              });
+            })
             : "Uploaded assets not found"}
         </div>
         <div className="flex items-center justify-center  mt-5">
           <RiLoader4Fill
             fontSize={30}
-            className={`mr-5 spinner ${
-              s3AssetsLoading || isFetchingNextS3Assets ? "block" : "hidden"
-            }`}
+            className={`mr-5 spinner ${s3AssetsLoading || isFetchingNextS3Assets ? "block" : "hidden"
+              }`}
           />
           <button
             onClick={() => fetchNextS3Assets()}

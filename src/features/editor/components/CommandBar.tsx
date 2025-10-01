@@ -6,9 +6,11 @@ import { useEditImage } from '@/features/ai/api/use-edit-image';
 
 interface CommandBarProps {
   editor: Editor | undefined;
+  isImageEditInprogress: boolean;
+  setIsImageEditInprogress: (value: boolean) => void;
 }
 
-const CommandBar = ({ editor }: CommandBarProps) => {
+const CommandBar = ({ editor, isImageEditInprogress, setIsImageEditInprogress }: CommandBarProps) => {
   const [isListening, setIsListening] = useState(false);
   const [inputValue, setInputValue] = useState('');
 
@@ -44,6 +46,7 @@ const CommandBar = ({ editor }: CommandBarProps) => {
     ];
 
   const handleSubmit = (prompt: string) => {
+    setIsImageEditInprogress(true);
     if (!prompt.trim() || !isEditMode || !imageSrc) return;
 
     editMutation.mutate(
@@ -58,6 +61,7 @@ const CommandBar = ({ editor }: CommandBarProps) => {
           // @ts-ignore
           editor?.addImage(data);
           setInputValue('');
+          setIsImageEditInprogress(false);
         }
       }
     );

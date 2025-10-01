@@ -1,9 +1,12 @@
 import { uploadFile } from "../../../../../lib/s3";
-const { Image } = require("../../../../../../models");
+import { db } from "../../../../../db/drizzle";
+import { images } from "../../../../../db/schema";
 // import { getServerSession } from "next-auth";
 // import { authOptions } from "@/lib/authOptions";
 
 import { v4 as uuidv4 } from "uuid";
+
+export const dynamic = "force-dynamic";
 
 export async function POST(req) {
   // const session = await getServerSession(req, authOptions);
@@ -48,12 +51,14 @@ export async function POST(req) {
       organizationId
     );
     if (result) {
-      const image = await Image.create({
-        user_id: 1,
-        organization_id: organizationId,
+      const [image] = await db.insert(images).values({
+        user_id: "QRcdVFtdWIhMYNyTt2q9xCGc5upFoQa9", // You may want to get this from session/auth
+        organization_id: 1,
         filename: fileNameForDb,
         mediaObjectKey: fileName,
-      });
+        created_at: new Date(),
+        updated_at: new Date(),
+      }).returning();
     }
 
     return new Response(
