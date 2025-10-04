@@ -3,7 +3,9 @@ import { db } from "../../../../db/drizzle";
 import { projects } from "../../../../db/schema";
 import { eq } from "drizzle-orm";
 
-export const dynamic = "force-no-store";
+export const dynamic = "force-dynamic";
+export const fetchCache = 'default-no-store'
+
 
 export async function GET(request) {
   try {
