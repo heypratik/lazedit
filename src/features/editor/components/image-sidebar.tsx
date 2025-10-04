@@ -143,7 +143,7 @@ export const ImageSideBar = ({
     const [_, orgId, searchTermS3] = queryKey; // Extract storeId and searchTerm from queryKey
     const limit = 5;
 
-    if (!orgId) throw new Error("storeId is required");
+    if (!orgId) throw new Error("Organization ID is required");
 
     const response = await fetch(
       `/api/admin/user/get-images?organization=${orgId}&page=${pageParam}&limit=${limit}&search=${searchTermS3 || ""
