@@ -160,10 +160,11 @@ export default function CustomLayout({ children }) {
               <DropdownButton as={SidebarItem}>
                 <span className="flex min-w-0 items-center gap-3">
                   <Avatar
-                    src={user?.image || "/profile-photo.jpg"}
+                    src={user?.image}
                     className="size-10"
                     square
                     alt=""
+                    initials={user?.name?.charAt(0)}
                   />
                   <span className="min-w-0">
                     <span className="block truncate text-sm/5 font-medium text-white/70 w-full">

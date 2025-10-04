@@ -1,5 +1,3 @@
-import { Minimize, ZoomIn, ZoomOut } from "lucide-react";
-
 import { Editor } from "@/features/editor/types";
 import CommandBar from "@/features/editor/components/CommandBar";
 

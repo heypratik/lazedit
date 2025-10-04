@@ -1,40 +1,32 @@
 import { NextResponse } from "next/server";
-import { Op } from "sequelize";
-const { Image } = require("../../../../../../models");
-import { getSignedUrlCf } from "../../../../../lib/s3";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/authOptions";
-import Store from "../../../../../../models/Store";
+import { db } from "@/db/drizzle";
+import { images } from "@/db/schema";
+import { ilike, desc, count, eq, and } from "drizzle-orm";
+import { getSignedUrlCf } from "@/lib/s3";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+import { getOrganizationByUserId } from "@/app/dashboard/actions/project.actions";
 
 export const dynamic = "force-dynamic";
 
 export async function GET(request) {
-  //   const session = await getServerSession(authOptions);
-
-  const session = {
-    user: {
-      id: 38,
-      name: "Admin",
-      email: "sellercentre@charmingvogue.info",
-      shopifyStoreId:
-        "07fe17be21a59e331f5ef679dc3a62018001e3f9afd3c90b94e9c8daa0fd1d917b4d0b0c49b3092cb232cc0b86668247a76a89c77d50731360f73bcfa2690df3",
-      stripeCustomerId: "cus_RlClFpGarH2Kk9 ",
-      stripePlanEndsAt: null,
-      userType: null,
-      onboarded: true,
-      settingsCompleted: true,
-      created_at: "2024-11-06T23:13:47.058Z",
-      updated_at: "2024-12-22T09:15:57.268Z",
-    },
-  };
-
-  // Find Store
-  const store = await Store.findOne({
-    where: { userId: session.user.id },
+  // Check authentication
+  const session = await auth.api.getSession({
+    headers: await headers(),
   });
 
-  if (!store) {
-    return NextResponse.json({ error: "Store not found" }, { status: 404 });
+  if (!session) {
+    return NextResponse.json(
+      { error: "Unauthorized" },
+      { status: 401 }
+    );
+  }
+
+  // Get organization for the user
+  const organization = await getOrganizationByUserId(session.user.id);
+
+  if (!organization) {
+    return NextResponse.json({ error: "Organization not found" }, { status: 404 });
   }
 
   try {
@@ -45,29 +37,40 @@ export async function GET(request) {
 
     const offset = (page - 1) * limit;
 
-    // Fetch the data with Sequelize
-    const { rows: images, count: total } = await Image.findAndCountAll({
-      where: {
-        storeId: store.id,
-        filename: {
-          [Op.like]: `%${search}%`,
-        },
-      },
-      limit,
-      offset,
-      order: [["created_at", "DESC"]], // Order by creation date (most recent first)
-    });
+    // Build where conditions
+    const whereConditions = [eq(images.organization_id, organization.id)];
+    if (search) {
+      whereConditions.push(ilike(images.filename, `%${search}%`));
+    }
+
+    // Fetch the data with Drizzle
+    const [imageResults, totalResult] = await Promise.all([
+      db
+        .select()
+        .from(images)
+        .where(and(...whereConditions))
+        .orderBy(desc(images.created_at))
+        .limit(limit)
+        .offset(offset),
+
+      db
+        .select({ count: count() })
+        .from(images)
+        .where(and(...whereConditions)),
+    ]);
+
+    const total = totalResult[0].count;
 
     // Generate signed URLs for each image
     const imagesWithSignedUrls = await Promise.all(
-      images.map(async (image) => {
+      imageResults.map(async (image) => {
         const signedUrl = await getSignedUrlCf(
           image.mediaObjectKey,
-          store.id,
+          organization.id,
           "10years" // Set your desired expiration option here
         );
         return {
-          ...image.toJSON(), // Convert Sequelize model instance to plain object
+          ...image, // Drizzle already returns plain objects
           signedUrl, // Attach the signed URL
         };
       })

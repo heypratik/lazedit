@@ -1,19 +1,33 @@
 import { NextResponse } from "next/server";
-import { db } from "../../../../../db/drizzle";
-import { images } from "../../../../../db/schema";
+import { db } from "@/db/drizzle";
+import { images } from "@/db/schema";
 import { ilike, desc, count, eq, and } from "drizzle-orm";
-import { getSignedUrlCf } from "../../../../../lib/s3";
+import { getSignedUrlCf } from "@/lib/s3";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 
 export const dynamic = "force-dynamic";
 
+// http://localhost:3000/api/admin/user/get-images?organization=8&search=l&page=2&limit=5
+
 export async function GET(request) {
-  // http://localhost:3000/api/admin/user/get-images?organization=8&search=l&page=2&limit=5
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) {
+    return NextResponse.json(
+      { error: "Unauthorized" },
+      { status: 401 }
+    );
+  }
+
   try {
     const { searchParams } = new URL(request.url);
     const orgId = searchParams.get("organization");
-    const search = searchParams.get("search") || ""; // Search term for `filename`
-    const page = parseInt(searchParams.get("page") || "1", 10); // Default to page 1
-    const limit = parseInt(searchParams.get("limit") || "10", 10); // Default to 10 results per page
+    const search = searchParams.get("search") || "";
+    const page = parseInt(searchParams.get("page") || "1", 10);
+    const limit = parseInt(searchParams.get("limit") || "10", 10);
 
     if (!orgId) {
       return NextResponse.json(
@@ -24,13 +38,11 @@ export async function GET(request) {
 
     const offset = (page - 1) * limit;
 
-    // Build where conditions
     const whereConditions = [eq(images.organization_id, parseInt(orgId))];
     if (search) {
       whereConditions.push(ilike(images.filename, `%${search}%`));
     }
 
-    // Fetch the data with Drizzle
     const [imageResults, totalResult] = await Promise.all([
       db
         .select()
@@ -48,17 +60,16 @@ export async function GET(request) {
 
     const total = totalResult[0].count;
 
-    // Generate signed URLs for each image
     const imagesWithSignedUrls = await Promise.all(
       imageResults.map(async (image) => {
         const signedUrl = await getSignedUrlCf(
           image.mediaObjectKey,
           orgId,
-          "10years" // Set your desired expiration option here
+          "10years"
         );
         return {
-          ...image, // Drizzle already returns plain objects
-          signedUrl, // Attach the signed URL
+          ...image,
+          signedUrl,
         };
       })
     );
@@ -66,7 +77,7 @@ export async function GET(request) {
     return NextResponse.json({
       data: imagesWithSignedUrls,
       pagination: {
-        total, // Total number of images
+        total,
         page,
         limit,
         totalPages: Math.ceil(total / limit),

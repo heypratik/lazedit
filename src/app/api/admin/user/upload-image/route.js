@@ -1,16 +1,25 @@
-import { uploadFile } from "../../../../../lib/s3";
-import { db } from "../../../../../db/drizzle";
-import { images } from "../../../../../db/schema";
-// import { getServerSession } from "next-auth";
-// import { authOptions } from "@/lib/authOptions";
-
+import { uploadFile } from "@/lib/s3";
+import { db } from "@/db/drizzle";
+import {images} from "@/db/schema";
 import { v4 as uuidv4 } from "uuid";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 
 export const dynamic = "force-dynamic";
 
 export async function POST(req) {
-  // const session = await getServerSession(req, authOptions);
-  // console.log(session, "SESSION STARTED");
+  // Check authentication
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) {
+    return new Response(
+      JSON.stringify({ success: false, error: "Unauthorized" }),
+      { status: 401 }
+    );
+  }
+
   const arrayBuffer = await req.arrayBuffer();
   const fileBuffer = Buffer.from(arrayBuffer);
   const fileName = (() => {
@@ -41,7 +50,6 @@ export async function POST(req) {
 
   const mimetype = req.headers.get("mimetype");
   const organizationId = req.headers.get("organizationId");
-  // const userId = req.headers.get("userId");
 
   try {
     const result = await uploadFile(
@@ -52,7 +60,7 @@ export async function POST(req) {
     );
     if (result) {
       const [image] = await db.insert(images).values({
-        user_id: "QRcdVFtdWIhMYNyTt2q9xCGc5upFoQa9", // You may want to get this from session/auth
+        user_id: session.user.id,
         organization_id: 1,
         filename: fileNameForDb,
         mediaObjectKey: fileName,

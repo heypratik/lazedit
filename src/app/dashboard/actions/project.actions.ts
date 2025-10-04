@@ -51,7 +51,6 @@ export async function getProjectById(id: any) {
   }
 }
 
-// Paginated All Projects based on storeId
 export async function getProjects(
   orgId: any,
   userId: any,

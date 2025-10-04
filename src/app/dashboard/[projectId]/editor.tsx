@@ -1,12 +1,11 @@
 "use client";
 
 import React from 'react'
-import {Editor} from '@/features/editor/components/editor'
+import { Editor } from '@/features/editor/components/editor'
 import Link from "next/link";
 import { Loader, TriangleAlert } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {getProjectById} from "../actions/project.actions"
-import {useGetProject} from "../hooks/use-get-project"
+import { useGetProject } from "../hooks/use-get-project"
 
 interface EditorProjectIdPageProps {
   params: {
@@ -20,7 +19,6 @@ export default function EditorProjectIdPage({
   organization,
 }: EditorProjectIdPageProps) {
 
-  // const data = await getProjectById(params.projectId);
   const { data, isLoading, isError } = useGetProject(params.projectId);
 
   if (isLoading || !data) {
@@ -47,7 +45,7 @@ export default function EditorProjectIdPage({
     );
   }
 
-  return <Editor initialData={data} organization={organization}/>;
+  return <Editor initialData={data} organization={organization} />;
 };
 
 
