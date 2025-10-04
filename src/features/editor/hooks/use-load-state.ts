@@ -22,7 +22,8 @@ export const useLoadState = ({
 
   useEffect(() => {
     if (!initialized.current && initialState?.current && canvas) {
-      const data = JSON.parse(initialState.current);
+      console.log(initialState)
+      const data = initialState.current
       console.log('Error on is use-load-state.ts')
 
       canvas.loadFromJSON(data, () => {
