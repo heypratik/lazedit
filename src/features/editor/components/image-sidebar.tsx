@@ -140,7 +140,7 @@ export const ImageSideBar = ({
     pageParam: number | null;
     queryKey: [string, number, string];
   }) => {
-    const [_, orgId, searchTermS3] = queryKey; // Extract storeId and searchTerm from queryKey
+    const [_, orgId, searchTermS3] = queryKey;
     const limit = 5;
 
     if (!orgId) throw new Error("Organization ID is required");

@@ -47,15 +47,6 @@ const Hero = ({
 }) => {
   const router = useRouter();
 
-  const onClick = async () => {
-    const project = await createProject(1, 1); // Demo Account Usage
-    if (project) {
-      router.push(`/dashboard/${project.id}`);
-    } else {
-      console.log("Error creating project");
-    }
-  };
-
   return (
     <section className="min-h-screen flex flex-col items-center justify-center section-padding pt-16 md:pt-20 pb-8 md:pb-12 relative overflow-hidden">
       {/* Complex background patterns */}
@@ -112,7 +103,7 @@ const Hero = ({
             </Link>
 
             <button
-              onClick={onClick}
+              onClick={() => router.push("/demo/da9b1b83-97a7-4e92-b4b5-1ff29342d5f1")}
               className="relative text-sm md:text-base px-6 md:px-8 py-3 md:py-3 font-medium border-1 !border-orange-500 bg-gradient-to-br from-orange-500 via-orange-400 to-orange-600 overflow-hidden w-full sm:w-auto max-w-xs sm:max-w-none"
             >
               <div
