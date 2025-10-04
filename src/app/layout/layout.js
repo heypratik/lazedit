@@ -37,7 +37,6 @@ import {
   InboxIcon,
   MagnifyingGlassIcon,
 } from "@heroicons/react/20/solid";
-import { signOut } from "next-auth/react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useState } from "react";
 import { useGlobalSession } from "@/hooks/useGlobalSession";
@@ -126,7 +125,7 @@ export default function CustomLayout({ children }) {
                 <DropdownItem
                   onClick={(e) => {
                     e.preventDefault();
-                    signOut();
+                    // signOut();
                   }}
                 >
                   <ArrowRightStartOnRectangleIcon />
@@ -203,7 +202,7 @@ export default function CustomLayout({ children }) {
                 <DropdownItem
                   onClick={(e) => {
                     e.preventDefault();
-                    signOut();
+                    // signOut();
                   }}
                 >
                   <ArrowRightStartOnRectangleIcon />

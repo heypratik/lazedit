@@ -3,7 +3,7 @@
 import CustomLayout from "../layout/layout";
 import React, { useState } from "react";
 import { Switch } from "@/components/ui/switch";
-import { useStripeCheckout } from "../hooks/use-stripe-checkout";
+import { useStripeCheckout } from "../hooks/use-stripe-checkout"; 
 import { useStripePortal } from "../hooks/use-stripe-portal";
 import { Button } from "../layout/button";
 import { FiExternalLink } from "react-icons/fi";
