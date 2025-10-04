@@ -23,6 +23,7 @@ export const useLoadState = ({
   useEffect(() => {
     if (!initialized.current && initialState?.current && canvas) {
       const data = JSON.parse(initialState.current);
+      console.log('Error on is use-load-state.ts')
 
       canvas.loadFromJSON(data, () => {
         const currentState = JSON.stringify(
@@ -35,12 +36,12 @@ export const useLoadState = ({
       });
       initialized.current = true;
     }
-  }, 
-  [
-    canvas,
-    autoZoom,
-    initialState, // no need, this is a ref
-    canvasHistory, // no need, this is a ref
-    setHistoryIndex, // no need, this is a dispatch
-  ]);
+  },
+    [
+      canvas,
+      autoZoom,
+      initialState, // no need, this is a ref
+      canvasHistory, // no need, this is a ref
+      setHistoryIndex, // no need, this is a dispatch
+    ]);
 };

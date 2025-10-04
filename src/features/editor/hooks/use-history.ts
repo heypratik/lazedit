@@ -43,11 +43,11 @@ export const useHistory = ({ canvas, saveCallback }: UseHistoryProps) => {
     const width = workspace?.width || 0;
 
     saveCallback?.({ json, height, width });
-  }, 
-  [
-    canvas,
-    saveCallback,
-  ]);
+  },
+    [
+      canvas,
+      saveCallback,
+    ]);
 
   const undo = useCallback(() => {
     if (canUndo()) {
@@ -58,6 +58,7 @@ export const useHistory = ({ canvas, saveCallback }: UseHistoryProps) => {
       const previousState = JSON.parse(
         canvasHistory.current[previousIndex]
       );
+      console.log('Error on is use-history.ts')
 
       canvas?.loadFromJSON(previousState, () => {
         canvas.renderAll();
@@ -76,6 +77,7 @@ export const useHistory = ({ canvas, saveCallback }: UseHistoryProps) => {
       const nextState = JSON.parse(
         canvasHistory.current[nextIndex]
       );
+      console.log('Error on is use-history.ts')
 
       canvas?.loadFromJSON(nextState, () => {
         canvas.renderAll();
@@ -85,7 +87,7 @@ export const useHistory = ({ canvas, saveCallback }: UseHistoryProps) => {
     }
   }, [canvas, historyIndex, canRedo]);
 
-  return { 
+  return {
     save,
     canUndo,
     canRedo,

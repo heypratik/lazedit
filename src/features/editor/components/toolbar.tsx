@@ -12,7 +12,7 @@ import { isTextType } from "../utils";
 import { FaBold, FaItalic, FaStrikethrough, FaUnderline } from "react-icons/fa";
 import { FONT_WEIGHT } from "../types";
 import { FontSizeInput } from "./font-size-input";
-import {TbColorFilter} from "react-icons/tb";
+import { TbColorFilter } from "react-icons/tb";
 
 const TOOLBAR_STORAGE_KEY = 'editor-toolbar-position';
 const DEFAULT_POSITION = { x: 100, y: 30 };
@@ -30,27 +30,28 @@ interface Position {
 
 const getSavedPosition = (): Position => {
   if (typeof window === 'undefined') return DEFAULT_POSITION;
-  
+
   try {
     const saved = localStorage.getItem(TOOLBAR_STORAGE_KEY);
     if (saved) {
       const parsed = JSON.parse(saved);
+      console.log('Error on is toolbar.tsx')
       // Validate the saved position is within viewport
-      if (parsed.x >= 0 && parsed.x <= window.innerWidth - 200 && 
-          parsed.y >= 0 && parsed.y <= window.innerHeight - 50) {
+      if (parsed.x >= 0 && parsed.x <= window.innerWidth - 200 &&
+        parsed.y >= 0 && parsed.y <= window.innerHeight - 50) {
         return parsed;
       }
     }
   } catch (error) {
     console.error('Error reading toolbar position from localStorage:', error);
   }
-  
+
   return DEFAULT_POSITION;
 };
 
 const savePosition = (position: Position) => {
   if (typeof window === 'undefined') return;
-  
+
   try {
     localStorage.setItem(TOOLBAR_STORAGE_KEY, JSON.stringify(position));
   } catch (error) {
@@ -179,7 +180,7 @@ export const Toolbar = ({
   onChangeActiveTool,
 }: ToolbarProps) => {
   const toolbarRef = useRef<HTMLDivElement>(null);
-  
+
   const strokeColor = editor?.getActiveStrokeColor();
   const fontFamily = editor?.getActiveFontFamily();
   const fillColor = editor?.getActiveFillColor();
@@ -265,14 +266,14 @@ export const Toolbar = ({
         x: e.clientX - dragOffset.x,
         y: e.clientY - dragOffset.y
       };
-      
+
       // Ensure toolbar stays within viewport bounds
       const maxX = window.innerWidth - (toolbarWidth || 200);
       const maxY = window.innerHeight - 50;
-      
+
       newPosition.x = Math.max(0, Math.min(newPosition.x, maxX));
       newPosition.y = Math.max(0, Math.min(newPosition.y, maxY));
-      
+
       setPosition(newPosition);
       savePosition(newPosition);
       e.preventDefault();
@@ -345,7 +346,7 @@ export const Toolbar = ({
   }
 
   return (
-    <div 
+    <div
       ref={toolbarRef}
       className={cn(
         "fixed bg-white border rounded-[50px] p-2",
@@ -360,7 +361,7 @@ export const Toolbar = ({
       }}
     >
       {/* Drag handle */}
-      <div 
+      <div
         className="toolbar-drag-handle absolute inset-0 rounded-[50px]"
         onMouseDown={handleMouseDown}
       />
@@ -411,9 +412,9 @@ export const Toolbar = ({
 
         {isText && (
           <>
-            <SearchableFontDropdown 
+            <SearchableFontDropdown
               editor={editor}
-              properties={properties} 
+              properties={properties}
               activeTool={activeTool}
             />
 
@@ -496,7 +497,7 @@ export const Toolbar = ({
               </Hint>
             </div>
 
-            <FontSizeInput 
+            <FontSizeInput
               value={properties.fontSize}
               onChange={onChangeFontSize}
             />
@@ -505,15 +506,15 @@ export const Toolbar = ({
 
         {isImage && (
           <Hint label="Remove BG" side="bottom" sideOffset={5}>
-          <Button
-            onClick={() => onChangeActiveTool("remove-bg")}
-            size="icon"
-            variant="ghost"
-            className={cn(activeTool === "remove-bg" && "bg-gray-100")}
-          >
-            <SquareSplitHorizontal className="size-4" />
-          </Button>
-        </Hint>
+            <Button
+              onClick={() => onChangeActiveTool("remove-bg")}
+              size="icon"
+              variant="ghost"
+              className={cn(activeTool === "remove-bg" && "bg-gray-100")}
+            >
+              <SquareSplitHorizontal className="size-4" />
+            </Button>
+          </Hint>
         )}
 
         <Hint label="Bring Forward" side="bottom" sideOffset={5}>
@@ -549,17 +550,17 @@ export const Toolbar = ({
 
         {!isImage && (
           <Hint label="Duplicate" side="bottom" sideOffset={5}>
-          <Button
-            onClick={() => {
-              editor?.copy();
-              editor?.paste();
-            }}
-            size="icon"
-            variant="ghost"
-          >
-            <Copy className="size-4" />
-          </Button>
-        </Hint>
+            <Button
+              onClick={() => {
+                editor?.copy();
+                editor?.paste();
+              }}
+              size="icon"
+              variant="ghost"
+            >
+              <Copy className="size-4" />
+            </Button>
+          </Hint>
         )}
 
         <Hint label="Delete" side="bottom" sideOffset={5}>
