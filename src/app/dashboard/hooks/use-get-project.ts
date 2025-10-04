@@ -8,6 +8,9 @@ export const useGetProject = (id: string) => {
       const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || window.location.origin;
       const response = await fetch(`${baseUrl}/api/admin/projects?projectId=${id}`, {
         cache: "no-store",
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
 
       if (!response.ok) {
