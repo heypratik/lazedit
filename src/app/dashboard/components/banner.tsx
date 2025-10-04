@@ -72,7 +72,7 @@ export const Banner = ({
 
   const onClick = async () => {
     const project = await createProject(organization.id, userId);
-    if (project) {
+    if (project && typeof project === 'object' && project !== null && 'id' in project) {
       router.push(`/dashboard/${project.id}`);
     } else {
       console.log("Error creating project");
