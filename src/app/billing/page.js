@@ -1,9 +1,6 @@
 import React from "react";
 import Billing from "./billing";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/authOptions";
 import { redirect } from "next/navigation";
-// Write code to get User from database & see if plan is active
 
 async function getUser(userId) {
   try {
@@ -55,18 +52,12 @@ function constructUserBilling(userObj) {
 }
 
 async function Page() {
-  const session = await getServerSession(authOptions);
+  const session = null
   if (!session) {
     redirect("/auth");
   }
-  const user = await getUser(session?.user?.id);
-  const userBilling = constructUserBilling(user);
 
-  return (
-    <>
-      <Billing session={session} user={userBilling} />
-    </>
-  );
+  return <Billing session={session} user={null} />;
 }
 
 export default Page;
