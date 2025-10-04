@@ -19,7 +19,7 @@ export async function GET(request) {
   const limit = parseInt(searchParams.get("limit") || "10", 10);
 
 
-  const session = await auth.api.getSession({
+  let session = await auth.api.getSession({
     headers: await headers(),
   });
 
