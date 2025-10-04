@@ -5,7 +5,8 @@ export const useGetProject = (id: string) => {
     enabled: !!id,
     queryKey: ["project", { id }],
     queryFn: async () => {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/admin/projects?projectId=${id}`);
+      const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || window.location.origin;
+      const response = await fetch(`${baseUrl}/api/admin/projects?projectId=${id}`);
 
       if (!response.ok) {
         throw new Error("Failed to fetch project");

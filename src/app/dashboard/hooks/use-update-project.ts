@@ -7,10 +7,11 @@ export const useUpdateProject = (id: string) => {
   const mutation = useMutation<
     any,
     Error
-    >({
+  >({
     mutationKey: ["project", { id }],
     mutationFn: async (values) => {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/admin/projects/patch`, {
+      const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || window.location.origin;
+      const response = await fetch(`${baseUrl}/api/admin/projects/patch`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

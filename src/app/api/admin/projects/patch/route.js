@@ -14,10 +14,28 @@ export async function PATCH(request) {
       );
     }
 
+    // Validate JSON if provided
+    if (json !== undefined && json !== null) {
+      try {
+        JSON.parse(json);
+      } catch (parseError) {
+        return NextResponse.json(
+          { error: "Invalid JSON format." },
+          { status: 400 }
+        );
+      }
+    }
+
+    // Prepare update data - only include fields that are provided
+    const updateData = {};
+    if (json !== undefined) updateData.json = json;
+    if (width !== undefined) updateData.width = width;
+    if (height !== undefined) updateData.height = height;
+
     // Update the project using Drizzle
     const updateResult = await db
       .update(projects)
-      .set({ json, width, height })
+      .set(updateData)
       .where(eq(projects.id, id))
       .returning();
 
@@ -28,7 +46,10 @@ export async function PATCH(request) {
       );
     }
 
-    return NextResponse.json({ message: "Project updated successfully" });
+    return NextResponse.json({ 
+      message: "Project updated successfully",
+      data: updateResult[0]
+    });
   } catch (error) {
     console.log(error);
     return NextResponse.json(
