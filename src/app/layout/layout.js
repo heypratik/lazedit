@@ -83,6 +83,7 @@ const SubMenuItem = ({
 export default function CustomLayout({ children }) {
   const { isAuthenticated, user } = useGlobalSession();
   const [openMenus, setOpenMenus] = useState({});
+  console.log(user) 
 
   const toggleMenu = (menuId) => {
     setOpenMenus((prev) => ({
@@ -159,20 +160,20 @@ export default function CustomLayout({ children }) {
               <DropdownButton as={SidebarItem}>
                 <span className="flex min-w-0 items-center gap-3">
                   <Avatar
-                    src="/profile-photo.jpg"
+                    src={user?.image || "/profile-photo.jpg"}
                     className="size-10"
                     square
                     alt=""
                   />
                   <span className="min-w-0">
-                    <span className="block truncate text-sm/5 font-medium text-zinc-950 dark:text-white w-full">
+                    <span className="block truncate text-sm/5 font-medium text-white/70 w-full">
                       {isAuthenticated ? (
                         user?.name
                       ) : (
                         <Skeleton className="w-[200px] h-4 mb-2" />
                       )}
                     </span>
-                    <span className="block truncate text-xs/5 font-normal text-zinc-500 dark:text-zinc-400">
+                    <span className="block truncate text-xs/5 font-normal text-white/70">
                       {isAuthenticated ? (
                         user?.email
                       ) : (

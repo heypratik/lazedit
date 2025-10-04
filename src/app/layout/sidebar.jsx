@@ -86,9 +86,9 @@ export const SidebarItem = React.forwardRef(function SidebarItem(
     // Avatar
     'data-[slot=avatar]:*:-m-0.5 data-[slot=avatar]:*:size-7 data-[slot=avatar]:*:[--ring-opacity:10%] sm:data-[slot=avatar]:*:size-6 data-[hover]:no-underline data-[hover]:text-[#0edbff] no-underline',
     // Hover
-    'data-[hover]:glass-subtle data-[slot=icon]:*:data-[hover]:fill-white data-[hover]:no-underline data-[hover]:text-white !text-white no-underline',
+    'data-[hover]:glass-subtle border border-transparent data-[slot=icon]:*:data-[hover]:fill-white data-[hover]:no-underline data-[hover]:text-white !text-white no-underline',
     // Active
-    'data-[active]:glass-subtle data-[slot=icon]:*:data-[active]:fill-white data-[hover]:no-underline data-[hover]:text-white no-underline',
+    'data-[active]:glass-subtle border border-transparent data-[slot=icon]:*:data-[active]:fill-white data-[hover]:no-underline data-[hover]:text-white no-underline',
     // Current
     'data-[slot=icon]:*:data-[current]:fill-white data-[hover]:no-underline data-[hover]:text-[#c57a7a] no-underline',
     // Dark mode
