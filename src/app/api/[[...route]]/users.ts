@@ -5,7 +5,7 @@ import { eq } from "drizzle-orm";
 import { zValidator } from "@hono/zod-validator";
 
 import { db } from "@/db/drizzle";
-import { users } from "@/db/schema";
+import { user } from "@/db/schema";
 
 const app = new Hono()
   .post(
@@ -25,19 +25,13 @@ const app = new Hono()
 
       const query = await db
         .select()
-        .from(users)
-        .where(eq(users.email, email));
+        .from(user)
+        .where(eq(user.email, email));
 
       if (query[0]) {
         return c.json({ error: "Email already in use" }, 400);
       }
 
-      await db.insert(users).values({
-        email,
-        name,
-        password: hashedPassword,
-      });
-      
       return c.json(null, 200);
     },
   );
