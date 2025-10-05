@@ -7,7 +7,7 @@ import { ActiveTool, Editor } from "@/features/editor/types";
 import { ToolSidebarClose } from "@/features/editor/components/tool-sidebar-close";
 import { ToolSidebarHeader } from "@/features/editor/components/tool-sidebar-header";
 
-import { useRemoveBg } from "@/features/ai/api/use-remove-bg";
+import { useRemoveBg } from "@/features/ai/hooks/use-remove-bg";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";

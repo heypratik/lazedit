@@ -6,7 +6,7 @@ import { ActiveTool, Editor } from "@/features/editor/types";
 import { ToolSidebarClose } from "@/features/editor/components/tool-sidebar-close";
 import { ToolSidebarHeader } from "@/features/editor/components/tool-sidebar-header";
 
-import { useGenerateImage } from "@/features/ai/api/use-generate-image";
+import { useGenerateImage } from "@/features/ai/hooks/use-generate-image";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";

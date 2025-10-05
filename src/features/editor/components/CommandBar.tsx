@@ -2,7 +2,7 @@ import { Mic, Send } from 'lucide-react';
 import { useState } from 'react';
 
 import { Editor } from '@/features/editor/types';
-import { useEditImage } from '@/features/ai/api/use-edit-image';
+import { useEditImage } from '@/features/ai/hooks/use-edit-image';
 
 interface CommandBarProps {
   editor: Editor | undefined;
@@ -107,7 +107,7 @@ const CommandBar = ({ editor, isImageEditInprogress, setIsImageEditInprogress }:
         {/* Main Input */}
         <div className="relative flex items-center mb-3">
           {/* Microphone */}
-          <button
+          {/* <button
             onClick={() => setIsListening(!isListening)}
             disabled={editMutation.isPending || !isEditMode}
             className={`mr-3 w-12 h-12 flex items-center justify-center transition-all duration-200 ${isListening
@@ -116,7 +116,7 @@ const CommandBar = ({ editor, isImageEditInprogress, setIsImageEditInprogress }:
               } ${(editMutation.isPending || !isEditMode) ? 'opacity-50 cursor-not-allowed' : ''}`}
           >
             <Mic size={20} />
-          </button>
+          </button> */}
 
           {/* Input Field */}
           <div className="flex-1 relative">
