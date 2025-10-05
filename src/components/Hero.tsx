@@ -103,7 +103,7 @@ const Hero = ({
             </Link>
 
             <button
-              onClick={() => router.push("/demo/da9b1b83-97a7-4e92-b4b5-1ff29342d5f1")}
+              onClick={() => router.push("/demo")}
               className="relative text-sm md:text-base px-6 md:px-8 py-3 md:py-3 font-medium border-1 !border-orange-500 bg-gradient-to-br from-orange-500 via-orange-400 to-orange-600 overflow-hidden w-full sm:w-auto max-w-xs sm:max-w-none"
             >
               <div
