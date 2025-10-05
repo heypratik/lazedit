@@ -1,6 +1,5 @@
 "use client";
 
-import { Modals } from "@/components/modals";
 import { Toaster } from "@/components/ui/sonner";
 import { GlobalProvider } from "@/context/GlobalContext";
 import { SessionProvider } from "@/context/SessionProvider";
@@ -18,7 +17,6 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
         <SessionProvider>
           <GlobalProvider>
             <Toaster />
-            <Modals />
             {children}
           </GlobalProvider>
         </SessionProvider>
