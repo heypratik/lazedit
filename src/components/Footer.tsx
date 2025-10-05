@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaArrowAltCircleRight } from "react-icons/fa";
 import Logo from './Logo';
-import {pageDetails} from '@/app/[slug]/page';
+import { pageDetails } from '@/app/(website)/[slug]/page';
 
 function getPageDetailsKeys() {
   return Object.keys(pageDetails);
@@ -20,7 +20,7 @@ const Footer = () => {
                 <Logo />
                 <p className="text-white text-sm sm:text-base leading-relaxed">
                   🚀 From idea to image in seconds.<br />
-                  Transform and create images with simple text commands. 
+                  Transform and create images with simple text commands.
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row sm:items-center gap-2 mt-4">
@@ -36,7 +36,7 @@ const Footer = () => {
 
             {/* Referral Button */}
             <div className="w-full lg:w-auto">
-              <button 
+              <button
                 className="relative w-full lg:w-auto px-4 sm:px-6 lg:px-10 py-4 sm:py-5 lg:py-6 text-white font-semibold text-sm sm:text-base lg:text-lg rounded-xl overflow-hidden min-h-[64px] sm:min-h-[72px] lg:min-h-[80px] hover:scale-105 transition-transform duration-200 active:scale-95"
                 style={{
                   backgroundImage: "url('/offer-bg.png')",
@@ -50,9 +50,9 @@ const Footer = () => {
                   <span className="flex-1 text-left lg:text-center">
                     Earn 30% for every referral
                   </span>
-                  <FaArrowAltCircleRight 
-                    className='flex-shrink-0' 
-                    color='#fff' 
+                  <FaArrowAltCircleRight
+                    className='flex-shrink-0'
+                    color='#fff'
                     size={30}
                   />
                 </span>
@@ -71,8 +71,8 @@ const Footer = () => {
             <ul className="space-y-2 sm:space-y-3 text-xs sm:text-sm text-white list-none !p-0 !ml-0">
               {getPageDetailsKeys().map((key) => (
                 <li key={key}>
-                  <a 
-                    href={`/${key}`} 
+                  <a
+                    href={`/${key}`}
                     className="transition-colors text-white/70 hover:text-white no-underline"
                   >
                     {key.split('-').join(' ').toUpperCase()}

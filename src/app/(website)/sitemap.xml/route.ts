@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import {pageDetails} from '@/app/[slug]/page'
+import { pageDetails } from '@/app/(website)/[slug]/page'
 import fs from 'fs';
 import path from 'path';
 
@@ -7,14 +7,14 @@ function getBlogPosts() {
   try {
     const postsDirectory = path.join(process.cwd(), 'src/app/blogs/posts');
     const filenames = fs.readdirSync(postsDirectory);
-    
+
     return filenames
-      .filter(name => name.endsWith('.html')) 
+      .filter(name => name.endsWith('.html'))
       .map(filename => {
         const slug = filename.replace(/\.html$/, '');
         const filePath = path.join(postsDirectory, filename);
         const stats = fs.statSync(filePath);
-        
+
         return {
           slug,
           lastmod: stats.mtime.toISOString()
