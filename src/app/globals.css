@@ -831,37 +831,6 @@ body {
     padding: 0 10px;
 }
 
-/* datePicker style */
-
-.date-picker-container {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    max-width: 160px;
-    position: relative;
-    border: 1px solid lightslategray;
-    border-radius: 8px;
-    padding: 8px;
-}
-
-.calendar-icon {
-    position: absolute;
-    left: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 1;
-}
-
-.date-picker-input {
-    padding-left: 40px;
-    width: 100%;
-    border: 0;
-}
-
-.date-picker-input:focus-visible {
-    outline: none;
-}
-
 /* steps style */
 
 /* .step .step_num {
