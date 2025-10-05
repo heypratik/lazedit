@@ -1,11 +1,24 @@
 import { NextResponse } from "next/server";
 import { replicate } from "@/lib/replicate";
-
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 export const dynamic = "force-dynamic";
 export const fetchCache = 'default-no-store';
 
 export async function POST(request) {
+
   try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session) {
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      );
+    }
+
     const { prompt, input_image, output_format = "jpg", num_inference_steps = 30 } = await request.json();
 
     if (!prompt) {
