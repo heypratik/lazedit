@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "@/lib/auth-client";
 import toast from "react-hot-toast";
+import { Loader } from "lucide-react";
 
 export default function DemoPage() {
     const router = useRouter();
@@ -16,13 +17,11 @@ export default function DemoPage() {
                 setIsLoading(true);
                 setError(null);
 
-                // Demo user credentials
                 const demoCredentials = {
                     email: "demo@gmail.com",
                     password: process.env.NEXT_PUBLIC_DEMO_PASSWORD
                 };
 
-                // Attempt to sign in with demo credentials
                 const { data, error: signInError } = await signIn.email({
                     email: demoCredentials.email,
                     password: demoCredentials.password!,
@@ -51,8 +50,8 @@ export default function DemoPage() {
         return (
             <div className="min-h-screen flex items-center justify-center bg-gray-50">
                 <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-                    <h2 className="text-xl font-semibold text-gray-900 mb-2">Loading Demo...</h2>
+                    <Loader className="size-6 animate-spin text-muted-foreground" />
+                    <h2 className="text-xl font-semibold text-gray-900 mb-2">Loading Demo</h2>
                     <p className="text-gray-600">Please wait while we log you in to the demo.</p>
                 </div>
             </div>
@@ -81,5 +80,5 @@ export default function DemoPage() {
         );
     }
 
-    return null; // This should not render as we redirect on success
+    return null;
 }

@@ -1,4 +1,8 @@
 import EditorProjectIdPage from "@/app/dashboard/[projectId]/editor";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
+import { getOrganizationByUserId } from "@/app/dashboard/actions/project.actions";
 
 export default async function Page({
     params,
@@ -7,14 +11,15 @@ export default async function Page({
         projectId: string;
     };
 }) {
+    const session = await auth.api.getSession({
+        headers: await headers(),
+    });
 
-    let org = {
-        id: 3,
-        name: 'Default Organization',
-        user_id: 'Lg4EgP1v6wRoRggFo2Hb0Ot2cob3rJxF',
-        created_at: '2025 - 10-04T11: 39: 23.316Z',
-        updated_at: '2025 - 10-04T11: 39: 23.316Z'
+    if (!session) {
+        redirect("/auth");
     }
+
+    let org = await getOrganizationByUserId(session?.user?.id);
 
     return <EditorProjectIdPage organization={org} params={params} />;
 }
